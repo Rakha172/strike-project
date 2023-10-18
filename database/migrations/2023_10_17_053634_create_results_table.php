@@ -14,8 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('event_registration_id');
             $table->foreign('event_registration_id')->references('id')->on('events_registration');
-            $table->string('berat_ikan');
-            $table->string('jenis_ikan');
             $table->timestamps();
         });
     }
