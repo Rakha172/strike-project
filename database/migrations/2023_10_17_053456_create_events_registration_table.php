@@ -16,8 +16,6 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('event_id');
             $table->foreign('event_id')->references('id')->on('events');
-            $table->string('jumlah_lapak');
-            $table->string('biaya_pendaftaran');
             $table->timestamps();
         });
     }
