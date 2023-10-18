@@ -6,5 +6,8 @@ use Illuminate\Http\Request;
 
 class Event_RegistrationController extends Controller
 {
-    //
+    public function index()
+    {
+
+    }
 }

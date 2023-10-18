@@ -12,13 +12,14 @@ class Event_Registration extends Model
     protected $table = 'events_registration';
     protected $guarded = [];
 
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function events_registration()
     {
         return $this->belongsTo(Event_Registration::class);
     }
 
-    public function users()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
