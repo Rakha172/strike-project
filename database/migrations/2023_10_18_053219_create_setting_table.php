@@ -10,21 +10,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('events_registration', function (Blueprint $table) {
+        Schema::create('setting', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreignId('event_id');
-            $table->foreign('event_id')->references('id')->on('events');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('events_registration');
+        Schema::dropIfExists('setting');
     }
 };
