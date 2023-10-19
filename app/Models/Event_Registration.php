@@ -10,16 +10,13 @@ class Event_Registration extends Model
     use HasFactory;
 
     protected $table = 'events_registration';
-    protected $guarded = [];
-
-    public function users()
+    protected $fillable = [
+        'user_id',
+        'event_id',
+    ];
+    public function event()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    public function events_registration()
-    {
-        return $this->belongsTo(Event_Registration::class);
+        return $this->belongsTo(Event::class);
     }
 
 }
