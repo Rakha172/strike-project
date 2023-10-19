@@ -13,8 +13,11 @@
   <body>
 
     <div class="container mt-5">
+        <div class="card">
+                <h1 class="text-center fs-2 mt-4">DATA USER</h1>
+            <div class="card-body">
 
-        <a href="{{ route('user.create')}}" class="btn btn-primary">Tambah</a>
+        <a href="{{ route('user.create')}}" class="btn btn-dark">Tambah</a>
 
         @if ($pesan = session('berhasil'))
         <div class="alert alert-primary" role="alert">
@@ -39,11 +42,11 @@
                 <td>{{ $item->email }}</td>
                 <td>{{ $item->password }}</td>
                 <td class="d-flex">
-                    <a href="{{ route('user.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                    <a href="{{ route('user.edit', $item->id) }}" class="btn btn-warning m-1">Edit</a>
                     <form method="post" action="{{ url('/user/'  . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                         {{ method_field('DELETE') }}
                         {{ csrf_field() }}
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('yakin hapus ni dek?')"><i aria-hidden="true"></i>Hapus</button></a>
+                            <button type="submit" class="btn btn-dark m-1" onclick="return confirm('yakin hapus ni dek?')"><i aria-hidden="true"></i>Hapus</button></a>
                         </form>
                 </td>
               </tr>
