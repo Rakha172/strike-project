@@ -47,6 +47,11 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
+//dashboard
+Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
+});
+
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
 Route::get('user/create', [UserController::class, 'create'])->name('user.create');
