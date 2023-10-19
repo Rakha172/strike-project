@@ -58,7 +58,6 @@ class SettingController extends Controller
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
-        // edit gambar untuk field 'image'
         $image = $request->image;
         $slugimage = Str::slug($image->getClientOriginalName());
         $new_image = time() . '_' . $slugimage;
