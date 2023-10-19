@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,11 +47,35 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
-// table events
+// table user
+Route::get('user', [UserController::class, 'index'])->name('user.index');
+Route::get('user/create', [UserController::class, 'create'])->name('user.create');
+Route::post('user', [UserController::class, 'store'])->name('user.store');
+Route::get('user/{user}', [UserController::class, 'edit'])->name('user.edit');
+Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
+Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
+// table events
 Route::get('events', [EventController::class, 'index'])->name('event.index');
 Route::get('events/create', [EventController::class, 'create'])->name('event.create');
 Route::post('events', [EventController::class, 'store'])->name('event.store');
 Route::get('events/{event}', [EventController::class, 'edit'])->name('event.edit');
 Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
 Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+
+// table setting
+Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
+Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
+Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
+Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
+
+// table event registration
+Route::get('event_registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
+Route::get('event_registration/create', [Event_RegistrationController::class, 'create'])->name('event_registration.create');
+Route::post('event_registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
+Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
+Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
+Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
+

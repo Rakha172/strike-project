@@ -2,12 +2,60 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event_Registration;
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class Event_RegistrationController extends Controller
 {
     public function index()
     {
+        $event_registration = Event_Registration::all();
+        return view('event_registration.index', compact('event_registration'));
+    }
 
+
+    public function create()
+    {
+        $events = Event::all();
+
+        return view('event_registration.create', compact('events'));
+    }
+
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required',
+            'event_id' => 'required',
+        ]);
+
+        Event_Registration::create($validated);
+
+        return redirect()->route('event_registration.index')->with('berhasil', "$request->name Berhasil ditambahkan");
+    }
+
+    public function edit(Event_Registration $event)
+    {
+        return view('event_registration.edit');
+    }
+
+    public function update(Request $request, Event_Registration $event_registration)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required',
+            'event_id' => 'required',
+        ]);
+
+        $event_registration->update($validated);
+
+        return redirect()->route('event_registration.index')->with('berhasil', "$request->name Berhasil diubah");
+    }
+
+    public function destroy($id)
+    {
+        $event_registration = Event_Registration::find($id);
+        $event_registration->delete();
+        return redirect()->route('event_registration.index')->with('berhasil', "$event_registration->name Berhasil dihapus");
     }
 }
