@@ -46,3 +46,4 @@ class User extends Authenticatable
         return $this->hasMany(Event_Registration::class, 'user_id','id');
     }
 }
+
