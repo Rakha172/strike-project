@@ -14,10 +14,10 @@
 
     <div class="container mt-5">
         <div class="card">
-                <h1 class="text-center fs-2 mt-4">DATA EVENTS</h1>
+                <h1 class="text-center fs-2 mt-4">DATA SETTING</h1>
             <div class="card-body">
 
-        <a href="{{ route('event.create')}}" class="btn btn-dark">Tambah</a>
+        <a href="{{ route('setting.create')}}" class="btn btn-dark">Tambah</a>
 
         @if ($pesan = session('berhasil'))
         <div class="alert alert-primary" role="alert">
@@ -29,26 +29,20 @@
               <tr>
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
-                <th scope="col">Event Date</th>
-                <th scope="col">Location</th>
-                <th scope="col">Description</th>
-                <th scope="col">Category</th>
+                <th scope="col">Image</th>
+                <th scope="col">History</th>
               </tr>
             </thead>
             <tbody>
-                @foreach ($events as $key => $evnt)
+                @foreach ($setting as $key => $sett)
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
-                <td>{{ $evnt->name }}</td>
-                <td>{{ $evnt->event_date }}</td>
-                <td>{{ $evnt->location }}</td>
-                <td>{{ $evnt->description }}</td>
-                <td>{{ $evnt->category }}</td>
+                <td>{{ $sett->name }}</td>
+                <td><img src="{{ asset($sett->image) }}" width="100"></td>
+                <td>{{ $sett->history }}</td>
                 <td>
                 <td class="d-flex">
-                    <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a>
-
-                    <form action="{{ route('event.destroy', $evnt->id)}}"method="POST">
+                    <form action="{{ route('setting.destroy', $sett->id)}}"method="POST">
                         @csrf
                         @method('delete')
 

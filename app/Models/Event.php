@@ -16,5 +16,9 @@ class Event extends Model
         'description',
         'category',
     ];
+    public function event_regist()
+    {
+        return $this->hasMany(Event_Registration::class, 'event_id','id');
+    }
 
 }

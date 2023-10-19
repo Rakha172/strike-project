@@ -8,16 +8,13 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Events</title>
+    <title>User</title>
   </head>
   <body>
 
     <div class="container mt-5">
-        <div class="card">
-                <h1 class="text-center fs-2 mt-4">DATA EVENTS</h1>
-            <div class="card-body">
 
-        <a href="{{ route('event.create')}}" class="btn btn-dark">Tambah</a>
+        <a href="{{ route('user.create')}}" class="btn btn-primary">Tambah</a>
 
         @if ($pesan = session('berhasil'))
         <div class="alert alert-primary" role="alert">
@@ -27,33 +24,27 @@
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">NO</th>
+                <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Event Date</th>
-                <th scope="col">Location</th>
-                <th scope="col">Description</th>
-                <th scope="col">Category</th>
+                <th scope="col">Email</th>
+                <th scope="col">Password</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-                @foreach ($events as $key => $evnt)
+                @foreach ($user as $key => $item)
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
-                <td>{{ $evnt->name }}</td>
-                <td>{{ $evnt->event_date }}</td>
-                <td>{{ $evnt->location }}</td>
-                <td>{{ $evnt->description }}</td>
-                <td>{{ $evnt->category }}</td>
-                <td>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->email }}</td>
+                <td>{{ $item->password }}</td>
                 <td class="d-flex">
-                    <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a>
-
-                    <form action="{{ route('event.destroy', $evnt->id)}}"method="POST">
-                        @csrf
-                        @method('delete')
-
-                        <button type="submit" class="btn btn-dark m-1">Delete</button>
-                    </form>
+                    <a href="{{ route('user.edit', $item->id) }}" class="btn btn-primary">Edit</a>
+                    <form method="post" action="{{ url('/user/'  . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                        {{ method_field('DELETE') }}
+                        {{ csrf_field() }}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('yakin hapus ni dek?')"><i aria-hidden="true"></i>Hapus</button></a>
+                        </form>
                 </td>
               </tr>
               @endforeach
@@ -66,3 +57,4 @@
 
   </body>
 </html>
+
