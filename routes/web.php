@@ -25,7 +25,6 @@ Route::get('/', function () {
 });
 
 // table login
-
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
 Route::post('login', [LoginController::class, 'handleLogin'])->name('login');
 
