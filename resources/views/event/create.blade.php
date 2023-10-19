@@ -9,6 +9,10 @@
   <body>
 
     <div class="container mt-5">
+        <div class="card">
+            <h1 class="text-center fs-2 mt-4">DATA EVENTS</h1>
+        <div class="card-body">
+
         <form action="{{ route("event.store") }}" method="post">
             @csrf
             @method('post')
