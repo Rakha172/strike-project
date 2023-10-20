@@ -51,11 +51,11 @@ Route::post('/forgot-password', function (Request $request) {
 
 
 //dashboard
-Route::group(['middleware' => 'can:role,"admin"'], function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard.dashboard');
-    });
+// Route::group(['middleware' => 'can:role,"admin"'], function () {
+Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
 });
+// });
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -66,22 +66,24 @@ Route::put('user/{user}', [UserController::class, 'update'])->name('user.update'
 Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
 // table events
+// Route::group(['middleware' => 'can:role,"member"'], function () {
 Route::get('events', [EventController::class, 'index'])->name('event.index');
 Route::get('events/create', [EventController::class, 'create'])->name('event.create');
 Route::post('events', [EventController::class, 'store'])->name('event.store');
 Route::get('events/{event}', [EventController::class, 'edit'])->name('event.edit');
 Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
 Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+// });
 
 // table setting
-Route::group(['middleware' => 'can:role,"admin"'], function () {
-    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
-    Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
-    Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
-    Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
-    Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
-});
+// Route::group(['middleware' => 'can:role,"admin"'], function () {
+Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
+Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
+Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
+Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
+// });
 
 // table event registration
 Route::get('event_registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');

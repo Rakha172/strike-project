@@ -37,6 +37,7 @@ class LoginController extends Controller
                 return redirect('/dashboard')->with('success', 'Anda berhasil login!');
             } else if (Auth::user()->role == 'member') {
                 return to_route('event.index')->with('success', 'Anda berhasil login!');
+
             }
         }
 

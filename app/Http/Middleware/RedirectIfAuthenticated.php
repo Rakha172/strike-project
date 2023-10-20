@@ -20,11 +20,13 @@ class RedirectIfAuthenticated
         $guards = empty($guards) ? [null] : $guards;
 
         foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                if (Auth::user()->role == 'admin') {
-                    return redirect()->route('dashboard.blade');
-                }
-            }
+            // if (Auth::guard($guard)->check()) {
+            //     if (Auth::user()->role == 'admin') {
+            //         return redirect()->route('dashboard.dashboard');
+            //     } else if (Auth::user()->role == 'member') {
+            //         return redirect()->route('event.index');
+            //     }
+            // }
         }
 
         return $next($request);
