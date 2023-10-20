@@ -48,7 +48,10 @@ Route::post('/forgot-password', function (Request $request) {
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
 
-
+//LandingPage
+Route::get('/landingpage', function () {
+    return view('landingpage.index');
+});
 
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
