@@ -70,12 +70,11 @@ Route::put('events/{event}', [EventController::class, 'update'])->name('event.up
 Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
 
 // table setting
+
 Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
-Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
-Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
-Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
-Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
+Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
+Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
 
 // table event registration
 Route::get('event_registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');

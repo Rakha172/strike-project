@@ -14,12 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('history');
-            $table->string('image');
+            $table->string('logo');
             $table->timestamps();
         });
     }
-
-
 
     /**
      * Reverse the migrations.
