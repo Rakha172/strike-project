@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Event_RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,7 +25,6 @@ Route::get('/', function () {
 });
 
 // table login
-
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
 Route::post('login', [LoginController::class, 'handleLogin'])->name('login');
 
@@ -48,6 +47,11 @@ Route::post('/forgot-password', function (Request $request) {
         ? back()->with(['status' => __($status)])
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
+
+//dashboard
+Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
+});
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -79,4 +83,5 @@ Route::get('event_registration/create', [Event_RegistrationController::class, 'c
 Route::post('event_registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
+Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
 Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
