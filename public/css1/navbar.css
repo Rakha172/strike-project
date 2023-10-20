@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Karla&family=Open+Sans:wght@500&display=swap');
+
+.container{
+    font-family: 'kanit';
+}
+.banner{
+    background: url('../img/bg2.jpg');
+    padding-top: 15%;
+    background-size: cover;
+    padding-bottom: 15%;
+    font-family: 'kanit';
+    margin-top: 1rem;
+}
+.event{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
