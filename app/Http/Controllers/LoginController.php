@@ -35,8 +35,8 @@ class LoginController extends Controller
             $request->session()->regenerate();
             if (Auth::user()->role == 'admin') {
                 return redirect('/dashboard')->with('success', 'Anda berhasil login!');
-            // } else if (Auth::user()->role == 'member') {
-            //     return to_route('cashier.route')->with('success', 'Anda berhasil login!');
+                // } else if (Auth::user()->role == 'member') {
+                //     return to_route('cashier.route')->with('success', 'Anda berhasil login!');
             }
         }
 
