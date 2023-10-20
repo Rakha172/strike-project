@@ -14,11 +14,18 @@
     <form action="{{ route('event_registration.store') }}" method="post">
         @csrf <!-- Menggunakan Blade directive untuk csrf_token -->
         <div class="form-group">
+
             <label class="form-label">User Id</label>
-            <input type="number" name="user_id" id="user_id" class="form-control @error('event_id') is-invalid @enderror">
+            <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                <option value="">Select</option>
+                @foreach ($users as $item)
+                    <option @if(old('user_id') == $item->id) selected @endif value="{{ $item->id }}">{{ $item->id }}</option>
+                @endforeach
+            </select>
             @error('event_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+
             <br>
 
             <label class="form-label">Event Id</label>
@@ -31,6 +38,7 @@
             @error('event_id')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+
         </div>
         <br>
         <input type="submit" value="Save" class="btn btn-success"><br>

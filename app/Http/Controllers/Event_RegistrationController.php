@@ -14,12 +14,12 @@ class Event_RegistrationController extends Controller
         return view('event_registration.index', compact('event_registration'));
     }
 
-
     public function create()
     {
         $events = Event::all();
+        $users = Event::all();
 
-        return view('event_registration.create', compact('events'));
+        return view('event_registration.create', compact('events','users'));
     }
 
 

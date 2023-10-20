@@ -5,6 +5,8 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\Event_RegistrationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -78,4 +80,3 @@ Route::post('event_registration', [Event_RegistrationController::class, 'store']
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
 Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
-

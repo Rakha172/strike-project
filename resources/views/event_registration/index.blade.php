@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelas</title>
+    <title>Registration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
@@ -37,8 +37,7 @@
                             <tbody>
                                 @foreach($event_registration as $item)
                                 <tr>
-                                    <td>{{ $loop->No }}</td>
-                                    <td>{{ $item->user_id }}</td>
+                                    <td>{{ $item->user_id->user }}</td>
                                     <td>{{ $item->event_id->events }}</td>
                                 </tr>
                                 @endforeach
