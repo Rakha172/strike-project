@@ -43,7 +43,8 @@ body {
 
 .username,
 .email,
-.password {
+.password,
+.password_confirmation{
     width: 100%;
     text-align: center;
     padding: 13px 0;
@@ -58,12 +59,14 @@ body {
 
 .username::placeholder,
 .email::placeholder,
+.password_confirmation::placeholder,
 .password::placeholder {
     color: rgba(255, 255, 255, .7);
 }
 
 .username:focus,
 .email:focus,
+.password_confirmation:focus,
 .password:focus {
     background-color: #0d6efd;
 }
