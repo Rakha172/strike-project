@@ -18,10 +18,10 @@
             <div class="logo-name"><span>Project</span>Strike</div>
         </a>
         <ul class="side-menu">
-            <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li ><a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             {{-- <li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li> --}}
             <li><a href="#"><i class='bx bx-store-alt'></i>Event</a></li>
-            <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Settings</a></li>
+            <li class="active"><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -75,47 +75,7 @@
                     <span>Download CSV</span>
                 </a> --}}
             </div>
-           
-            <!-- Insights -->
-            <ul class="insights">
-                <li>
-                    <i class='bx bx-calendar-check'></i>
-                    <span class="info">
-                        <h3>
-                            0
-                        </h3>
-                        <p>Events</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-show-alt'></i>
-                    <span class="info">
-                        <h3>
-                            0
-                        </h3>
-                        <p>Member Club</p>
-                    </span>
-                </li>
-                {{-- <li><i class='bx bx-line-chart'></i>
-                    <span class="info">
-                        <h3>
-                            14,721
-                        </h3>
-                        <p>Searches</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-dollar-circle'></i>
-                    <span class="info">
-                        <h3>
-                            $6,742
-                        </h3>
-                        <p>Total Sales</p>
-                    </span>
-                </li> --}}
-            </ul>
-            <!-- End of Insights -->
-
-
-
+            @yield('content')
             </div>
 
         </main>

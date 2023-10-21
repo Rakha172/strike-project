@@ -16,12 +16,12 @@
                 <div class="collapse navbar-collapse" id="navbarText">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0  gap-2">
                         <li class="nav-item">
-                            <a href="">
+                            <a href="{{ route('register')}}">
                                 <button type="button" class="btn btn-light">Daftar</button>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="">
+                            <a href="{{ route('login')}}">
                                 <button type="button" class="btn btn-light">Masuk</button>
                             </a>
                         </li>
