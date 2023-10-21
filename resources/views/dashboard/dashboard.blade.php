@@ -21,7 +21,7 @@
             <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             {{-- <li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li> --}}
             <li><a href="#"><i class='bx bx-store-alt'></i>Event</a></li>
-            <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
+            <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -75,7 +75,7 @@
                     <span>Download CSV</span>
                 </a> --}}
             </div>
-
+           
             <!-- Insights -->
             <ul class="insights">
                 <li>
