@@ -24,12 +24,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// table login
+// table login register
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
 Route::post('login', [LoginController::class, 'handleLogin'])->name('login');
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 
 // forgot password
 Route::get('/forgot-password', function () {
