@@ -60,6 +60,11 @@ Route::get('/dashboard', function () {
 });
 // });
 
+//layout dashboard
+Route::get('/layout', function () {
+    return view('componen.layout');
+});
+
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
 Route::get('user/create', [UserController::class, 'create'])->name('user.create');
