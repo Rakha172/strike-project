@@ -19,9 +19,9 @@
         </a>
         <ul class="side-menu">
             <li ><a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            {{-- <li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li> --}}
-            <li><a href="#"><i class='bx bx-store-alt'></i>Event</a></li>
-            <li class="active"><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Settings</a></li>
+            <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Events</a></li>
+            <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Settings</a></li>
+            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -67,7 +67,7 @@
                                 Dashboard
                             </a></li>
                         /
-                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#" id="menu-link" class="active">Home</a></li>
                     </ul>
                 </div>
                 {{-- <a href="#" class="report">
@@ -141,6 +141,28 @@ toggler.addEventListener('change', function () {
     }
 });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Periksa URL saat halaman dimuat
+        checkURL();
+
+        // Fungsi untuk memeriksa URL dan mengubah teks
+        function checkURL() {
+            var path = window.location.pathname;
+            if (path.includes("events")) {
+                $("#menu-link").text("Events");
+            } else if (path.includes("setting")) {
+                $("#menu-link").text("Setting");
+            } else if (path.includes("user")) {
+                $("#menu-link").text("Data Member");
+            } else {
+                $("#menu-link").text("Home");
+            }
+        }
+    });
+    </script>
+
 </body>
 
 </html>
