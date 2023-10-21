@@ -30,12 +30,12 @@
                     </div>
                 @enderror
 
-                <input type="password" name="password" class="password" placeholder="Masukkan Password" required>
-                @error('password')
-                    <div class="invalid-feedback text-start">
-                        {{ $message }}
-                    </div>
-                @enderror
+                <div class="password-container">
+                    <input type="password" name="password" class="password" id="password" placeholder="Masukkan Password" required>
+                    <span class="show-password" onclick="showHidePassword('password')">
+                        <i class="fa-solid fa-eye password-toggle"></i>
+                    </span>
+                </div>
 
                 <a href="{{ route('password.request')}}">Forgot password?</a>
 
@@ -44,7 +44,7 @@
                 </div>
                 <p class="text-wrapper-7">Tidak punya akun?<a href="{{ route('register')}}">Regist disini</a></p>
             </div>
-
+        </form>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
