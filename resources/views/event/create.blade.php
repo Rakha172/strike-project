@@ -13,7 +13,7 @@
             <h1 class="text-center fs-2 mt-4">DATA EVENTS</h1>
         <div class="card-body">
 
-        <form action="{{ route("event.store") }}" method="post">
+        <form action="{{ route("event.store") }}" method="post" enctype="multipart/form-data">
             @csrf
             @method('post')
             <div class="mb-3">
@@ -23,7 +23,14 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-
+            <p class="text ps-4">Image</p>
+            <div class="form-group">
+                <input value="{{ old('image') }}" type="file" id="image" name="image" accept="image/*"
+                    class="form-control-file @error('image') is-invalid @enderror">
+                @error('image')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
             <div class="mb-3">
                 <label class="form-label">Event Date</label>
                 <input value="{{ old('event_date')}}" name="event_date" type="date" class="form-control @error('event_date') is-invalid @enderror">
