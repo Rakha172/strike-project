@@ -14,36 +14,88 @@
     </div>
 
     <!-- Tambahkan judul nama event -->
-    <h1 class="event-title">Upcoming Events</h1>
+    <h1 class="event-title">Events</h1>
 
     <div class="container">
         <div class="item-container">
             <div class="img-container">
-                <img src="./images/img1.jpg" alt="Event image">
+                @foreach ($events as $item)
+                    <img src="{{ $item['image'] }}" alt="Event Image">
+                @endforeach
             </div>
 
             <div class="body-container">
                 <div class="overlay"></div>
 
+                @foreach ($events as $item)
                 <div class="event-info">
-                    <p class="title">Galatama</p>
+                    <p class="title">{{ $item['name'] }}</p>
+                @endforeach
                     <div class="separator"></div>
-                    <p class="info">Flie Fishing</p>
-                    <p class="price">Free</p>
+                    {{-- <p class="info">Flie Fishing</p>
+                    <p class="price">Free</p> --}}
 
                     <div class="additional-info">
                         <p class="info">
                             <i class="fas fa-map-marker-alt"></i>
-                            Grand Central Terminal
+                            @foreach ($events as $item)
+                                    {{ $item['location'] }}
+                                @endforeach
+                        </p>
+                            <p class="info">
+                                <i class="far fa-calendar-alt"></i>
+                                @foreach ($events as $item)
+                                    {{ $item['event_date'] }}
+                                @endforeach
+                            </p>
+
+                        <p class="info description">
+                            @foreach ($events as $item)
+                            {{ $item['description'] }}
+                        @endforeach
+                        </p>
+                    </div>
+                </div>
+                <button class="action" onclick="window.location='{{ route('event_registration.create') }}';">Book it</button>
+            </div>
+        </div>
+
+        <div class="item-container">
+            <div class="img-container">
+                @foreach ($events as $item)
+                    <img src="{{ $item['image'] }}" alt="Event Image">
+                @endforeach
+            </div>
+
+            <div class="body-container">
+                <div class="overlay"></div>
+
+                <@foreach ($events as $item)
+                <div class="event-info">
+                    <p class="title">{{ $item['name'] }}</p>
+                @endforeach
+                    <div class="separator"></div>
+                    {{-- <p class="info">Cimahi, Bandung</p>
+                    <p class="price">29$</p> --}}
+
+                    <div class="additional-info">
+                        <p class="info">
+                            <i class="fas fa-map-marker-alt"></i>
+                            @foreach ($events as $item)
+                                    {{ $item['location'] }}
+                                @endforeach
                         </p>
                         <p class="info">
                             <i class="far fa-calendar-alt"></i>
-                            Sat, Sep 19, 10:00 AM EDT
+                            @foreach ($events as $item)
+                                {{ $item['event_date'] }}
+                            @endforeach
                         </p>
 
                         <p class="info description">
-                            WELCOME! Every fishing enthusiast has a unique experience while fishing,
-                            and we want you to share yours with us! join us<span>more...</span>
+                            @foreach ($events as $item)
+                            {{ $item['description'] }}
+                        @endforeach
                         </p>
                     </div>
                 </div>
@@ -53,65 +105,40 @@
 
         <div class="item-container">
             <div class="img-container">
-                <img src="./images/img2.jpg" alt="Event image">
+                @foreach ($events as $item)
+                    <img src="{{ $item['image'] }}" alt="Event Image">
+                @endforeach
             </div>
 
             <div class="body-container">
                 <div class="overlay"></div>
 
+                <<@foreach ($events as $item)
                 <div class="event-info">
-                    <p class="title">Rod and Reel Fishing</p>
+                    <p class="title">{{ $item['name'] }}</p>
+                @endforeach
                     <div class="separator"></div>
-                    <p class="info">Cimahi, Bandung</p>
-                    <p class="price">29$</p>
+                    {{-- <p class="info">New York, NY</p>
+                    <p class="price">70$</p> --}}
 
                     <div class="additional-info">
                         <p class="info">
                             <i class="fas fa-map-marker-alt"></i>
-                            245 W 52nd St, New York
+                            @foreach ($events as $item)
+                                    {{ $item['location'] }}
+                                @endforeach
                         </p>
                         <p class="info">
                             <i class="far fa-calendar-alt"></i>
-                            Sat, Sep 19, 10:00 AM EDT
+                            @foreach ($events as $item)
+                                {{ $item['event_date'] }}
+                            @endforeach
                         </p>
 
                         <p class="info description">
-                            Welcome! Everyone has a unique perspective after reading a book, and we would love you
-                            to share yours with us! We meet one Sunday evening <span>more...</span>
-                        </p>
-                    </div>
-                </div>
-                <button class="action">Book it</button>
-            </div>
-        </div>
-
-        <div class="item-container">
-            <div class="img-container">
-                <img src="./images/img3.jpg" alt="Event image">
-            </div>
-
-            <div class="body-container">
-                <div class="overlay"></div>
-
-                <div class="event-info">
-                    <p class="title">Fishing Series Competition</p>
-                    <div class="separator"></div>
-                    <p class="info">New York, NY</p>
-                    <p class="price">70$</p>
-
-                    <div class="additional-info">
-                        <p class="info">
-                            <i class="fas fa-map-marker-alt"></i>
-                            245 W 52nd St, New York
-                        </p>
-                        <p class="info">
-                            <i class="far fa-calendar-alt"></i>
-                            Sat, Sep 19, 10:00 AM EDT
-                        </p>
-
-                        <p class="info description">
-                            Welcome! Everyone has a unique perspective after reading a book, and we would love you
-                            to share yours with us! We meet one Sunday evening <span>more...</span>
+                            @foreach ($events as $item)
+                            {{ $item['description'] }}
+                        @endforeach
                         </p>
                     </div>
                 </div>
