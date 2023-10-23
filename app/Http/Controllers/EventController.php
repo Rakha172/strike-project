@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -10,10 +11,10 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
-        return view('event.index', compact('events'));
+        return view('event.index', ['events' => $events]);
     }
 
-    public function show(Event $event)
+    public function show(Event $events)
     {
         return view('event.show', compact('event'));
     }
@@ -31,19 +32,33 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'category' => 'required',
+            'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
-        Event::create($validated);
+        // Upload gambar untuk field 'image'
+        $image = $request->image;
+        $slugimage = Str::slug($image->getClientOriginalName());
+        $new_image = time() . '_' . $slugimage;
+        $image->move('uploads/event-app/', $new_image);
+
+        $events = new Event;
+        $events->image = 'uploads/event-app/' . $new_image;
+        $events->name = $request->name;
+        $events->event_date = $request->event_date;
+        $events->location = $request->location;
+        $events->description = $request->description;
+        $events->category = $request->category;
+        $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil ditambahkan");
     }
 
-    public function edit(Event $event)
+    public function edit(Event $events)
     {
         return view('event.edit', compact('event'));
     }
 
-    public function update(Request $request, Event $event)
+    public function update(Request $request, Event $events)
     {
         $validated = $request->validate([
             'name' => 'required',
@@ -51,17 +66,32 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'category' => 'required',
+            'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
-        $event->update($validated);
+        // Upload gambar untuk field 'image'
+        $image = $request->image;
+        $slugimage = Str::slug($image->getClientOriginalName());
+        $new_image = time() . '_' . $slugimage;
+        $image->move('uploads/event-app/', $new_image);
+
+        $events = new Event;
+        $events->image = 'uploads/event-app/' . $new_image;
+        $events->name = $request->name;
+        $events->event_date = $request->event_date;
+        $events->location = $request->location;
+        $events->description = $request->description;
+        $events->category = $request->category;
+        $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil diubah");
     }
 
     public function destroy($id)
     {
-        $event = Event::find($id);
-        $event->delete();
-        return redirect()->route('event.index')->with('berhasil', "$event->name Berhasil dihapus");
+        $events = Event::find($id);
+        $events->delete();
+
+        return redirect()->route('event.index')->with('berhasil', "$events->name Berhasil dihapus");
     }
 }
