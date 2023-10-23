@@ -23,6 +23,20 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input value="{{ old('price')}}" name="price" type="text" class="form-control @error('price') is-invalid @enderror">
+                  @error('price')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Total Booth</label>
+                <input value="{{ old('total_booth')}}" name="total_booth" type="text" class="form-control @error('total_booth') is-invalid @enderror">
+                  @error('total_booth')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
             <p class="text ps-4">Image</p>
             <div class="form-group">
                 <input value="{{ old('image') }}" type="file" id="image" name="image" accept="image/*"
