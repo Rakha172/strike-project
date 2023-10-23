@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,10 +58,18 @@ Route::get('/landingpage', function () {
 Route::get('/event', function () {
     return view('landingevent.landingevent');
 });
+// Route dari table event buat landingevent
+Route::get('/event', function () {
+    $events = Event::all();
+    return view('landingevent.landingevent', compact('events'));
+})->name('events');
 
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
+});
+Route::get('/dashboardmem', function () {
     return view('dashboard.dashboard');
 });
 // });
