@@ -24,6 +24,7 @@ class SettingController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'location' => 'required',
             'history' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
@@ -37,6 +38,7 @@ class SettingController extends Controller
         $setting = new Setting;
         $setting->image = 'upload/setting-app/' . $new_image;
         $setting->name = $request->name;
+        $setting->location = $request->location;
         $setting->history = $request->history;
         $setting->save();
 
@@ -54,6 +56,7 @@ class SettingController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'location' => 'required',
             'history' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
@@ -66,6 +69,7 @@ class SettingController extends Controller
         $setting = Setting::find($id);
         $setting->image = 'upload/setting-app/' . $new_image;
         $setting->name = $request->name;
+        $setting->location = $request->location;
         $setting->history = $request->history;
         $setting->save();
 
