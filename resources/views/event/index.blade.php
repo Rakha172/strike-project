@@ -11,8 +11,12 @@
     <title>Events</title>
   </head>
   <body>
+    @extends('componen.layout')
 
-    <div class="container mt-5">
+    @section('content')
+
+
+    <div class="container">
         <div class="card">
                 <h1 class="text-center fs-2 mt-4">DATA EVENTS</h1>
             <div class="card-body">
@@ -29,6 +33,7 @@
               <tr>
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
+                <th scope="col">Image</th>
                 <th scope="col">Event Date</th>
                 <th scope="col">Location</th>
                 <th scope="col">Description</th>
@@ -40,6 +45,7 @@
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
                 <td>{{ $evnt->name }}</td>
+                <td><img src="{{ asset($evnt->image) }}" width="100"></td>
                 <td>{{ $evnt->event_date }}</td>
                 <td>{{ $evnt->location }}</td>
                 <td>{{ $evnt->description }}</td>
@@ -60,8 +66,10 @@
             </tbody>
           </table>
     </div>
-    <td colspan="n">
-        <div style="text-align: center;">
+    {{-- <td colspan="n">
+        <div style="text-align: center;"> --}}
+
+    @endsection
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
   </body>

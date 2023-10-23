@@ -8,20 +8,32 @@
   </head>
   <body>
     <div class="container mt-5">
-        <form action="{{ route("event.update", $event->id) }}" method="POST">
+        <form action="{{ route("event.update", $events->id) }}" method="POST">
             @csrf
             @method('put')
             <div class="mb-3">
               <label class="form-label">Name</label>
-              <input value="{{ old('name', $event->name) }}" name="name" type="text" class="form-control @error('name') is-invalid @enderror">
+              <input value="{{ old('name', $events->name) }}" name="name" type="text" class="form-control @error('name') is-invalid @enderror">
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
 
             </div>
             <div class="mb-3">
+                <label for="image" class="form-label">Image</label>
+                <img style="max-width:200px;max-height:200px;"src="{{ asset('image/' . $events->image) }}">
+                <input type="file" name="image"
+                    class="form-control bg-light @error('image') is-invalid @enderror"
+                    value="{{ old('image', $events->image) }}">
+                @error('image')
+                    <div class="invalid-feedback text-start">
+                        <b>{{ $message }}</b>
+                    </div>
+                @enderror
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Event Date</label>
-                <input value="{{ old('event_date', $event->event_date) }}" name="event_date" type="date" class="form-control @error('event_date') is-invalid @enderror">
+                <input value="{{ old('event_date', $events->event_date) }}" name="event_date" type="date" class="form-control @error('event_date') is-invalid @enderror">
                   @error('event_date')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
@@ -29,7 +41,7 @@
               </div>
               <div class="mb-3">
                 <label class="form-label">Location</label>
-                <input value="{{ old('location', $event->location) }}" name="location" type="text" class="form-control @error('location') is-invalid @enderror">
+                <input value="{{ old('location', $events->location) }}" name="location" type="text" class="form-control @error('location') is-invalid @enderror">
                   @error('location')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
@@ -37,7 +49,7 @@
               </div>
               <div class="mb-3">
                 <label class="form-label">Description</label>
-                <input value="{{ old('description', $event->description) }}" name="description" type="text" class="form-control @error('description') is-invalid @enderror">
+                <input value="{{ old('description', $events->description) }}" name="description" type="text" class="form-control @error('description') is-invalid @enderror">
                   @error('description')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
@@ -45,7 +57,7 @@
               </div>
               <div class="mb-3">
                 <label class="form-label">Category</label>
-                <input value="{{ old('category', $event->category) }}" name="category" type="text" class="form-control @error('category') is-invalid @enderror">
+                <input value="{{ old('category', $events->category) }}" name="category" type="text" class="form-control @error('category') is-invalid @enderror">
                   @error('category')
                       <div class="invalid-feedback">{{ $message }}</div>
                   @enderror

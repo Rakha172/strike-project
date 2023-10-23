@@ -19,6 +19,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'role',
         'email',
         'password',
     ];
@@ -43,7 +44,7 @@ class User extends Authenticatable
     ;
     public function event_regist()
     {
-        return $this->hasMany(Event_Registration::class, 'user_id','id');
+        return $this->hasMany(Event_Registration::class, 'user_id', 'id');
     }
 }
 

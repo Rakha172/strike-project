@@ -18,8 +18,8 @@
             <div class="logo-name"><span>Project</span>Strike</div>
         </a>
         <ul class="side-menu">
-            <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Event</a></li>
+            <li ><a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Events</a></li>
             <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
             <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
         </ul>
@@ -67,7 +67,7 @@
                                 Dashboard
                             </a></li>
                         /
-                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#" id="menu-link" class="active">Home</a></li>
                     </ul>
                 </div>
                 {{-- <a href="#" class="report">
@@ -75,47 +75,7 @@
                     <span>Download CSV</span>
                 </a> --}}
             </div>
-
-            <!-- Insights -->
-            <ul class="insights">
-                <li>
-                    <i class='bx bx-calendar-check'></i>
-                    <span class="info">
-                        <h3>
-                            0
-                        </h3>
-                        <p>Events</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-show-alt'></i>
-                    <span class="info">
-                        <h3>
-                            0
-                        </h3>
-                        <p>Member Club</p>
-                    </span>
-                </li>
-                {{-- <li><i class='bx bx-line-chart'></i>
-                    <span class="info">
-                        <h3>
-                            14,721
-                        </h3>
-                        <p>Searches</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-dollar-circle'></i>
-                    <span class="info">
-                        <h3>
-                            $6,742
-                        </h3>
-                        <p>Total Sales</p>
-                    </span>
-                </li> --}}
-            </ul>
-            <!-- End of Insights -->
-
-
-
+            @yield('content')
             </div>
 
         </main>
@@ -181,6 +141,28 @@ toggler.addEventListener('change', function () {
     }
 });
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Periksa URL saat halaman dimuat
+        checkURL();
+
+        // Fungsi untuk memeriksa URL dan mengubah teks
+        function checkURL() {
+            var path = window.location.pathname;
+            if (path.includes("events")) {
+                $("#menu-link").text("Events");
+            } else if (path.includes("setting")) {
+                $("#menu-link").text("Setting");
+            } else if (path.includes("user")) {
+                $("#menu-link").text("Data Member");
+            } else {
+                $("#menu-link").text("Home");
+            }
+        }
+    });
+    </script>
+
 </body>
 
 </html>
