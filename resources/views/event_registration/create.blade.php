@@ -9,7 +9,7 @@
 <body>
 <div class="card" style="margin:20px;">
 <div class="card-header">Add Event</div>
-<div class="card-body">
+<div class="card-body" style="background: lightgrey">
 
     <form action="{{ route('event_registration.store') }}" method="post">
         @csrf <!-- Menggunakan Blade directive untuk csrf_token -->
@@ -18,8 +18,10 @@
             <label class="form-label">User Id</label>
             <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
                 <option value="">Select</option>
-                @foreach ($users as $item)
-                    <option @if(old('user_id') == $item->id) selected @endif value="{{ $item->id }}">{{ $item->id }}</option>
+                @foreach ($users as $user)
+                        <option value="{{ $user->id }}" @selected(old('start_pool_id', $event_registration->user_id) == $user->id)>
+                            {{ $user->name }}
+                        </option>
                 @endforeach
             </select>
             @error('event_id')

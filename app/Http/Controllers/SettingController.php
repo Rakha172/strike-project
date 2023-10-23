@@ -44,23 +44,22 @@ class SettingController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'history' => 'required',
-            'logo' => 'image',
+            'image' => 'nullable|image',
         ], [
-            'logo.image' => "Foto harus berupa image",
+            'image.image' => "Foto harus berupa image",
         ]);
-
+        // dd($request->name);
         if ($request->hasFile('logo')) {
             // Hapus gambar lama
-            $oldLogoPath = public_path('logo/' . $id->logo);
+            $oldLogoPath = public_path('img/' . $id->image);
             if (file_exists($oldLogoPath)) {
                 unlink($oldLogoPath);
             }
 
             $uploadedLogo = $request->file('logo');
             $newLogoName = 'logo.png'; // Nama tetap "logo.png"
-
             // Simpan gambar baru dengan nama tetap
-            $uploadedLogo->storeAs('public/logo', $newLogoName);
+            $uploadedLogo->storeAs('public/img', $newLogoName);
 
             // Perbarui nama file gambar di database
             $id->logo = $newLogoName;
@@ -69,17 +68,19 @@ class SettingController extends Controller
             $id->history = $request->input('history');
             $id->save();
 
-            $newLogoPublicPath = public_path('logo/' . $newLogoName);
+            $newLogoPublicPath = public_path('image/' . $newLogoName);
             if (file_exists($newLogoPublicPath)) {
                 unlink($newLogoPublicPath); // Hapus gambar baru jika sudah ada
             }
-            copy(storage_path('app/public/logo/' . $newLogoName), $newLogoPublicPath);
+            copy(storage_path('app/public/img/' . $newLogoName), $newLogoPublicPath);
         } else {
             $id->name = $request->input('name');
             $id->history = $request->input('history');
             $id->save();
         }
 
+
         return redirect()->route('setting.index')->with(['info' => $request->name . " Berhasil Di Update"]);
     }
 }
+
