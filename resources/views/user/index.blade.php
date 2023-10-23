@@ -12,7 +12,7 @@
   </head>
   <body>
     @extends('componen.layout')
-    
+
     @section('content')
 
 
@@ -56,3 +56,6 @@
 
   </body>
 </html>
+
+
+
