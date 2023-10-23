@@ -21,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // table login register
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
@@ -47,6 +50,7 @@ Route::post('/forgot-password', function (Request $request) {
 })->middleware('guest')->name('password.email');
 
 //LandingPage
+Route::get('/landingpage', function () {
 Route::get('/', function () {
     return view('landingpage.index');
 });
