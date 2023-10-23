@@ -23,6 +23,13 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input value="{{ old('location')}}" name="location" type="text" class="form-control @error('location') is-invalid @enderror">
+                  @error('location')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
             <p class="text ps-4">Image</p>
             <div class="form-group">
                 <input value="{{ old('image') }}" type="file" id="image" name="image" accept="image/*"
