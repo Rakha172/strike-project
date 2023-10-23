@@ -53,6 +53,11 @@ Route::get('/landingpage', function () {
     return view('landingpage.index');
 });
 
+//landingevent
+Route::get('/event', function () {
+    return view('landingevent.landingevent');
+});
+
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('/dashboard', function () {
