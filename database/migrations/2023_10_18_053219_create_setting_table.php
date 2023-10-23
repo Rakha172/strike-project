@@ -13,15 +13,15 @@ return new class extends Migration {
         Schema::create('setting', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('history');
+            $table->string('logo');
             $table->string('location');
             $table->string('history');
             $table->string('image');
             $table->timestamps();
         });
     }
-
-
-
+  
     /**
      * Reverse the migrations.
      */

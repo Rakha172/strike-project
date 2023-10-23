@@ -11,6 +11,8 @@ class Setting extends Model
     protected $table = 'setting';
     protected $fillabel = [
         'name',
+        'history',
+        'logo',
         'location',
         'history',
         'image',

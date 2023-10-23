@@ -12,7 +12,7 @@
   </head>
   <body>
     @extends('componen.layout')
-
+    
     @section('content')
 
 
@@ -42,7 +42,6 @@
                 <td>{{ $usr->email }}</td>
                 <td>
                 <td class="d-flex">
-
                 </td>
               </tr>
               @endforeach

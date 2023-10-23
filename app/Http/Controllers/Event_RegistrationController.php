@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event_Registration;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class Event_RegistrationController extends Controller
@@ -14,12 +15,12 @@ class Event_RegistrationController extends Controller
         return view('event_registration.index', compact('event_registration'));
     }
 
-
     public function create()
     {
         $events = Event::all();
+        $users = User::all();
 
-        return view('event_registration.create', compact('events'));
+        return view('event_registration.create', compact('events', 'users'));
     }
 
 
@@ -35,10 +36,16 @@ class Event_RegistrationController extends Controller
         return redirect()->route('event_registration.index')->with('berhasil', "$request->name Berhasil ditambahkan");
     }
 
-    public function edit(Event_Registration $event)
+    public function edit(Event_Registration $event_registration)
     {
-        return view('event_registration.edit');
+        $users = User::all();
+        $event = Event::all();
+
+
+        return view('event_registration.edit', compact('event_registration','users','event'));
     }
+
+
 
     public function update(Request $request, Event_Registration $event_registration)
     {
@@ -49,13 +56,13 @@ class Event_RegistrationController extends Controller
 
         $event_registration->update($validated);
 
-        return redirect()->route('event_registration.index')->with('berhasil', "$request->name Berhasil diubah");
+        return redirect()->route('event_registration.index')->with('Berhasil', "Berhasil diubah");
     }
 
     public function destroy($id)
     {
         $event_registration = Event_Registration::find($id);
         $event_registration->delete();
-        return redirect()->route('event_registration.index')->with('berhasil', "$event_registration->name Berhasil dihapus");
+        return redirect()->route('event_registration.index')->with("Berhasil dihapus");
     }
 }
