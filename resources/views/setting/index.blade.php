@@ -33,7 +33,6 @@
               <tr>
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
-                <th scope="col">Location</th>
                 <th scope="col">Image</th>
                 <th scope="col">History</th>
               </tr>
@@ -43,7 +42,6 @@
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
                 <td>{{ $sett->name }}</td>
-                <td>{{ $sett->location }}</td>
                 <td><img src="{{ asset($sett->image) }}" width="100"></td>
                 <td>{{ $sett->history }}</td>
                 <td>
@@ -68,4 +66,3 @@
 
   </body>
 </html>
-

@@ -15,10 +15,12 @@ class Event extends Model
         'location',
         'description',
         'category',
+        'image',
+
     ];
     public function event_regist()
     {
-        return $this->hasMany(Event_Registration::class, 'event_id','id');
+        return $this->hasMany(Event_Registration::class, 'event_id', 'id');
     }
 
 }

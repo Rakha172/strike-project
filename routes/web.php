@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,6 +51,7 @@ Route::post('/forgot-password', function (Request $request) {
 
 //LandingPage
 Route::get('/landingpage', function () {
+Route::get('/', function () {
     return view('landingpage.index');
 });
 
@@ -57,13 +59,22 @@ Route::get('/landingpage', function () {
 Route::get('/event', function () {
     return view('landingevent.landingevent');
 });
+// Route dari table event buat landingevent
+Route::get('/event', function () {
+    $events = Event::all();
+    return view('landingevent.landingevent', compact('events'));
+})->name('events');
+
+//landingevent regisevent
+Route::get('/regisevent', function () {
+    return view('landingevent.regisevent');
+});
 
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 });
-// });
 
 //layout dashboard
 Route::get('/layout', function () {
@@ -105,4 +116,3 @@ Route::post('event_registration', [Event_RegistrationController::class, 'store']
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
 Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
-

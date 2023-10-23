@@ -42,7 +42,6 @@
                 <td>{{ $usr->email }}</td>
                 <td>
                 <td class="d-flex">
-
                 </td>
               </tr>
               @endforeach
