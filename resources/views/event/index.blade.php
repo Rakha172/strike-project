@@ -33,6 +33,7 @@
               <tr>
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
+                <th scope="col">Image</th>
                 <th scope="col">Event Date</th>
                 <th scope="col">Location</th>
                 <th scope="col">Description</th>
@@ -44,6 +45,7 @@
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
                 <td>{{ $evnt->name }}</td>
+                <td><img src="{{ asset($evnt->image) }}" width="100"></td>
                 <td>{{ $evnt->event_date }}</td>
                 <td>{{ $evnt->location }}</td>
                 <td>{{ $evnt->description }}</td>
