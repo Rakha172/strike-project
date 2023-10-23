@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&family=Karla&family=Open+Sans:wght@500&display=swap');
+
+body{
+    font-family: 'Montserrat', sans-serif;
+}
+.banner{
+    background: url('../images/latar belakang.jpg');
+    padding-top: 15%;
+    padding-bottom: 15%;
+    margin-top: 1rem;
+}
+.event{
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+.card{
+    background-color: rgb(5, 89, 208);
+    height: 400px;
+}

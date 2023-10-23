@@ -8,40 +8,52 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>User</title>
+    <title>Data Member</title>
   </head>
   <body>
+    @extends('componen.layout')
 
-    <div class="container mt-5">
+    @section('content')
+
+
+    <div class="container">
         <div class="card">
-            <h1 class="text-center fs-2 mt-4">DATA USER</h1>
+                <h1 class="text-center fs-2 mt-4">DATA MEMBER</h1>
             <div class="card-body">
-                    <form action="" method="GET">
-                        <div class="row mb-2">
-                        </div>
-                    </form>
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-center">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                    @foreach ($user as $no => $usr)
-                                        <tr>
-                                            <td>{{ $usr->name }}</td>
-                                            <td>{{ $usr->email }}</td>
-                                            <td style="width: 150px;">
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+
+        @if ($pesan = session('berhasil'))
+        <div class="alert alert-primary" role="alert">
+           {{ $pesan }}
         </div>
+        @endif
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">NO</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+                @foreach ($user as $key => $usr)
+              <tr>
+                <th scope="row">{{ $key + 1}}</th>
+                <td>{{ $usr->name }}</td>
+                <td>{{ $usr->email }}</td>
+                <td>
+                <td class="d-flex">
+
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
     </div>
-</div>
+    {{-- <td colspan="n">
+        <div style="text-align: center;"> --}}
+
+    @endsection
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  </body>
+</html>
