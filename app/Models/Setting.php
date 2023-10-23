@@ -13,5 +13,8 @@ class Setting extends Model
         'name',
         'history',
         'logo',
+        'location',
+        'history',
+        'image',
     ];
 }

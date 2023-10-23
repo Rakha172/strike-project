@@ -24,12 +24,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// table login
+// table login register
 Route::get('login', [LoginController::class, 'login'])->name('login.login');
 Route::post('login', [LoginController::class, 'handleLogin'])->name('login');
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 
 // forgot password
 Route::get('/forgot-password', function () {
@@ -53,12 +53,22 @@ Route::get('/landingpage', function () {
     return view('landingpage.index');
 });
 
+//landingevent
+Route::get('/event', function () {
+    return view('landingevent.landingevent');
+});
+
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 });
 // });
+
+//layout dashboard
+Route::get('/layout', function () {
+    return view('componen.layout');
+});
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -79,10 +89,14 @@ Route::delete('events/{event}', [EventController::class, 'destroy'])->name('even
 // });
 
 // table setting
+// Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
-Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
-Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
+Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
+Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
+Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
+Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
+// });
 
 // table event registration
 Route::get('event_registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
@@ -91,4 +105,3 @@ Route::post('event_registration', [Event_RegistrationController::class, 'store']
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
 Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
-

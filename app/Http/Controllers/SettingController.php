@@ -83,4 +83,3 @@ class SettingController extends Controller
         return redirect()->route('setting.index')->with(['info' => $request->name . " Berhasil Di Update"]);
     }
 }
-
