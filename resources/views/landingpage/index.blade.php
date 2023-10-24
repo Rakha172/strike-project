@@ -2,7 +2,7 @@
 @section('main')
     <nav class="navbar navbar-expand-lg navbar-light bg-primary fixed-top">
         <div class="container">
-            <a class="navbar-brand mr-5" style="color:#fff;" href="#">STRIKEFISH</a>
+            <a class="navbar-brand mr-5" style="color:#fff;" href="#">ProjectStraike</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -10,7 +10,7 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ml-5">
                     <li class="nav-item">
-                        <a class="nav-link active" style="color:#fff;" href="#">Acara</a>
+                        {{-- <a class="nav-link active" style="color:#fff;" href="#">Acara</a> --}}
                     </li>
                 </ul>
                 <div class="collapse navbar-collapse" id="navbarText">
@@ -19,14 +19,14 @@
 
                             <a href="{{ route('register') }}">
 
-                                <button type="button" class="btn btn-light">Daftar</button>
+                                <button type="button" class="btn btn-light">Register</button>
                             </a>
                         </li>
                         <li class="nav-item">
 
                             <a href="{{ route('login') }}">
 
-                                <button type="button" class="btn btn-light">Masuk</button>
+                                <button type="button" class="btn btn-light">Login</button>
                             </a>
                         </li>
                     </ul>
@@ -45,11 +45,11 @@
 
     <div class="container-fluid event">
         <div class="container text-center">
-            <H4 class="display-3">Acara</H4>
+            {{-- <H4 class="display-3">Acara</H4> --}}
             <div class="display-flex">
-                <h4>Galatama</h4>
+                {{-- <h4>Galatama</h4> --}}
 
-    <h1 class="text-center pt-5">Acara</h1>
+    {{-- <h1 class="text-center pt-5">Acara</h1> --}}
     <div class="container-fluid event">
         <div class="container text-center">
             <div class="row">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>

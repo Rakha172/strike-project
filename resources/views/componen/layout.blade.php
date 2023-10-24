@@ -22,7 +22,8 @@
             <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Events</a></li>
             <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
             <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
-            <li><a href="{{ route('chart.index')}}"><i class='bx bx-pie-chart'></i>Grafik</a></li>
+            <li><a href="{{ route('chart.index')}}"><i class='bx bx-bar-chart'></i>Grafik</a></li>
+            <li><a href="{{ route('result.index')}}"><i class='bx bx-line-chart'></i>Result</a></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -157,6 +158,8 @@ toggler.addEventListener('change', function () {
                 $("#menu-link").text("Setting");
             } else if (path.includes("user")) {
                 $("#menu-link").text("Data Member");
+            } else if (path.includes("result")) {
+                $("#menu-link").text("Results");
             } else {
                 $("#menu-link").text("Home");
             }
