@@ -77,7 +77,7 @@ Route::get('/layout', function () {
     return view('componen.layout');
 });
 
-// Chart
+// table Chart
 Route::get('/chart', [ChartController::class, 'index']);
 
 // table user
