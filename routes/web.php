@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -75,6 +76,9 @@ Route::get('/dashboard', function () {
 Route::get('/layout', function () {
     return view('componen.layout');
 });
+
+// table Chart
+Route::get('/chart', [ChartController::class, 'index']);
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
