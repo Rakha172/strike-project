@@ -32,8 +32,10 @@
                     <p class="title">{{ $item['name'] }}</p>
                 @endforeach
                     <div class="separator"></div>
-                    {{-- <p class="info">Flie Fishing</p>
-                    <p class="price">Free</p> --}}
+                    {{-- <p class="info">Flie Fishing</p> --}}
+                    @foreach ($events as $item)
+                    <p class="price">{{ $item['price'] }}</p>
+                    @endforeach
 
                     <div class="additional-info">
                         <p class="info">
@@ -75,8 +77,10 @@
                     <p class="title">{{ $item['name'] }}</p>
                 @endforeach
                     <div class="separator"></div>
-                    {{-- <p class="info">Cimahi, Bandung</p>
-                    <p class="price">29$</p> --}}
+                    {{-- <p class="info">Cimahi, Bandung</p> --}}
+                    @foreach ($events as $item)
+                    <p class="price">{{ $item['price'] }}</p>
+                    @endforeach
 
                     <div class="additional-info">
                         <p class="info">
@@ -118,8 +122,10 @@
                     <p class="title">{{ $item['name'] }}</p>
                 @endforeach
                     <div class="separator"></div>
-                    {{-- <p class="info">New York, NY</p>
-                    <p class="price">70$</p> --}}
+                    {{-- <p class="info">New York, NY</p> --}}
+                    @foreach ($events as $item)
+                    <p class="price">{{ $item['price'] }}</p>
+                    @endforeach
 
                     <div class="additional-info">
                         <p class="info">
