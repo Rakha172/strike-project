@@ -42,7 +42,9 @@
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
                 <td>{{ $sett->name }}</td>
-                <td><img src="{{ asset($sett->image) }}" width="100"></td>
+                <td><a href="{{ asset($sett->image) }}" width="250">
+                        <img src="{{ asset($sett->image) }}" width="250"></td>
+                    </a>
                 <td>{{ $sett->history }}</td>
                 <td>
                 <td class="d-flex">
@@ -50,7 +52,7 @@
                         @csrf
                         @method('delete')
 
-                        <button type="submit" class="btn btn-dark m-1">Delete</button>
+                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('yakin hapus ni??')">Delete</button>
                     </form>
                 </td>
               </tr>
