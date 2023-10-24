@@ -58,7 +58,7 @@ Route::get('/event', function () {
 });
 // Route dari table event buat landingevent
 Route::get('/event', function () {
-       $events = Event::all();
+    $events = Event::all();
     return view('landingevent.landingevent', compact('events'));
 })->name('events');
 
@@ -79,7 +79,8 @@ Route::get('/layout', function () {
 });
 
 // table Chart
-Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');;
+Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
+;
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -119,7 +120,6 @@ Route::delete('event_registration/{event_registration}', [Event_RegistrationCont
 
 // table result
 Route::get('result', [ResultController::class, 'index'])->name('result.index');
-// Route::get('result', [ResultController::class, 'show'])->name('result.show');
 Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
 Route::post('result', [ResultController::class, 'store'])->name('result.store');
 Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
