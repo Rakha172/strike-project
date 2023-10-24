@@ -32,6 +32,7 @@ class Event_RegistrationController extends Controller
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'payment_status' => 'required',
         ]);
 
         // Tambahkan kolom "payment_status" ke dalam data yang akan disimpan
@@ -47,7 +48,6 @@ class Event_RegistrationController extends Controller
     {
         $users = User::all();
         $event = Event::all();
-
 
         return view('event_registration.edit', compact('event_registration', 'users', 'event'));
     }
