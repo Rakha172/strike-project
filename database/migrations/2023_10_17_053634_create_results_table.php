@@ -12,8 +12,15 @@ return new class extends Migration {
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_registration_id');
-            $table->foreign('event_registration_id')->references('id')->on('events_registration');
+            $table->unsignedBigInteger('event_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('events_registration_id')->nullable();
+            $table->foreign('events_registration_id')->references('id')->on('events_registration');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('fish_count');
+            $table->string('weight');
+            $table->enum('status', ['special', 'reguler']);
             $table->timestamps();
         });
     }
@@ -23,6 +30,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('results');
-    }
+    Schema::table('results', function (Blueprint $table) {
+            $table->dropColumn('event_registration_id');
+            $table->dropColumn('weight');
+            $table->dropColumn('status');
+        });    }
 };
