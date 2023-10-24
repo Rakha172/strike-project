@@ -58,7 +58,7 @@
                         </p>
                     </div>
                 </div>
-                <button class="action" onclick="window.location='{{ route('registevent') }}';">Book it</button>
+                <button class="action" onclick="window.location='{{ route('event_registration.create') }}';">Book it</button>
             </div>
         </div>
 
