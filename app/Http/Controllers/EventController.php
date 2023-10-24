@@ -28,6 +28,8 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'price' => 'required',
+            'total_booth' => 'required',
             'event_date' => 'required',
             'location' => 'required',
             'description' => 'required',
@@ -44,6 +46,8 @@ class EventController extends Controller
         $events = new Event;
         $events->image = 'uploads/event-app/' . $new_image;
         $events->name = $request->name;
+        $events->price = $request->price;
+        $events->total_booth = $request->total_booth;
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
@@ -62,6 +66,8 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'price' => 'required',
+            'total_booth' => 'required',
             'event_date' => 'required',
             'location' => 'required',
             'description' => 'required',
@@ -78,6 +84,8 @@ class EventController extends Controller
         $events = new Event;
         $events->image = 'uploads/event-app/' . $new_image;
         $events->name = $request->name;
+        $events->price = $request->price;
+        $events->total_booth = $request->total_booth;
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;

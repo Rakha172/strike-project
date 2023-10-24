@@ -20,9 +20,12 @@ class Event_RegistrationController extends Controller
         $events = Event::all();
         $users = User::all();
 
-        return view('event_registration.create', compact('events', 'users'));
-    }
+        $user = auth()->user(); // Mengambil pengguna yang sudah login
+        $userName = $user->name;
+        $event = $user->events;
 
+        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event'));
+    }
 
     public function store(Request $request)
     {
@@ -31,10 +34,14 @@ class Event_RegistrationController extends Controller
             'event_id' => 'required',
         ]);
 
+        // Tambahkan kolom "payment_status" ke dalam data yang akan disimpan
+        $validated['payment_status'] = 'waiting';
+
         Event_Registration::create($validated);
 
         return redirect()->route('event_registration.index')->with('berhasil', "$request->name Berhasil ditambahkan");
     }
+
 
     public function edit(Event_Registration $event_registration)
     {
@@ -42,7 +49,7 @@ class Event_RegistrationController extends Controller
         $event = Event::all();
 
 
-        return view('event_registration.edit', compact('event_registration','users','event'));
+        return view('event_registration.edit', compact('event_registration', 'users', 'event'));
     }
 
 
@@ -52,6 +59,7 @@ class Event_RegistrationController extends Controller
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'payment_status' => 'required',
         ]);
 
         $event_registration->update($validated);

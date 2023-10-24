@@ -45,6 +45,7 @@
                                         <th scope="col">No</th>
                                         <th scope="col">Users_Name</th>
                                         <th scope="col">Event_Name</th>
+                                        <th scope="col">Payment Status</th>
                                         <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
@@ -54,6 +55,7 @@
                                             <th scope="row">{{ $key + 1 }}</th>
                                             <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->event->name }}</td>
+                                            <td>{{ $item->event_registration->payment_status }}</td>
                                             <td class="d-flex">
                                                 <a href="{{ route('event_registration.edit', $item->id) }}"
                                                     class="btn btn-warning m-1">Edit</a>

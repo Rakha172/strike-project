@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -76,6 +77,9 @@ Route::get('/layout', function () {
     return view('componen.layout');
 });
 
+// table Chart
+Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');;
+
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
 Route::get('user/create', [UserController::class, 'create'])->name('user.create');
@@ -111,4 +115,3 @@ Route::post('event_registration', [Event_RegistrationController::class, 'store']
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
 Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
-

@@ -12,9 +12,7 @@ class Setting extends Model
     protected $fillabel = [
         'name',
         'history',
-        'logo',
         'location',
-        'history',
         'image',
     ];
 }

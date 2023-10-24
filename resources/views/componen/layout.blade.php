@@ -22,6 +22,7 @@
             <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Events</a></li>
             <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
             <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
+            <li><a href="{{ route('chart.index')}}"><i class='bx bx-pie-chart'></i>Grafik</a></li>
         </ul>
         <ul class="side-menu">
             <li>
