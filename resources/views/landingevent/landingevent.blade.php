@@ -53,8 +53,8 @@
 
                         <p class="info description">
                             @foreach ($events as $item)
-                            {{ $item['description'] }}
-                        @endforeach
+                                {{ $item['description'] }}
+                            @endforeach
                         </p>
                     </div>
                 </div>

@@ -40,7 +40,7 @@ class Event_RegistrationController extends Controller
 
         Event_Registration::create($validated);
 
-        return redirect()->route('event_registration.index')->with('berhasil', "$request->name Berhasil ditambahkan");
+        return redirect('/dashboard')->with('success', 'Data berhasil dibuat.');
     }
 
 

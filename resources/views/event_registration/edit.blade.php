@@ -47,7 +47,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Payment Status</label>
-                <input value="{{ old('payment_status', $event_registration->payment_status) }}" name="payment_status" type="text"
+                <input placeholder="" value="{{ old('payment_status', $event_registration->payment_status) }}" name="payment_status" type="text"
                     class="form-control @error('payment_status') is-invalid @enderror">
                 @error('payment_status')
                     <div class="invalid-feedback">{{ $message }}</div>
