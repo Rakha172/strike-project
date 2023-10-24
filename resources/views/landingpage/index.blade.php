@@ -45,11 +45,11 @@
 
     <div class="container-fluid event">
         <div class="container text-center">
-            <H4 class="display-3">Acara</H4>
+            {{-- <H4 class="display-3">Acara</H4> --}}
             <div class="display-flex">
-                <h4>Galatama</h4>
+                {{-- <h4>Galatama</h4> --}}
 
-    <h1 class="text-center pt-5">Acara</h1>
+    {{-- <h1 class="text-center pt-5">Acara</h1> --}}
     <div class="container-fluid event">
         <div class="container text-center">
             <div class="row">
