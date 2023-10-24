@@ -31,9 +31,10 @@
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">NO</th>
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total Booth</th>
                 <th scope="col">Event Date</th>
                 <th scope="col">Location</th>
                 <th scope="col">Description</th>
@@ -43,9 +44,10 @@
             <tbody>
                 @foreach ($events as $key => $evnt)
               <tr>
-                <th scope="row">{{ $key + 1}}</th>
                 <td>{{ $evnt->name }}</td>
                 <td><img src="{{ asset($evnt->image) }}" width="100"></td>
+                <td>{{ $evnt->price }}</td>
+                <td>{{ $evnt->total_booth }}</td>
                 <td>{{ $evnt->event_date }}</td>
                 <td>{{ $evnt->location }}</td>
                 <td>{{ $evnt->description }}</td>

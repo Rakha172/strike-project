@@ -29,6 +29,7 @@ class Event_RegistrationController extends Controller
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'payment_status' => 'required',
         ]);
 
         Event_Registration::create($validated);
@@ -42,7 +43,7 @@ class Event_RegistrationController extends Controller
         $event = Event::all();
 
 
-        return view('event_registration.edit', compact('event_registration','users','event'));
+        return view('event_registration.edit', compact('event_registration', 'users', 'event'));
     }
 
 
@@ -52,6 +53,7 @@ class Event_RegistrationController extends Controller
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'payment_status' => 'required',
         ]);
 
         $event_registration->update($validated);
