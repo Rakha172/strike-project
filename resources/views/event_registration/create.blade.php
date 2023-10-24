@@ -18,10 +18,8 @@
             <label class="form-label">User Id</label>
             <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
                 <option value="">Select</option>
-                @foreach ($users as $user)
-                        <option value="{{ $user->id }}" @selected(old('start_pool_id', $event_registration->user_id) == $user->id)>
-                            {{ $user->name }}
-                        </option>
+                @foreach ($users as $item)
+                    <option @if(old('user_id') == $item->id) selected @endif value="{{ $item->id }}">{{ $item->name }}</option>
                 @endforeach
             </select>
             @error('event_id')

@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-body">
 
-                        @if ($pesan = session('berhasil'))
+                        @if ($pesan = session('Berhasil'))
                             <div class="alert alert-primary" role="alert">
                                 {{ $pesan }}
                             </div>
@@ -63,7 +63,7 @@
                                                     @csrf
                                                     @method('delete')
 
-                                                    <button type="submit" class="btn btn-dark m-1">Delete</button>
+                                                    <button type="submit" class="btn btn-dark m-1" onclick="return('yakin mau di hapus?')">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>

@@ -56,13 +56,13 @@ class Event_RegistrationController extends Controller
 
         $event_registration->update($validated);
 
-        return redirect()->route('event_registration.index')->with('Berhasil', "Berhasil diubah");
+        return redirect()->route('event_registration.index')->with('berhasil', "Berhasil diubah");
     }
 
     public function destroy($id)
     {
         $event_registration = Event_Registration::find($id);
         $event_registration->delete();
-        return redirect()->route('event_registration.index')->with("Berhasil dihapus");
+        return redirect()->route('event_registration.index')->with('berhasil', "Berhasil dihapus!");
     }
 }

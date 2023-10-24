@@ -17,7 +17,6 @@
             <div class="mb-3">
                 <label class="form-label">User Name</label>
                 <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
-                    <option value="">Select</option>
                     @foreach ($users as $user)
                         <option value="{{ $user->id }}" @if(old('user_id', $event_registration->user->id) == $user->id) @endif>
                             {{ $user->name }}
@@ -34,7 +33,6 @@
             <div class="mb-3">
                 <label class="form-label">User Name</label>
                 <select name="event_id" class="form-control @error('event_id') is-invalid @enderror">
-                    <option value="">Select</option>
                     @foreach ($event as $even)
                         <option value="{{ $even->id }}" @if(old('event_id', $event_registration->user->id) == $even->id)@endif>
                             {{ $even->name }}
