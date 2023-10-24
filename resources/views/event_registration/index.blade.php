@@ -19,7 +19,7 @@
                     </div>
                     <div class="card-body">
 
-                        @if ($pesan = session('berhasil'))
+                        @if ($pesan = session('Berhasil'))
                             <div class="alert alert-primary" role="alert">
                                 {{ $pesan }}
                             </div>
@@ -33,8 +33,6 @@
                                 </svg>
                             </a>
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a href="{{ route('event_registration.create') }}"
-                                        class="nav-link active" aria-current="page">Add</a></li>
                                 {{-- <li class="nav-item"><a href="{{ ('sesi/logout') }}" class="nav-link">Logout</a></li> --}}
                             </ul>
                         </header>
@@ -55,7 +53,7 @@
                                             <th scope="row">{{ $key + 1 }}</th>
                                             <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->event->name }}</td>
-                                            <td>{{ $item->event_registration->payment_status }}</td>
+                                            <td>{{ $item->payment_status }}</td>
                                             <td class="d-flex">
                                                 <a href="{{ route('event_registration.edit', $item->id) }}"
                                                     class="btn btn-warning m-1">Edit</a>
@@ -65,7 +63,7 @@
                                                     @csrf
                                                     @method('delete')
 
-                                                    <button type="submit" class="btn btn-dark m-1">Delete</button>
+                                                    <button type="submit" class="btn btn-dark m-1" onclick="return('yakin mau di hapus?')">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>

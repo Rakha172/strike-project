@@ -112,7 +112,7 @@ Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name(
 
 // table event registration
 Route::get('event_registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
-Route::get('event_registration/create', [Event_RegistrationController::class, 'create'])->name('event_registration.create');
+Route::get('event_registration/create', [Event_RegistrationController::class, 'create'])->name('regisevent');
 Route::post('event_registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
