@@ -53,12 +53,12 @@
 
                         <p class="info description">
                             @foreach ($events as $item)
-                            {{ $item['description'] }}
-                        @endforeach
+                                {{ $item['description'] }}
+                            @endforeach
                         </p>
                     </div>
                 </div>
-                <button class="action" onclick="window.location='{{ route('registevent') }}';">Book it</button>
+                <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
             </div>
         </div>
 
