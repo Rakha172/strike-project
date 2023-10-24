@@ -31,7 +31,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">User Name</label>
+                <label class="form-label">Event Name</label>
                 <select name="event_id" class="form-control @error('event_id') is-invalid @enderror">
                     @foreach ($event as $even)
                         <option value="{{ $even->id }}" @if(old('event_id', $event_registration->user->id) == $even->id)@endif>
@@ -47,10 +47,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Payment Status</label>
-                <input value="{{ old('payment_status', $event->payment_status) }}" name="payment_status" type="text" class="form-control @error('payment_status') is-invalid @enderror">
-                  @error('payment_status')
-                      <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
+                <input value="{{ old('payment_status', $event_registration->payment_status) }}" name="payment_status" type="text"
+                    class="form-control @error('payment_status') is-invalid @enderror">
+                @error('payment_status')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
               </div>
             <button type="submit" class="btn btn-dark">Submit</button>
         </form>
