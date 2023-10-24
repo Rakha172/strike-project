@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Models\Event;
@@ -56,7 +57,7 @@ Route::get('/event', function () {
 });
 // Route dari table event buat landingevent
 Route::get('/event', function () {
-    $events = Event::all();
+       $events = Event::all();
     return view('landingevent.landingevent', compact('events'));
 })->name('events');
 
@@ -111,4 +112,13 @@ Route::post('event_registration', [Event_RegistrationController::class, 'store']
 Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
 Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
 Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
+
+// table result
+Route::get('result', [ResultController::class, 'index'])->name('result.index');
+// Route::get('result', [ResultController::class, 'show'])->name('result.show');
+Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
+Route::post('result', [ResultController::class, 'store'])->name('result.store');
+Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
+Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
+Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
 
