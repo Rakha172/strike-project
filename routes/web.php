@@ -3,6 +3,7 @@
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
@@ -129,3 +130,7 @@ Route::post('result', [ResultController::class, 'store'])->name('result.store');
 Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
 Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
 Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
+
+//Payment
+Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
+Route::put('payment-confirm/{orderId}', [PaymentController::class, 'update'])->name('payment.update');

@@ -38,7 +38,6 @@
                 <th scope="col">Event Date</th>
                 <th scope="col">Location</th>
                 <th scope="col">Description</th>
-                <th scope="col">Category</th>
               </tr>
             </thead>
             <tbody>
@@ -51,7 +50,6 @@
                 <td>{{ $evnt->event_date }}</td>
                 <td>{{ $evnt->location }}</td>
                 <td>{{ $evnt->description }}</td>
-                <td>{{ $evnt->category }}</td>
                 <td>
                 <td class="d-flex">
                     <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a>
@@ -61,6 +59,7 @@
                         @method('delete')
 
                         <button type="submit" class="btn btn-dark m-1">Delete</button>
+                        <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
                     </form>
                 </td>
               </tr>

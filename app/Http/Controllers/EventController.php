@@ -33,7 +33,6 @@ class EventController extends Controller
             'event_date' => 'required',
             'location' => 'required',
             'description' => 'required',
-            'category' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
@@ -51,7 +50,6 @@ class EventController extends Controller
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
-        $events->category = $request->category;
         $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil ditambahkan");
@@ -71,7 +69,6 @@ class EventController extends Controller
             'event_date' => 'required',
             'location' => 'required',
             'description' => 'required',
-            'category' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
@@ -89,7 +86,6 @@ class EventController extends Controller
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
-        $events->category = $request->category;
         $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil diubah");
