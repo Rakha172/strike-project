@@ -24,7 +24,6 @@
             <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
             <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>Data EventRegist</a></li>
             <li><a href="{{ route('chart.index')}}"><i class='bx bx-pie-chart'></i>Grafik</a></li>
-            <li><a href="{{ route('result.index')}}"><i class='bx bx-line-chart'></i>Result</a></li>
         </ul>
         <ul class="side-menu">
             <li>
