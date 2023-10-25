@@ -26,7 +26,7 @@
                         @endif
 
                             <ul class="nav nav-pills">
-                                {{-- <li class="nav-item"><a href="{{ ('sesi/logout') }}" class="nav-link">Logout</a></li> --}}
+                                <li class="nav-item"><a href="{{ ('sesi/logout') }}" class="nav-link">Logout</a></li>
                             </ul>
                         </header>
                         <div class="table-responsive">
