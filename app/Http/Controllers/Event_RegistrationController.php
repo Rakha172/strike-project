@@ -14,15 +14,19 @@ class Event_RegistrationController extends Controller
         $event_registration = Event_Registration::all();
         return view('event_registration.index', compact('event_registration'));
     }
-
     public function create()
     {
         $events = Event::all();
         $users = User::all();
 
-        $user = auth()->user(); // Mengambil pengguna yang sudah login
-        $userName = $user->name;
-        $event = $user->events;
+        $userName = null; // Inisialisasi $userName dengan null
+        $event = null; // Inisialisasi $event dengan null
+
+        if (auth()->check()) {
+            $user = auth()->user(); // Mengambil pengguna yang sudah login
+            $userName = $user->name;
+            $event = $user->events;
+        }
 
         return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event'));
     }
