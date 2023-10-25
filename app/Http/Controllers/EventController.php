@@ -16,7 +16,7 @@ class EventController extends Controller
 
     public function show(Event $events)
     {
-        return view('event.show', compact('event'));
+        return view('event.show', compact('events'));
     }
 
     public function create()
@@ -57,7 +57,7 @@ class EventController extends Controller
 
     public function edit(Event $events)
     {
-        return view('event.edit', compact('event'));
+        return view('event.edit', compact('events'));
     }
 
     public function update(Request $request, Event $events)
