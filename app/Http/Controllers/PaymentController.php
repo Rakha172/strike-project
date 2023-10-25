@@ -24,7 +24,7 @@ class PaymentController extends Controller
             ->latest()
             ->paginate($page);
 
-        return view('payment-confirm.payment-confirm-admin', compact('eventStatusPayed'));
+        return view('payment.payment-confirm-admin', compact('eventStatusPayed'));
     }
 
     public function update(Request $request, Event_Registration $event_registrationId)
