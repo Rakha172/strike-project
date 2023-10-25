@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('event_date');
             $table->string('location');
             $table->string('description');
-            $table->string('category');
             $table->string('image');
             $table->timestamps();
         });
