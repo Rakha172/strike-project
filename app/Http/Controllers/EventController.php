@@ -99,3 +99,4 @@ class EventController extends Controller
         return redirect()->route('event.index')->with('berhasil', "$events->name Berhasil dihapus");
     }
 }
+
