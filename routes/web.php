@@ -30,6 +30,10 @@ Route::post('login', [LoginController::class, 'handleLogin'])->name('login');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 
+// Logout
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
 // forgot password
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
