@@ -71,14 +71,6 @@
                   @enderror
 
               </div>
-              <div class="mb-3">
-                <label class="form-label">Category</label>
-                <input value="{{ old('category', $events->category) }}" name="category" type="text" class="form-control @error('category') is-invalid @enderror">
-                  @error('category')
-                      <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
-
-              </div>
             <button type="submit" class="btn btn-dark">Submit</button>
           </form>
     </div>
