@@ -14,13 +14,13 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
+            $table->unsignedBigInteger('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->unsignedBigInteger('event_registration_id');
+            $table->foreign('event_registration_id')->references('id')->on('events_registration')->onDelete('cascade');
             $table->decimal('weight', 8, 2)->default(0);
             $table->enum('status', ['special', 'regular']);
             $table->timestamps();
-
-            // $table->foreign('user_id')->references('id')->on('users');
-            // $table->foreign('event_id')->references('id')->on('events');
         });
     }
 
