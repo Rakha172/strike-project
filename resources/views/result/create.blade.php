@@ -26,13 +26,11 @@
                     <div class="mb-3">
                         <label for="event_id">Event Registration:</label>
                         <select name="event_id" id="event_id" class="form-control">
-                            @foreach ($event_registration as $event)
-                             <option {{ old('event_id') == $event->id ? 'selected' : '' }} value="{{ $event->event->id }}">
-                            {{ $event->event->name }}</option>
+                            @foreach ($event_registration as $registration)
+                                <option value="{{ $registration->id }}">{{ $registration->name }}</option>
                             @endforeach
                         </select>
                     </div>
-
 
 
                     {{-- <div class="mb-3">

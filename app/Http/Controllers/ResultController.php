@@ -12,33 +12,31 @@ class ResultController extends Controller
 {
     public function index()
     {
-        // $results = Result::with('user')->get();
-        $results = Result::all();
+        // $users = User::all();
+        $results = Result::with('user')->get(); // Mengambil semua data hasil dengan data pengguna terkait
         return view('result.index', compact('results'));
     }
 
     public function create()
     {
         $users = User::all();
-        $event = Event::all();
         $event_registration = Event_Registration::all();
-        // dd($event_registration);
-        $userName = null;
+        $userName = null; // Inisialisasi $userName dengan null
+        $event = null; // Inisialisasi $event dengan null
 
         if (auth()->check()) {
             $user = auth()->user(); // Mengambil pengguna yang sudah login
             $userName = $user->name;
-            $event = auth()->user()->events;
+            $event = $user->events;
         }
 
-        return view('result.create', compact('event','event_registration','users','userName'));
+        return view('result.create', compact('event_registration','users','userName'));
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'required', // Pastikan user_id sudah ada
-            'events_registration_id' => 'required', // Pastikan events_registration_id sudah ada
+            'events_registration_id' => 'nullable',
             'weight' => 'required',
             'status' => 'required',
         ]);
@@ -47,16 +45,30 @@ class ResultController extends Controller
 
         if (strpos($weightInput, 'g') !== false) {
             $weightValue = floatval(str_replace('g', '', $weightInput));
+
             $weightValueInKg = $weightValue / 1000;
         } else {
             $weightValueInKg = floatval($weightInput);
         }
-        Result::create([
-            'user_id' => $validatedData['user_id'],
-            'events_registration_id' => $validatedData['events_registration_id'],
-            'weight' => $weightValueInKg,
-            'status' => $validatedData['status']
-        ]);
+
+    //     $eventRegistration = Event_Registration::find($validatedData['events_registration_id']);
+    //      if ($eventRegistration) {
+    //     // Buat entri baru di tabel results dengan data yang sesuai
+    //     $result = new Result([
+    //         'user_id' => $eventRegistration->user_id,
+    //         'event_id' => $eventRegistration->event_id,
+    //         'weight' => $weightValueInKg,
+    //         'status' => $validatedData['status'],
+    //     ]);
+
+    //     $result->save();
+
+    //     return redirect()->route('result.index')->with('success', 'Data hasil pemancingan berhasil dibuat.');
+    // } else {
+    //     return redirect()->back()->with('error', 'Registrasi acara tidak ditemukan.');
+    // }
+
+        Result::create(['weight' => $weightValueInKg, 'status' => $validatedData['status']]);
 
         return redirect()->route('result.index')
             ->with('success', 'Data hasil pemancingan berhasil dibuat.');
