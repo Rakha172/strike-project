@@ -2,115 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event_Registration;
-use App\Models\User;
+
 use App\Models\Event;
+use App\Models\Event_Registration;
 use App\Models\Result;
+use App\Models\User;
+use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ResultController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        // $results = Result::with('user')->get();
         $results = Result::all();
         return view('result.index', compact('results'));
     }
 
-    public function create()
+    public function show()
     {
-        $users = User::all();
-        $event = Event::all();
+
+    }
+
+    public function create(Request $request)
+    {
+        $user = User::where('name', Auth::user()->name)->get();
         $event_registration = Event_Registration::all();
-        // dd($event_registration);
-        $userName = null;
-
-        if (auth()->check()) {
-            $user = auth()->user(); // Mengambil pengguna yang sudah login
-            $userName = $user->name;
-            $event = auth()->user()->events;
-        }
-
-        return view('result.create', compact('event','event_registration','users','userName'));
+        $event = Event::find($request->events);
+        $result = Result::all();
+        return view('result.create', compact('user', 'result', 'event_registration', 'event'));
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required', // Pastikan user_id sudah ada
-            'events_registration_id' => 'required', // Pastikan events_registration_id sudah ada
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'event_registration_id' => 'required|exists:events_registration,id',
+            'event_id' => 'required|exists:events,id',
             'weight' => 'required',
             'status' => 'required',
         ]);
 
-        $weightInput = $validatedData['weight'];
+        // untuk otomatis ketika selesai order status langsung dipesan
+        // Perbarui status pesanan di tabel vehicle menjadi 'dipesan'
+        // $vehiclePackage = Vehicle_Package::find($request->vehicle_package_id);
+        // $vehiclePackage->vehicle->status_pesanan = 'dipesan';
+        // $vehiclePackage->vehicle->save();
 
-        if (strpos($weightInput, 'g') !== false) {
-            $weightValue = floatval(str_replace('g', '', $weightInput));
-            $weightValueInKg = $weightValue / 1000;
-        } else {
-            $weightValueInKg = floatval($weightInput);
-        }
-        Result::create([
-            'user_id' => $validatedData['user_id'],
-            'events_registration_id' => $validatedData['events_registration_id'],
-            'weight' => $weightValueInKg,
-            'status' => $validatedData['status']
-        ]);
+        // Lanjutkan dengan membuat pesanan baru
+        $result = new Result;
+        $result->user_id = $request->user_id;
+        $result->event_registration_id = $request->event_registration_id;
+        $result->event_id = $request->event_id;
+        $result->weight = $request->weight;
+        $result->status = $request->status;
+        $result->save();
 
-        return redirect()->route('result.index')
-            ->with('success', 'Data hasil pemancingan berhasil dibuat.');
+        $user = User::where('id', '!=', 1)->get();
+        $result = Result::all();
+        // Session::flash('sukses','checkout berhasil dilakukan, segera lakukan pembayaran untuk mengyelesaikan order');
+        return view('result.create')->with(['user' => $user, 'results' => $result]);
+
+
+
     }
-
-
-    public function show(Result $result)
-    {
-        return view('result.show', compact('result'));
-    }
-
     public function edit(Result $result)
     {
         $users = User::all();
         $event_registration = Event_Registration::all();
-        return view('result.edit', compact('result', 'event_registration', 'users'));
-    }
+        $event_registration->event_name;
+        $event = Event::all();
+        $event->event_name;
 
+        return view('result.edit', compact('results', 'users', 'events_registration', 'events'));
+    }
 
     public function update(Request $request, Result $result)
     {
-        $validatedData = $request->validate([
-            'user'   => 'required',
-            'weight' => 'required|string', // misalnya, "1500g"
-            'status' => 'required|in:special,regular',
+        $validated = $request->validate([
+            'weight' => 'required',
+            'status' => 'required',
+            'user_id' => 'required|exists:users,id',
+            'event_registration_id' => 'required|exists:events_registration,id',
+            'event_id' => 'required|exists:events,id',
         ]);
 
-        $weightInput = $validatedData['weight'];
+        $result->update($validated);
 
-        $weightValue = floatval(str_replace('g', '', $weightInput));
-
-        if (strpos($weightInput, 'g') !== false) {
-            $weightValueInKg = $weightValue / 1000;
-        } else {
-            $weightValueInKg = $weightValue;
-        }
-
-        dd($weightValueInKg);
-        $result->update(['weight' => $weightValueInKg, 'status' => $validatedData['status']]);
-
-        return redirect()->route('result.index')
-            ->with('success', 'Data hasil pemancingan berhasil diperbarui.');
+        return redirect()->route('result.index')->with('berhasil', "$request->status Berhasil diubah!");
     }
-
-
-
 
     public function destroy(Result $result)
     {
         $result->delete();
 
-        return redirect()->route('result.index')
-            ->with('success', 'Data hasil pemancingan berhasil dihapus.');
+        return redirect()->route('result.index')->with('berhasil', "$result->status Berhasil dihapus!");
     }
 
 }
-
