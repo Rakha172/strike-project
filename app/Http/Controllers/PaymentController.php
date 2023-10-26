@@ -23,6 +23,7 @@ class PaymentController extends Controller
             ->where('payment_status', 'waiting')
             ->latest()
             ->paginate($page);
+        // dd($eventStatusPayed);
 
         return view('payment.payment-confirm-admin', compact('eventStatusPayed'));
     }
@@ -33,7 +34,7 @@ class PaymentController extends Controller
             'payment_status' => 'payed',
         ]);
 
-        return back()->with('success', 'Id pesanan ' . $event_registrationId->id . ' atas nama ' . ($event_registrationId->user->name ?? 'Pengguna Tidak Ditemukan') . ' Berhasil di konfirmasi');
+        return back()->with('success', 'Id pesanan ' . $event_registrationId->id . ' atas nama ' . ($event_registrationId->user->name) . ' Berhasil di konfirmasi');
 
     }
 }
