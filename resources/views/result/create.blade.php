@@ -11,7 +11,6 @@
     <div class="container mt-5">
         <div class="card">
             <h1 class="text-center fs-2 mt-4">  Hasil Pemancingan</h1>
-
             <div class="card-body">
                 <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -19,7 +18,7 @@
 
                         <div class="mb-3">
                             <label for="username">Username</label>
-                            <input type="text" name="username" class="form-control" value="{{ auth()->user()->name }}"
+                            <input type="text" name="username" class="form-control value="{{ auth()->user()->name }}"
                                 readonly />
                                 @error('username')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -30,12 +29,15 @@
                     <div class="mb-3">
                         <label for="event_id">Event Registration:</label>
                         <select name="event_id" id="event_id" class="form-control">
-                            @foreach ($event_registration as $registration)
-                                <option value="{{ $registration->id }}">{{ $registration->name }}</option>
+                            @foreach ($event_registration as $event)
+                             <option {{ old('event_id') == $event->id ? 'selected' : '' }} value="{{ $event->event->id }}">
+                            {{ $event->event->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    
+
+
+
                     {{-- <div class="mb-3">
                             <label for="events_registration_id">Events Registration:</label>
                             <select name="events_registration_id" id="events_registration_id" class="form-control">

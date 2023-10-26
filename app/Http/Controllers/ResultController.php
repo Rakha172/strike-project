@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Auth;
 class ResultController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
-        return view('result.index', compact('results'));
+        $result = Result::all();
+        return view('result.index', compact('result'));
     }
 
     public function show()
