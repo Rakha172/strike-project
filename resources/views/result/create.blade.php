@@ -10,57 +10,41 @@
 <body>
     <div class="container mt-5">
         <div class="card">
-            <h1 class="text-center fs-2 mt-4">Tambah Hasil Pemancingan Baru</h1>
+            <h1 class="text-center fs-2 mt-4">  Hasil Pemancingan</h1>
             <div class="card-body">
                 <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
                     @csrf
-                    <div class="form-group">
-                        <label class="form-label">Event</label>
+                    <div class="mb-3">
+                        <label for="user_id">Participant</label>
+                        <select name="user_id" id="user_id" class="form-control">
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="event_id">Event Registration:</label>
                         <select name="event_id" id="event_id" class="form-control">
-                            @foreach ($events as $event)
-                                <option value="{{ $event->id }}">{{ $event->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="user_id">User:</label>
-                        <select name="user_id" id="user_id" class="form-control">
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="events_registration_id">Events Registration:</label>
-                        <select name="events_registration_id" id="events_registration_id" class="form-control">
-                            @foreach ($event_registration as $event_registration)
-                                <option value="{{ $event_registration->id }}">{{ $event_registration->name }}</option>
+                            @foreach ($event_registration as $event)
+                             <option {{ old('event_id') == $event->id ? 'selected' : '' }} value="{{ $event->event->id }}">
+                            {{ $event->event->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
 
 
-                    <div class="mb-3">
-                        <label for="user_id">User:</label>
-                        <select name="user_id" id="user_id" class="form-control">
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-
-
-                    <div class="mb-3">
-                        <label class="form-label">Jumlah Ikan</label>
-                        <input value="{{ old('fish_count')}}" name="fish_count" type="text" class="form-control @error('fish_count') is-invalid @enderror">
-                          @error('fish_count')
-                              <div class="invalid-feedback">{{ $message }}</div>
-                          @enderror
-                      </div>
+                    {{-- <div class="mb-3">
+                            <label for="events_registration_id">Events Registration:</label>
+                            <select name="events_registration_id" id="events_registration_id" class="form-control">
+                                @foreach ($event_registration as $registration)
+                                    <option value="{{ $registration->id }}" @if (auth()->check() && auth()->user()->events_registration_id == $registration->id) selected @endif>
+                                        {{ $registration->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                    </div> --}}
 
                     <div class="mb-3">
                     <label class="form-label">Berat Ikan</label>
