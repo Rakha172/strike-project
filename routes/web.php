@@ -176,4 +176,3 @@ Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 
 Route::get('/spinner', function () {
     return view('spin.spin');
 });
-

@@ -37,7 +37,7 @@
             @foreach($results as $result)
             <tr>
                 <td>{{ $loop->iteration }}</td>
-                {{-- @if (auth()->check())
+                @if (auth()->check())
                 <td>{{ auth()->user()->name }}</td>
                 @endif --}}
                 <td>{{ $result->users->name }}</td>
@@ -45,8 +45,7 @@
                 <td>{{ $result->weight}} kg</td>
                 <td>{{ $result->status }}</td>
                 <td>
-                    {{-- <a href="{{ route('results.show', $result->id) }}" class="btn btn-info">Detail</a> --}}
-                    {{-- <a href="{{ route('result.update', $result->id) }}" class="btn btn-warning m-1">Edit</a> --}}
+                    <a href="{{ route('result.update', $result->id) }}" class="btn btn-warning m-1">Edit</a>
 
                     <form action="{{ route('result.destroy', $result->id) }}"method="POST">
                         @csrf

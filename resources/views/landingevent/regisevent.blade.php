@@ -27,7 +27,7 @@
             <p>Silakan isi formulir pendaftaran acara</p>
         </div>
         <div class="login area">
-            <p>Masukan Username
+            <p>Username
                 @if (auth()->check())
                     <input type="text" class="form-control" placeholder="Masukkan Username Anda"
                         value="{{ auth()->user()->name }}">
@@ -36,8 +36,7 @@
                 @endif
             </p>
 
-            <p>
-                Pilih Acara
+            <p>Event
                 <select name="event_id" id="event_id" class="form-control">
                     @foreach ($events as $event)
                         <option value="{{ $event->id }}">{{ $event->name }}</option>
