@@ -16,25 +16,11 @@
     <form action="{{ route("result.update", $result->id) }}" method="POST">
         @csrf
         @method('put')
-
-        <div class="form-group">
-            <label for="event_id">Event:</label>
-            <select name="event_id" id="event_id" class="form-control">
-                @foreach ($events as $event)
-                <option value="{{ $event->id }}" {{ $event->id == $result->event_id ? 'selected' : '' }}>
-                        {{ $event->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="user_id">User:</label>
+        <div class="mb-3">
+            <label for="user_id">Participant</label>
             <select name="user_id" id="user_id" class="form-control">
                 @foreach ($users as $user)
-                    <option value="{{ $user->id }}" {{ $user->id == $result->user_id ? 'selected' : '' }}>
-                        {{ $user->name }}
-                    </option>
+                    <option value="{{ $user->id }}" @if ($user->id == $result->user_id) selected @endif>{{ $user->name }}</option>
                 @endforeach
             </select>
         </div>
@@ -48,11 +34,6 @@
             </select>
         </div>
 
-
-        <div class="form-group">
-            <label for="fish_count">Jumlah Ikan:</label>
-            <input type="number" name="fish_count" id="fish_count" class="form-control" value="{{ $result->fish_count }}">
-        </div>
 
         <div class="form-group">
             <label for="weight">Berat Ikan:</label>
