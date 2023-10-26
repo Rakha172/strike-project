@@ -53,20 +53,33 @@
     </div>
 
     <script>
-       function konfirmasiMengikutiEvent(eventName, redirectURL) {
+      function konfirmasiMengikutiEvent(eventName, redirectURL) {
     var konfirmasi = confirm("Apakah Anda ingin mengikuti event '" + eventName + "'?");
     if (konfirmasi) {
-        // Jika pengguna mengklik "OK" pada konfirmasi, Anda dapat melakukan sesuatu di sini
-        // Contoh: Kirim permintaan ke server untuk menambahkan pengguna ke event.
-        alert("Anda akan mengikuti event '" + eventName + "'.");
+        // Jika pengguna mengklik "OK" pada konfirmasi, kirim permintaan ke server
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", redirectURL, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-        // Mengarahkan pengguna ke halaman regisevent
-        window.location = redirectURL;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert("Anda telah terdaftar ke event '" + eventName + "'.");
+            } else {
+                alert("Gagal mendaftar ke event '" + eventName + "'.");
+            }
+        };
+
+        // Anda dapat mengirim data pengguna atau informasi lain yang dibutuhkan di sini
+        var data = {
+            eventName: eventName // Gantilah ini dengan data yang sesuai
+        };
+
+        xhr.send(JSON.stringify(data));
     } else {
-        // Jika pengguna mengklik "Batal" pada konfirmasi, Anda dapat menampilkan pesan lain atau tidak melakukan apa-apa.
         alert("Anda membatalkan untuk mengikuti event '" + eventName + "'.");
     }
 }
+
     </script>
 </body>
 </html>
