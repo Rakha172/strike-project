@@ -34,3 +34,5 @@ class Result extends Model
         return $this->belongsTo(Event_Registration::class);
     }
 }
+
+

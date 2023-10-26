@@ -35,20 +35,6 @@
                             @endforeach
                         </select>
                     </div>
-
-
-
-                    {{-- <div class="mb-3">
-                            <label for="events_registration_id">Events Registration:</label>
-                            <select name="events_registration_id" id="events_registration_id" class="form-control">
-                                @foreach ($event_registration as $registration)
-                                    <option value="{{ $registration->id }}" @if (auth()->check() && auth()->user()->events_registration_id == $registration->id) selected @endif>
-                                        {{ $registration->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                    </div> --}}
-
                     <div class="mb-3">
                     <label class="form-label">Berat Ikan</label>
                     <input value="{{ old('weight')}}" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror">
