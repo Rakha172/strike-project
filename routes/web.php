@@ -131,6 +131,12 @@ Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.e
 Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
 Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
 
-//Payment
+//Table payment
 Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
-Route::put('payment-confirm/{orderId}', [PaymentController::class, 'update'])->name('payment.update');
+Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
+
+//spinner
+Route::get('/spinner', function () {
+    return view('spin.spin');
+});
+
