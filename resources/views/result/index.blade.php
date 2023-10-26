@@ -40,7 +40,7 @@
                 {{-- @if (auth()->check())
                 <td>{{ auth()->user()->name }}</td>
                 @endif --}}
-                <td>{{ $result->user->name }}</td>
+                <td>{{ $result->users->name }}</td>
                 <td>{{ $result->eventRegistration->event->name }}</td>
                 <td>{{ $result->weight}} kg</td>
                 <td>{{ $result->status }}</td>
