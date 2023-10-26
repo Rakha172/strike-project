@@ -52,7 +52,7 @@
                 <td>{{ $evnt->description }}</td>
                 <td>
                 <td class="d-flex">
-                    <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a>
+                    {{-- <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a> --}}
 
                     <form action="{{ route('event.destroy', $evnt->id)}}"method="POST">
                         @csrf
