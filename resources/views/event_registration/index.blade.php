@@ -25,19 +25,15 @@
                             </div>
                         @endif
 
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a href="{{ ('sesi/logout') }}" class="nav-link">Logout</a></li>
-                            </ul>
                         </header>
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
-                                        <th scope="col">Users_Name</th>
-                                        <th scope="col">Event_Name</th>
+                                        <th scope="col">User Name</th>
+                                        <th scope="col">Event Name</th>
                                         <th scope="col">Payment Status</th>
-                                        <th scope="col">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,16 +43,6 @@
                                             <td>{{ $item->event->name }}</td>
                                             <td>{{ $item->payment_status }}</td>
                                             <td class="d-flex">
-                                                <a href="{{ route('event_registration.edit', $item->id) }}"
-                                                    class="btn btn-warning m-1">Edit</a>
-
-                                                <form
-                                                    action="{{ route('event_registration.destroy', $item->id) }}"method="POST">
-                                                    @csrf
-                                                    @method('delete')
-
-                                                    <button type="submit" class="btn btn-dark m-1" onclick="return('yakin mau di hapus?')">Delete</button>
-                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
