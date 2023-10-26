@@ -39,8 +39,9 @@
                 <td>{{ $loop->iteration }}</td>
                 @if (auth()->check())
                 <td>{{ auth()->user()->name }}</td>
-                @endif
-                <td>{{ $result->events_registration_id }}</td>
+                @endif --}}
+                <td>{{ $result->users->name }}</td>
+                <td>{{ $result->eventRegistration->event->name }}</td>
                 <td>{{ $result->weight}} kg</td>
                 <td>{{ $result->status }}</td>
                 <td>

@@ -16,13 +16,20 @@
     <form action="{{ route("result.update", $result->id) }}" method="POST">
         @csrf
         @method('put')
-        <div class="mb-3">
-            <label for="user_id">Participant</label>
-            <select name="user_id" id="user_id" class="form-control">
-                @foreach ($users as $user)
-                    <option value="{{ $user->id }}" @if ($user->id == $result->user_id) selected @endif>{{ $user->name }}</option>
+        <div class="form-group">
+            <label class="form-label">User Name</label>
+            <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                @foreach ($user as $item)
+                    <option value="{{ $user->id }}" @if(old('user_id', $event_registration->user->id) == $user->id) @endif>
+                        {{ $user->name }}
+                    </option>
                 @endforeach
             </select>
+            @if ($errors->has('user_id'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('user_id') }}</strong>
+                </span>
+            @endif
         </div>
 
         <div class="mb-3">
