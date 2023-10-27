@@ -145,12 +145,11 @@ Route::delete('events/{event}', [EventController::class, 'destroy'])->name('even
 // table setting
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+Route::get('/setting/create', [SettingController::class, 'create'])->name('setting.create');
 Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
 Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
-Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
-Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
-Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
+Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
 // });
 
 // table event registration
