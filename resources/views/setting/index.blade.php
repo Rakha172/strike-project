@@ -47,9 +47,9 @@
                 <td>
                 <td class="d-flex">
                     <a href="{{ url('setting/' . $sett->id . '/show') }}"
-                        class="btn btn-warning btn-sm">Read</a>
+                        class="btn btn-warning m-1">Read</a>
                     <a href="{{ route('setting.edit', $sett->id) }}"
-                        class="btn btn-success btn-sm">Edit</a>
+                        class="btn btn-dark m-1">Edit</a>
                 </td>
               </tr>
               @endforeach
