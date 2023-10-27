@@ -21,8 +21,8 @@
             <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Event</a></li>
             <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
-            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
-            <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>Data EventRegist</a></li>
+            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Member</a></li>
+            <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>EventRegist</a></li>
             <li><a href="{{ route('payment.index')}}"><i class='bx bx-dollar'></i>Payment-Confirm</a></li>
             <li><a href="{{ route('chart.index')}}"><i class='bx bx-line-chart'></i>Grafik</a></li>
         </ul>
