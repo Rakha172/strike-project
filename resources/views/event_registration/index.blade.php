@@ -38,6 +38,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($event_registration as $key => $item)
+                                        <tr>
                                             <th scope="row">{{ $key + 1 }}</th>
                                             <td>{{ $item->user->name }}</td>
                                             <td>{{ $item->event->name }}</td>

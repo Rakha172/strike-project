@@ -145,20 +145,20 @@ Route::delete('events/{event}', [EventController::class, 'destroy'])->name('even
 // table setting
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-Route::get('setting/create', [SettingController::class, 'create'])->name('setting.create');
+Route::get('/setting/create', [SettingController::class, 'create'])->name('setting.create');
 Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
-Route::get('setting/{setting}', [SettingController::class, 'edit'])->name('setting.edit');
-Route::put('setting/{setting}', [SettingController::class, 'update'])->name('setting.update');
-Route::delete('setting/{setting}', [SettingController::class, 'destroy'])->name('setting.destroy');
+Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
+Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
 // });
 
 // table event registration
-Route::get('event_registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
+Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
 Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
-Route::post('event_registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
-Route::get('event_registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
-Route::put('event_registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
-Route::delete('event_registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
+Route::post('event-registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
+Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
+Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
+Route::delete('event-registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
 
 // table result
 Route::get('result', [ResultController::class, 'index'])->name('result.index');

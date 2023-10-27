@@ -15,13 +15,11 @@
 
     @section('content')
 
-
     <div class="container">
-        <div class="card">
+        <div class="card" style="background: darkgrey">
                 <h1 class="text-center fs-2 mt-4">DATA SETTING</h1>
             <div class="card-body">
 
-        <a href="{{ route('setting.create')}}" class="btn btn-dark">Tambah</a>
 
         @if ($pesan = session('berhasil'))
         <div class="alert alert-primary" role="alert">
@@ -30,7 +28,7 @@
         @endif
         <table class="table">
             <thead>
-              <tr>
+              <tr> 
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
@@ -42,18 +40,17 @@
               <tr>
                 <th scope="row">{{ $key + 1}}</th>
                 <td>{{ $sett->name }}</td>
-                <td><a href="{{ asset($sett->image) }}" width="250">
-                        <img src="{{ asset($sett->image) }}" width="250"></td>
+                <td>
+                    <a href="{{ asset('logo/' . $sett->logo) }}" style="max-width:200px;max-height:200px;">
+                        <img style="max-width:200px;max-height:200px;" src="{{ asset('logo/' . $sett->logo) }}">
                     </a>
                 <td>{{ $sett->history }}</td>
                 <td>
                 <td class="d-flex">
-                    <form action="{{ route('setting.destroy', $sett->id)}}"method="POST">
-                        @csrf
-                        @method('delete')
-
-                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('yakin hapus ni??')">Delete</button>
-                    </form>
+                    <a href="{{ url('setting/' . $sett->id . '/show') }}"
+                        class="btn btn-warning btn-sm">Read</a>
+                    <a href="{{ route('setting.edit', $sett->id) }}"
+                        class="btn btn-success btn-sm">Edit</a>
                 </td>
               </tr>
               @endforeach
