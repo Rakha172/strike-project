@@ -45,11 +45,13 @@
               <tr>
                 <td>{{ $evnt->name }}</td>
                 <td><img src="{{ asset($evnt->image) }}" width="100"></td>
-                <td>{{ $evnt->price }}</td>
+                <td>Rp. {{ number_format($evnt->price, 0, '.', '.')}}</td>
                 <td>{{ $evnt->total_booth }}</td>
                 <td>{{ $evnt->event_date }}</td>
                 <td>{{ $evnt->location }}</td>
-                <td>{{ $evnt->description }}</td>
+                <td>
+                    {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
+                </td>
                 <td>
                 <td class="d-flex">
                     {{-- <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a> --}}

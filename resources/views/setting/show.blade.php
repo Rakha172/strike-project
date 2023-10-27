@@ -16,19 +16,21 @@
     <div class="card" style="margin:20px;background: #7D7C7C">
         <h3><div class="card-header" style="color: white">Setting Page</div></h3>
         <div class="card-body">
-            <h5 class="card-title">Name : {{ $setting->name }}</h5>
-            <h5 class="card-title">History: </h5>
+            <h5 class="card-title">Name : {{ $setting->name }}</h5><br>
+            <h5 class="card-title">History</h5>
             <h6>
-                <textarea name="history" style="width: 1000px;background: #7D7C7C">{{ $setting->history }}</textarea>
+                <textarea readonly name="history" style="width: 1000px;background: lightgrey">{{ $setting->history }}</textarea>
             </h6>
-            
+
             <h5 class="card-title">Logo :
                 <a href="{{ url('logo/' . $setting->logo) }}" title="click here!">
                     <img style="max-width:200px;max-height:200px;" src="{{ url('logo/' . $setting->logo) }}">
                 </a>
             </h5>
 
-            <a href="{{ route('setting.index') }}" class="btn btn-secondary">Back</a>
+            <button style="background: white">
+                <a href="{{ route('setting.index') }}" style="color: black">Kembali</a>
+            </button>
         </div>
 
     </div>

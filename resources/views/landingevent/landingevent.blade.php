@@ -51,22 +51,5 @@
         </div>
         @endforeach
     </div>
-
-    {{-- <script>
-       function konfirmasiMengikutiEvent(eventName, redirectURL) {
-    var konfirmasi = confirm("Apakah Anda ingin mengikuti event '" + eventName + "'?");
-    if (konfirmasi) {
-        // Jika pengguna mengklik "OK" pada konfirmasi, Anda dapat melakukan sesuatu di sini
-        // Contoh: Kirim permintaan ke server untuk menambahkan pengguna ke event.
-        alert("Anda akan mengikuti event '" + eventName + "'.");
-
-        // Mengarahkan pengguna ke halaman regisevent
-        window.location = redirectURL;
-    } else {
-        // Jika pengguna mengklik "Batal" pada konfirmasi, Anda dapat menampilkan pesan lain atau tidak melakukan apa-apa.
-        alert("Anda membatalkan untuk mengikuti event '" + eventName + "'.");
-    }
-}
-    </script> --}}
 </body>
 </html>
