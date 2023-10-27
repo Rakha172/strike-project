@@ -14,65 +14,62 @@ class SettingController extends Controller
 
         return view('setting.index', ['setting' => $settings]);
     }
-
-    public function create()
+    public function show($id)
     {
+        $setting = Setting::findOrFail($id);
 
-        return view('setting.create');
-    }
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required',
-            'history' => 'required',
-            'image' => 'required|image|mimes:png,jpg|max:2040',
-            'location' => 'required',
-        ]);
-
-        // Upload gambar untuk field 'image'
-        $image = $request->image;
-        $slugimage = Str::slug($image->getClientOriginalName());
-        $new_image = time() . '_' . $slugimage;
-        $image->move('upload/setting-app/', $new_image);
-
-        $settings = new Setting;
-        $settings->image = 'upload/setting-app/' . $new_image;
-        $settings->name = $request->name;
-        $settings->history = $request->history;
-        $settings->location = $request->location;
-        $settings->save();
-
-        return redirect('/setting')->with('succes', 'data ditambah');
+        return view('setting.show', compact('setting'));
     }
 
     public function edit($id)
     {
-        $settings = Setting::findOrFail($id);
+        $setting = Setting::findOrFail($id);
         return view('setting.edit', compact('setting'));
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Setting $id)
     {
         $request->validate([
             'name' => 'required',
             'history' => 'required',
-            'image' => 'required|image|mimes:png,jpg|max:2040',
+            'logo' => 'required|image',
             'location' => 'required',
         ]);
 
-        // edit gambar untuk field 'image'
-        $image = $request->image;
-        $slugimage = Str::slug($image->getClientOriginalName());
-        $new_image = time() . '_' . $slugimage;
-        $image->move('upload/setting-app/', $new_image);
+        if ($request->hasFile('logo')) {
+            // Hapus gambar lama
+            $oldLogoPath = public_path('logo/' . $id->logo);
+            if (is_file($oldLogoPath)) {
+                unlink($oldLogoPath);
+            }
 
-        $settings = Setting::find($id);
-        $settings->image = 'upload/setting-app/' . $new_image;
-        $settings->name = $request->name;
-        $settings->history = $request->history;
-        $settings->location = $request->location;
-        $settings->save();
+            $uploadedLogo = $request->file('logo');
+            $newLogoName = 'logo.png'; // Nama tetap "logo.png"
+
+            // Simpan gambar baru dengan nama tetap
+            $uploadedLogo->storeAs('public/logo', $newLogoName);
+
+            // Perbarui nama file gambar di database
+            $id->logo = $newLogoName;
+
+
+            $id->name = $request->input('name');
+            $id->history = $request->input('history');
+            $id->location = $request->input('location');
+            $id->save();
+
+            $newLogoPublicPath = public_path('logo/' . $newLogoName);
+            if (file_exists($newLogoPublicPath)) {
+                unlink($newLogoPublicPath); // Hapus gambar baru jika sudah ada
+            }
+            copy(storage_path('app/public/logo/' . $newLogoName), $newLogoPublicPath);
+        } else {
+            $id->name = $request->input('name');
+            $id->history = $request->input('history');
+            $id->location = $request->input('location');
+            $id->save();
+        }
 
         return to_route('setting.index')->with('succes', 'data ditambah');
     }
