@@ -23,5 +23,14 @@ class Event extends Model
     {
         return $this->hasMany(Event_Registration::class, 'event_id', 'id');
     }
+    public function setBothAttribute($value)
+    {
+        $this->attributes['both'] = json_encode($value);
+    }
+
+    public function getBothAttribute($value)
+    {
+        return json_decode($value, true);
+    }
 
 }

@@ -11,7 +11,26 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+        foreach ($events as $event) {
+            $event->random_both = $event->random_both;
+        }
         return view('event.index', ['events' => $events]);
+    }
+    public function reduceBoth(Request $request, $eventId) {
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return response()->json(['message' => 'Event not found'], 404);
+        }
+
+        // Mengurangkan jumlah 'both' sesuai dengan logika yang Anda inginkan.
+        // Contoh: mengurangkan satu dari jumlah 'both' saat permintaan diproses.
+        $event->both = $event->both - 1;
+
+        // Simpan perubahan pada event
+        $event->save();
+
+        return response()->json(['message' => 'Both reduced successfully']);
     }
 
     public function show(Event $events)

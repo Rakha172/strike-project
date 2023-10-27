@@ -10,6 +10,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SpinController;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
@@ -172,8 +173,6 @@ Route::get('payment-confirm', [PaymentController::class, 'index'])->name('paymen
 Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
 
 //spinner
-Route::get('/spinner', function () {
-    return view('spin.spin');
-
-});
+Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
+Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
 
