@@ -19,11 +19,13 @@
             @method('put')
             <div class="mb-3">
                 <label class="form-label">Name</label>
-                <input value="{{ old('name', $setting->name) }}" name="name" type="text"
-                    class="form-control @error('name') is-invalid @enderror">
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <input type="text" name="name" class="form-control bg-light @error('name') is-invalid @enderror"
+                       value="{{ $setting->name }}" id="name">
+                    @error('name')
+                        <div class="invalid-feedback text-start">
+                            <b>{{ $message }}</b>
+                        </div>
+                    @enderror
             </div>
 
             <div class="mb-3">
@@ -35,28 +37,26 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input value="{{ old('location', $setting->location) }}" name="location" type="text" class="form-control @error('location') is-invalid @enderror">
+                  @error('location')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+            </div>
 
+            <br>
+            
+            <div class="mb-3">
                 <label for="logo" class="form-label">Logo</label>
-                <img style="max-width:150px;max-height:150px;"src="{{ asset('logo/' . $setting->logo) }}">
-                <input type="file" name="logo" class="form-control bg-light @error('logo') is-invalid @enderror"
-                    value="{{ old('logo', $setting->logo) }}">
-                @error('logo')
-                    <div class="invalid-feedback text-start">
-                        <b>{{ $message }}</b>
-                    </div>
-                @enderror
-
-                <br>
-
-                <div class="mb-3">
-                    <label class="form-label">Location</label>
-                    <input value="{{ old('location', $setting->location) }}" name="location" type="text" class="form-control @error('location') is-invalid @enderror">
-                      @error('location')
-                          <div class="invalid-feedback">{{ $message }}</div>
-                      @enderror
-                  </div>
-
-
+                        <img style="max-width:200px;max-height:200px;"src="{{ asset('logo/' . $setting->logo) }}">
+                        <input type="file" name="logo"
+                            class="form-control bg-light @error('logo') is-invalid @enderror"
+                            value="{{ old('logo', $setting->logo) }}">
+                        @error('logo')
+                            <div class="invalid-feedback text-start">
+                                <b>{{ $message }}</b>
+                            </div>
+                        @enderror
                 <br>
 
                 <center>
