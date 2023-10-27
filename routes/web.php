@@ -123,7 +123,6 @@ Route::get('/layout', function () {
 
 // table Chart
 Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
-;
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -176,3 +175,4 @@ Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 
 //spinner
 Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
 Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
+
