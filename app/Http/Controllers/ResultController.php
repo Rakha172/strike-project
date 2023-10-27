@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event_Registration;
-use App\Models\User;
 use App\Models\Event;
+use App\Models\Event_Registration;
 use App\Models\Result;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ResultController extends Controller
 {
+
     public function index()
     {
         $results = Result::all();
@@ -18,64 +20,72 @@ class ResultController extends Controller
 
     public function create()
     {
-        $users = User::all();
-        $events = Event::all();
+        $user = User::where('name', Auth::user()->name)->first();
         $event_registration = Event_Registration::all();
-        return view('result.create', compact('users','events','event_registration'));
+        $results = Result::all();
+        return view('result.create', compact('user', 'results', 'event_registration'));
     }
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'event_id' => 'required',
-            'user_id' => 'required',
-            'events_registration_id' => 'nullable',
-            'fish_count' => 'required',
-            'weight' => 'required',
-            'status' => 'required',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        'participant' => 'required',
+        'event_id' => 'nullable|exists:events,id',
+        'weight' => 'required',
+        'status' => 'required|in:special,regular',
+    ]);
 
-        Result::create($validatedData);
+    $user = auth()->user();
+    $weightInput = $request->input('weight');
 
-        return redirect()->route('result.index')->with('success', 'Hasil berhasil ditambahkan.');
+    if (strpos($weightInput, 'g') !== false) {
+        $weightValue = floatval(str_replace('g', '', $weightInput));
+        $weightValueInKg = $weightValue / 1000;
+    } else {
+        $weightValueInKg = floatval($weightInput);
     }
 
-    public function show(Result $result)
-    {
-        return view('result.show', compact('result'));
+    $result = new Result;
+    $result->user_id = $user->id;
+    $result->weight = $weightValueInKg;
+    // $result->status = $request->status;
+    $result->status = $request->input('status');
+    $result->save();
+
+    // Tambahkan periksaan
+    if ($result->wasRecentlyCreated) {
+        return redirect()->route('result.index')->with('success', 'Data berhasil disimpan');
+    } else {
+        return redirect()->route('result.index')->with('error', 'Gagal menyimpan data');
     }
+}
 
     public function edit(Result $result)
     {
         $users = User::all();
-        $events = Event::all();
         $event_registration = Event_Registration::all();
-        return view('result.edit', compact('result','users','events','event_registration'));
+        $event = Event::all();
+
+        return view('result.edit', compact('result', 'users'));
     }
 
     public function update(Request $request, Result $result)
     {
-        $validatedData = $request->validate([
-            'event_id' => 'required',
-            'user_id' => 'required',
-            'fish_count' => 'required|integer',
+        $validated = $request->validate([
             'weight' => 'required',
-            'status' => 'required|in:special,regular',
+            'status' => 'required',
+            'user_id' => 'required|exists:users,id',
         ]);
 
-        $result->update($validatedData);
+        $result->update($validated);
 
-        return redirect()->route('result.index')
-            ->with('success', 'Data hasil pemancingan berhasil diperbarui.');
+        return redirect()->route('result.index')->with('success', 'Data berhasil diperbarui');
     }
 
     public function destroy(Result $result)
     {
         $result->delete();
 
-        return redirect()->route('result.index')
-            ->with('success', 'Data hasil pemancingan berhasil dihapus.');
+        return redirect()->route('result.index')->with('success', 'Data berhasil dihapus');
     }
-
 }
-

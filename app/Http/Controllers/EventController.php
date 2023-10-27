@@ -11,12 +11,31 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+        foreach ($events as $event) {
+            $event->random_both = $event->random_both;
+        }
         return view('event.index', ['events' => $events]);
+    }
+    public function reduceBoth(Request $request, $eventId) {
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return response()->json(['message' => 'Event not found'], 404);
+        }
+
+        // Mengurangkan jumlah 'both' sesuai dengan logika yang Anda inginkan.
+        // Contoh: mengurangkan satu dari jumlah 'both' saat permintaan diproses.
+        $event->both = $event->both - 1;
+
+        // Simpan perubahan pada event
+        $event->save();
+
+        return response()->json(['message' => 'Both reduced successfully']);
     }
 
     public function show(Event $events)
     {
-        return view('event.show', compact('event'));
+        return view('event.show', compact('events'));
     }
 
     public function create()
@@ -33,7 +52,6 @@ class EventController extends Controller
             'event_date' => 'required',
             'location' => 'required',
             'description' => 'required',
-            'category' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
@@ -51,7 +69,6 @@ class EventController extends Controller
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
-        $events->category = $request->category;
         $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil ditambahkan");
@@ -59,7 +76,7 @@ class EventController extends Controller
 
     public function edit(Event $events)
     {
-        return view('event.edit', compact('event'));
+        return view('event.edit', compact('events'));
     }
 
     public function update(Request $request, Event $events)
@@ -71,7 +88,6 @@ class EventController extends Controller
             'event_date' => 'required',
             'location' => 'required',
             'description' => 'required',
-            'category' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
         ]);
 
@@ -89,7 +105,6 @@ class EventController extends Controller
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
-        $events->category = $request->category;
         $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil diubah");
@@ -103,3 +118,4 @@ class EventController extends Controller
         return redirect()->route('event.index')->with('berhasil', "$events->name Berhasil dihapus");
     }
 }
+

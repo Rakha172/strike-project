@@ -3,14 +3,23 @@
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthenticateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SpinController;
 use App\Models\Event;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +39,10 @@ Route::post('login', [LoginController::class, 'handleLogin'])->name('login');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register.register');
 
+// Logout
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
 // forgot password
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
@@ -46,6 +59,36 @@ Route::post('/forgot-password', function (Request $request) {
         ? back()->with(['status' => __($status)])
         : back()->withErrors(['email' => __($status)]);
 })->middleware('guest')->name('password.email');
+
+// reset password
+// Route::get('/reset-password/{token', [AuthenticateController::class])->name('password.reset');
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function (User $user, string $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->setRememberToken(Str::random(60));
+
+            $user->save();
+
+            event(new PasswordReset($user));
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('password.update');
 
 //LandingPage
 Route::get('/', function () {
@@ -80,7 +123,6 @@ Route::get('/layout', function () {
 
 // table Chart
 Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
-;
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -126,3 +168,12 @@ Route::post('result', [ResultController::class, 'store'])->name('result.store');
 Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
 Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
 Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
+
+//Table payment
+Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
+Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
+
+//spinner
+Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
+Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
+

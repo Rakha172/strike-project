@@ -22,12 +22,13 @@
             <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Event</a></li>
             <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
             <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
-            <li><a href="{{ route('chart.index')}}"><i class='bx bx-pie-chart'></i>Grafik</a></li>
-            <li><a href="{{ route('result.index')}}"><i class='bx bx-user'></i>Result</a></li>
+            <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>Data EventRegist</a></li>
+            <li><a href="{{ route('payment.index')}}"><i class='bx bx-dollar'></i>Payment-Confirm</a></li>
+            <li><a href="{{ route('chart.index')}}"><i class='bx bx-line-chart'></i>Grafik</a></li>
         </ul>
         <ul class="side-menu">
             <li>
-                <a href="#" class="logout">
+                <a href="{{ route('logout') }}" class="logout">
                     <i class='bx bx-log-out-circle'></i>
                     Logout
                 </a>

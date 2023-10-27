@@ -17,143 +17,56 @@
     <h1 class="event-title">Events</h1>
 
     <div class="container">
+        @foreach ($events as $item)
         <div class="item-container">
             <div class="img-container">
-                @foreach ($events as $item)
-                    <img src="{{ $item['image'] }}" alt="Event Image">
-                @endforeach
+                <img src="{{ $item['image'] }}" alt="Event Image">
             </div>
 
             <div class="body-container">
                 <div class="overlay"></div>
 
-                @foreach ($events as $item)
                 <div class="event-info">
                     <p class="title">{{ $item['name'] }}</p>
-                @endforeach
                     <div class="separator"></div>
-                    {{-- <p class="info">Flie Fishing</p> --}}
-                    @foreach ($events as $item)
                     <p class="price">{{ $item['price'] }}</p>
-                    @endforeach
 
                     <div class="additional-info">
                         <p class="info">
                             <i class="fas fa-map-marker-alt"></i>
-                            @foreach ($events as $item)
-                                    {{ $item['location'] }}
-                                @endforeach
+                            {{ $item['location'] }}
                         </p>
-                            <p class="info">
-                                <i class="far fa-calendar-alt"></i>
-                                @foreach ($events as $item)
-                                    {{ $item['event_date'] }}
-                                @endforeach
-                            </p>
+                        <p class="info">
+                            <i class="far fa-calendar-alt"></i>
+                            {{ $item['event_date'] }}
+                        </p>
 
                         <p class="info description">
-                            @foreach ($events as $item)
-                                {{ $item['description'] }}
-                            @endforeach
+                            {{ $item['description'] }}
                         </p>
                     </div>
                 </div>
                 <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
             </div>
         </div>
-
-        <div class="item-container">
-            <div class="img-container">
-                @foreach ($events as $item)
-                    <img src="{{ $item['image'] }}" alt="Event Image">
-                @endforeach
-            </div>
-
-            <div class="body-container">
-                <div class="overlay"></div>
-
-                <@foreach ($events as $item)
-                <div class="event-info">
-                    <p class="title">{{ $item['name'] }}</p>
-                @endforeach
-                    <div class="separator"></div>
-                    {{-- <p class="info">Cimahi, Bandung</p> --}}
-                    @foreach ($events as $item)
-                    <p class="price">{{ $item['price'] }}</p>
-                    @endforeach
-
-                    <div class="additional-info">
-                        <p class="info">
-                            <i class="fas fa-map-marker-alt"></i>
-                            @foreach ($events as $item)
-                                    {{ $item['location'] }}
-                                @endforeach
-                        </p>
-                        <p class="info">
-                            <i class="far fa-calendar-alt"></i>
-                            @foreach ($events as $item)
-                                {{ $item['event_date'] }}
-                            @endforeach
-                        </p>
-
-                        <p class="info description">
-                            @foreach ($events as $item)
-                            {{ $item['description'] }}
-                        @endforeach
-                        </p>
-                    </div>
-                </div>
-                <button class="action">Book it</button>
-            </div>
-        </div>
-
-        <div class="item-container">
-            <div class="img-container">
-                @foreach ($events as $item)
-                    <img src="{{ $item['image'] }}" alt="Event Image">
-                @endforeach
-            </div>
-
-            <div class="body-container">
-                <div class="overlay"></div>
-
-                <<@foreach ($events as $item)
-                <div class="event-info">
-                    <p class="title">{{ $item['name'] }}</p>
-                @endforeach
-                    <div class="separator"></div>
-                    {{-- <p class="info">New York, NY</p> --}}
-                    @foreach ($events as $item)
-                    <p class="price">{{ $item['price'] }}</p>
-                    @endforeach
-
-                    <div class="additional-info">
-                        <p class="info">
-                            <i class="fas fa-map-marker-alt"></i>
-                            @foreach ($events as $item)
-                                    {{ $item['location'] }}
-                                @endforeach
-                        </p>
-                        <p class="info">
-                            <i class="far fa-calendar-alt"></i>
-                            @foreach ($events as $item)
-                                {{ $item['event_date'] }}
-                            @endforeach
-                        </p>
-
-                        <p class="info description">
-                            @foreach ($events as $item)
-                            {{ $item['description'] }}
-                        @endforeach
-                        </p>
-                    </div>
-                </div>
-                <button class="action">Book it</button>
-            </div>
-        </div>
-
-
+        @endforeach
     </div>
 
+    {{-- <script>
+       function konfirmasiMengikutiEvent(eventName, redirectURL) {
+    var konfirmasi = confirm("Apakah Anda ingin mengikuti event '" + eventName + "'?");
+    if (konfirmasi) {
+        // Jika pengguna mengklik "OK" pada konfirmasi, Anda dapat melakukan sesuatu di sini
+        // Contoh: Kirim permintaan ke server untuk menambahkan pengguna ke event.
+        alert("Anda akan mengikuti event '" + eventName + "'.");
+
+        // Mengarahkan pengguna ke halaman regisevent
+        window.location = redirectURL;
+    } else {
+        // Jika pengguna mengklik "Batal" pada konfirmasi, Anda dapat menampilkan pesan lain atau tidak melakukan apa-apa.
+        alert("Anda membatalkan untuk mengikuti event '" + eventName + "'.");
+    }
+}
+    </script> --}}
 </body>
 </html>

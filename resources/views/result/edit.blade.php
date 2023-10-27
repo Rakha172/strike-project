@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Data Resul</title>
+    <title>Edit Hasil Pemancingan</title>
   </head>
   <body>
     <div class="container">
@@ -16,42 +16,27 @@
     <form action="{{ route("result.update", $result->id) }}" method="POST">
         @csrf
         @method('put')
-
         <div class="form-group">
-            <label for="event_id">Event:</label>
-            <select name="event_id" id="event_id" class="form-control">
-                @foreach ($events as $event)
-                <option value="{{ $event->id }}" {{ $event->id == $result->event_id ? 'selected' : '' }}>
-                        {{ $event->name }}
+            <label for="user_id">User Name:</label>
+            <select name="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                @foreach ($user as $item)
+                    <option value="{{ $item->id }}" @if(old('user_id', $result->user->id) == $item->id) selected @endif>
+                        {{ $item->name }}
                     </option>
                 @endforeach
             </select>
-        </div>
-
-        <div class="form-group">
-            <label for="user_id">User:</label>
-            <select name="user_id" id="user_id" class="form-control">
-                @foreach ($users as $user)
-                    <option value="{{ $user->id }}" {{ $user->id == $result->user_id ? 'selected' : '' }}>
-                        {{ $user->name }}
-                    </option>
-                @endforeach
-            </select>
+            @error('user_id')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="mb-3">
             <label for="events_registration_id">Events Registration:</label>
             <select name="events_registration_id" id="events_registration_id" class="form-control">
                 @foreach ($event_registration as $event_reg)
-                    <option value="{{ $event_reg->id }}" @if($event_reg->id == $result->events_registration_id) selected @endif>{{ $event_reg->name }}</option>
+                    <option value="{{ $event_reg->id }}" @if($event_reg->id == $result->event_registration_id) selected @endif>{{ $event_reg->name }}</option>
                 @endforeach
             </select>
-        </div>
-
-
-        <div class="form-group">
-            <label for="fish_count">Jumlah Ikan:</label>
-            <input type="number" name="fish_count" id="fish_count" class="form-control" value="{{ $result->fish_count }}">
         </div>
 
         <div class="form-group">
@@ -74,4 +59,3 @@
 
 </body>
 </html>
-

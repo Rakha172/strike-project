@@ -16,13 +16,21 @@ class Event extends Model
         'event_date',
         'location',
         'description',
-        'category',
         'image',
 
     ];
     public function event_regist()
     {
         return $this->hasMany(Event_Registration::class, 'event_id', 'id');
+    }
+    public function setBothAttribute($value)
+    {
+        $this->attributes['both'] = json_encode($value);
+    }
+
+    public function getBothAttribute($value)
+    {
+        return json_decode($value, true);
     }
 
 }
