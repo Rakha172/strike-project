@@ -33,12 +33,22 @@ class Event_RegistrationController extends Controller
 
     public function store(Request $request)
     {
+        // Ambil semua event registration yang sudah ada untuk pengguna dan event yang sedang diinputkan
+        $existingRegistrations = Event_Registration::where('user_id', auth()->user()->id)
+            ->where('event_id', $request->input('event_id'))
+            ->get();
+
+        // Jika sudah ada event registration, beri pesan kesalahan
+        if ($existingRegistrations->isNotEmpty()) {
+            return redirect()->route('regisevent')
+                ->with('error', 'Anda sudah terdaftar untuk acara ini.');
+        }
+
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
         ]);
 
-        // Tambahkan kolom "payment_status" ke dalam data yang akan disimpan
         $validated['payment_status'] = 'waiting';
 
         Event_Registration::create($validated);

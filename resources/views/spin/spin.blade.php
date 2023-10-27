@@ -7,6 +7,10 @@
     <link href="{{ asset('css/spin.css') }}" rel="stylesheet">
 </head>
 <body>
+    @foreach ($events as $event)
+    <div class="event">
+        <h3>{{ $event->name }}</h3>
+        {{-- <p>Both: {{ $event->random_both }}</p> --}}
     <button id="spin">spin</button>
     <span class="arrow"></span>
     <div class="container">
@@ -21,7 +25,7 @@
         <div class="nine">3</div>
         <div class="ten">2</div>
     </div>
-
+@endforeach
     <script>
         let container = document.querySelector('.container');
         let btn = document.getElementById('spin');
@@ -63,6 +67,7 @@
             let angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
             return angle < 0 ? angle + 360 : angle;
         }
+
     </script>
 </body>
 </html>

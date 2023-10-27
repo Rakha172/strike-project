@@ -10,47 +10,38 @@
 <body>
     <div class="container mt-5">
         <div class="card">
-            <h1 class="text-center fs-2 mt-4">  Hasil Pemancingan</h1>
             <div class="card-body">
+                <h1 class="text-center fs-2 mt-4">Resul Pemancingan</h1>
+                @foreach ($event_registration as $event)
+                <h2 class="text-center fs-3 mt-4">{{ $event->event->name }}</h2>
+                @endforeach
+
                 <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
+                        <div class="mb-3">
+                            <label for="participant">Participant</label>
+                            <input type="text" name="participant" class="form-control" value="{{ auth()->user()->name }}" readonly />
+                        </div>
 
                         <div class="mb-3">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" class="form-control value="{{ auth()->user()->name }}"
-                                readonly />
-                                @error('username')
+                            <label class="form-label">Berat Ikan (kg)</label>
+                            <input value="{{ old('weight') }}" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror">
+                            @error('weight')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <br>
 
-                    <div class="mb-3">
-                        <label for="event_id">Event Registration:</label>
-                        <select name="event_id" id="event_id" class="form-control">
-                            @foreach ($event_registration as $event)
-                             <option {{ old('event_id') == $event->id ? 'selected' : '' }} value="{{ $event->event->id }}">
-                            {{ $event->event->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                    <label class="form-label">Berat Ikan</label>
-                    <input value="{{ old('weight')}}" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror">
-                        @error('weight')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="special">Special</option>
+                                <option value="regular">Regular</option>
+                            </select>
+                        </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value="special">Special</option>
-                            <option value="regular">Regular</option>
-                        </select>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
         </div>
