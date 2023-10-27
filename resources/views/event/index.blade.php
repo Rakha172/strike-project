@@ -56,12 +56,12 @@
                 <td class="d-flex">
                     {{-- <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a> --}}
 
-                    <form action="{{ route('event.destroy', $evnt->id)}}"method="POST">
+                    <form action="{{ route('event.destroy', $evnt->id) }}" method="POST">
                         @csrf
                         @method('delete')
 
-                        <button type="submit" class="btn btn-dark m-1">Delete</button>
-                        <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
+                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Hapus</button>
+			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
                     </form>
                 </td>
               </tr>

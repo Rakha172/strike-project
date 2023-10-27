@@ -16,7 +16,6 @@
     @section('content')
 
     <div class="container">
-        <div class="card" style="background: darkgrey">
                 <h1 class="text-center fs-2 mt-4">DATA SETTING</h1>
             <div class="card-body">
 
@@ -28,7 +27,7 @@
         @endif
         <table class="table">
             <thead>
-              <tr> 
+              <tr>
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
