@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Event;
 use App\Models\Event_Registration;
 use App\Models\Result;
 use App\Models\User;
-use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,60 +14,59 @@ class ResultController extends Controller
 
     public function index()
     {
-        $result = Result::all();
-        return view('result.index', compact('result'));
+        $results = Result::all();
+        return view('result.index', compact('results'));
     }
 
-    public function show()
+    public function create()
     {
-
-    }
-
-    public function create(Request $request)
-    {
-        $user = User::where('name', Auth::user()->name)->get();
+        $user = User::where('name', Auth::user()->name)->first();
         $event_registration = Event_Registration::all();
-        $event = Event::find($request->events);
-        $result = Result::all();
-        return view('result.create', compact('user', 'result', 'event_registration', 'event'));
+        $results = Result::all();
+        return view('result.create', compact('user', 'results', 'event_registration'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'event_registration_id' => 'required|exists:events_registration,id',
-            'event_id' => 'required|exists:events,id',
-            'weight' => 'required',
-            'status' => 'required',
-        ]);
+  public function store(Request $request)
+{
+    $request->validate([
+        'participant' => 'required',
+        'event_id' => 'nullable|exists:events,id',
+        'weight' => 'required',
+        'status' => 'required|in:special,regular',
+    ]);
 
-        // Lanjutkan dengan membuat pesanan baru
-        $result = new Result;
-        $result->user_id = $request->user_id;
-        $result->event_registration_id = $request->event_registration_id;
-        $result->event_id = $request->event_id;
-        $result->weight = $request->weight;
-        $result->status = $request->status;
-        $result->save();
+    $user = auth()->user();
+    $weightInput = $request->input('weight');
 
-        $user = User::where('id', '!=', 1)->get();
-        $result = Result::all();
-        // Session::flash('sukses','checkout berhasil dilakukan, segera lakukan pembayaran untuk mengyelesaikan order');
-        return view('result.create')->with(['user' => $user, 'results' => $result]);
-
-
-
+    if (strpos($weightInput, 'g') !== false) {
+        $weightValue = floatval(str_replace('g', '', $weightInput));
+        $weightValueInKg = $weightValue / 1000;
+    } else {
+        $weightValueInKg = floatval($weightInput);
     }
+
+    $result = new Result;
+    $result->user_id = $user->id;
+    $result->weight = $weightValueInKg;
+    // $result->status = $request->status;
+    $result->status = $request->input('status');
+    $result->save();
+
+    // Tambahkan periksaan
+    if ($result->wasRecentlyCreated) {
+        return redirect()->route('result.index')->with('success', 'Data berhasil disimpan');
+    } else {
+        return redirect()->route('result.index')->with('error', 'Gagal menyimpan data');
+    }
+}
+
     public function edit(Result $result)
     {
         $users = User::all();
         $event_registration = Event_Registration::all();
-        $event_registration->event_name;
         $event = Event::all();
-        $event->event_name;
 
-        return view('result.edit', compact('results', 'users', 'events_registration', 'events'));
+        return view('result.edit', compact('result', 'users'));
     }
 
     public function update(Request $request, Result $result)
@@ -78,22 +75,17 @@ class ResultController extends Controller
             'weight' => 'required',
             'status' => 'required',
             'user_id' => 'required|exists:users,id',
-            'event_registration_id' => 'required|exists:events_registration,id',
-            'event_id' => 'required|exists:events,id',
         ]);
 
         $result->update($validated);
 
-        return redirect()->route('result.index')->with('berhasil', "$request->status Berhasil diubah!");
+        return redirect()->route('result.index')->with('success', 'Data berhasil diperbarui');
     }
 
     public function destroy(Result $result)
     {
         $result->delete();
 
-        return redirect()->route('result.index')->with('berhasil', "$result->status Berhasil dihapus!");
+        return redirect()->route('result.index')->with('success', 'Data berhasil dihapus');
     }
-
 }
-
-

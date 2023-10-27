@@ -14,25 +14,18 @@ class Result extends Model
 
     protected $fillable = [
         'user_id',
-        'event_id',
-        'event_registration_id',
         'weight',
         'status',
     ];
 
-    public function event()
-    {
-        return $this->belongsTo(Event::class);
-    }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
+
     public function event_registration()
     {
-        return $this->belongsTo(Event_Registration::class);
+        return $this->belongsTo(Event_Registration::class, 'event_registration_id');
     }
 }
-
-
