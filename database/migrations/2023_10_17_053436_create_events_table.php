@@ -31,4 +31,8 @@ return new class extends Migration {
     {
         Schema::dropIfExists('events');
     }
+    public function results()
+    {
+        return $this->hasMany(Result::class, 'event_id');
+    }
 };
