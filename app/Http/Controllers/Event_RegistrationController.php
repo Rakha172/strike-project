@@ -38,13 +38,23 @@ class Event_RegistrationController extends Controller
             'event_id' => 'required',
         ]);
 
-        // Tambahkan kolom "payment_status" ke dalam data yang akan disimpan
-        $validated['payment_status'] = 'waiting';
+        // Periksa status pendaftaran pengguna sebelum mendaftar
+        $existingRegistration = Event_Registration::where('user_id', $validated['user_id'])
+            ->where('event_id', $validated['event_id'])
+            ->first();
 
+        if ($existingRegistration) {
+            // Pengguna sudah terdaftar, beri pesan kesalahan
+            return redirect('/dashboard')->with('error', 'Anda sudah terdaftar untuk event ini.');
+        }
+
+        // Jika pengguna belum terdaftar, tambahkan kolom "status" dan simpan data
+        $validated['status'] = 'registered';
         Event_Registration::create($validated);
 
-        return redirect('/dashboard')->with('success', 'Data berhasil dibuat.');
+        return redirect('/dashboard')->with('success', 'Anda telah terdaftar untuk event ini.');
     }
+
 
 
     public function edit(Event_Registration $event_registration)
