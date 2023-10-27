@@ -29,7 +29,7 @@
                 <div class="event-info">
                     <p class="title">{{ $item['name'] }}</p>
                     <div class="separator"></div>
-                    <p class="price">{{ $item['price'] }}</p>
+                    <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.')}}</p>
 
                     <div class="additional-info">
                         <p class="info">
