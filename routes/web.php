@@ -121,6 +121,11 @@ Route::get('/layout', function () {
     return view('componen.layout');
 });
 
+//layout dashboard
+Route::get('/main', function () {
+    return view('componen.main');
+});
+
 // table Chart
 Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
 
