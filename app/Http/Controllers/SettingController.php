@@ -3,44 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $settings = Setting::all();
-
-        return view('setting.index', ['setting' => $settings]);
+        $setting = Setting::all();
+        return view('setting.index', compact('setting'));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     */
     public function show($id)
     {
-        $setting = Setting::findOrFail($id);
+        $setting = Setting::first();
 
         return view('setting.show', compact('setting'));
     }
 
-    public function edit($id)
+    /**
+     * Display the specified resource.
+     */
+    public function edit(string $id)
     {
-        $setting = Setting::findOrFail($id);
+        $setting = Setting::first();
+
         return view('setting.edit', compact('setting'));
     }
 
-
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Setting $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'history' => 'required',
-            'logo' => 'required|image',
             'location' => 'required',
+            'logo' => 'required|nullable|image',
+        ], [
+            'logo.image' => "Foto harus berupa image",
         ]);
-
+        // dd($request->name);
         if ($request->hasFile('logo')) {
             // Hapus gambar lama
             $oldLogoPath = public_path('logo/' . $id->logo);
-            if (is_file($oldLogoPath)) {
+            if (file_exists($oldLogoPath)) {
                 unlink($oldLogoPath);
             }
 
@@ -53,7 +67,6 @@ class SettingController extends Controller
             // Perbarui nama file gambar di database
             $id->logo = $newLogoName;
 
-
             $id->name = $request->input('name');
             $id->history = $request->input('history');
             $id->location = $request->input('location');
@@ -65,20 +78,13 @@ class SettingController extends Controller
             }
             copy(storage_path('app/public/logo/' . $newLogoName), $newLogoPublicPath);
         } else {
+
             $id->name = $request->input('name');
             $id->history = $request->input('history');
             $id->location = $request->input('location');
             $id->save();
         }
 
-        return to_route('setting.index')->with('succes', 'data ditambah');
-    }
-
-    public function destroy($id)
-    {
-        $settings = Setting::find($id);
-        $settings->delete();
-
-        return back()->with('succes', 'data dihapus');
+        return redirect()->route('setting.index')->with(['info' => $request->name . " Berhasil Di Update"]);
     }
 }
