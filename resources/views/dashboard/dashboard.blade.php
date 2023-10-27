@@ -55,8 +55,13 @@
                 <span class="count">12</span>
             </a> --}}
             <a href="#" class="profile">
-                <img src="images/logo.png">
-            </a>
+                @php
+                $user = Auth::user();
+                $namaPengguna = $user->name;
+                $inisial = $namaPengguna[0];
+                @endphp
+            <div class="profile-avatar">{{ $inisial }}</div>
+        </a>
         </nav>
 
         <!-- End of Navbar -->

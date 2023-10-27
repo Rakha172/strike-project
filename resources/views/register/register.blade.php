@@ -17,7 +17,7 @@
         <p>Welcome, Please register!</p>
       </div>
       <div class="login area">
-        <input type="text" name="name" class="username" placeholder="Masukkan Username" required>
+        <input type="text" name="name" class="name" placeholder="Masukkan Nama" required>
         @error('name')
           <div class="invalid-feedback text-start">
             {{ $message }}
@@ -62,7 +62,7 @@
       <p class="text-wrapper-7">Sudah punya akun?<a href="{{ route('login') }}">Login</a></p>
     </div>
     </form>
-    
+
     <script>
         function showHidePassword(passwordId, showId, hideId) {
             let passCheck = document.getElementById(passwordId);
