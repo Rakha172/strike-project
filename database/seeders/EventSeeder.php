@@ -14,7 +14,7 @@ class EventSeeder extends Seeder
         Event::create([
             'name' => 'Galatama',
             'image' => 'logo',
-            'price' => 'Rp.150.000',
+            'price' => '150000',
             'total_booth' => '10',
             'event_date' => '2023-12-12',
             'location' => 'Indonesia,Jawa Barat,Bandung',
