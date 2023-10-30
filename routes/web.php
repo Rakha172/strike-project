@@ -162,7 +162,7 @@ Route::delete('event-registration/{event_registration}', [Event_RegistrationCont
 
 // table result
 Route::get('result', [ResultController::class, 'index'])->name('result.index');
-Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
+Route::get('result/create', [ResultController::class, 'crreate'])->name('result.create');
 Route::post('result', [ResultController::class, 'store'])->name('result.store');
 Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
 Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
