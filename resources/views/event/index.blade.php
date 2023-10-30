@@ -1,43 +1,15 @@
-@extends('componen.layout')
-    @section('content')
-    <style>
-        .container {
-            margin-top: 20px;
-            padding: 20px;
-        }
-        .card h1 {
-            text-align: center;
-        }
-        .btn-dark {
-            background-color: #343a40;
-            color: #fff;
-            border-radius: 10px;
-        }
-        .btn-warning {
-            background-color: #ffc107;
-            border-radius: 10px;
-            color: #212529;
-        }
-        .alert.alert-primary {
-            margin-bottom: 20px;
-            background-color: #007bff;
-            color: #fff;
-        }
-        .table {
-            width: 100%;
-        }
-        .table thead {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .table th {
-            text-align: center;
-        }
-        .table td {
-            padding: 5px;
-        }
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>Add Events</title>
+  </head>
+  <body>
+    @extends('componen.layout')
 
-        </style>
+@section('content')
 
     <div class="container">
         <div class="card">
