@@ -418,6 +418,15 @@ body{
 .content main .insights li .info p{
     color: var(--dark);
 }
+.profile-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: #0d6efd; /* Warna latar belakang avatar */
+    color: #fff; /* Warna teks */
+    text-align: center;
+    line-height: 36px; /* Agar teks berada di tengah avatar */
+    border-radius: 50%; /* Untuk avatar bundar */
+}
 
 @media screen and (max-width: 768px) {
     .sidebar{

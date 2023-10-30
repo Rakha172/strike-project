@@ -40,7 +40,7 @@ body {
     padding: 50px 50px 30px 50px;
 }
 
-.username,
+.name,
 .email,
 .password,
 .password_confirmation{
@@ -56,14 +56,14 @@ body {
     transition: .5s;
 }
 
-.username::placeholder,
+.name::placeholder,
 .email::placeholder,
 .password_confirmation::placeholder,
 .password::placeholder {
     color: rgba(255, 255, 255, .7);
 }
 
-.username:focus,
+.name:focus,
 .email:focus,
 .password_confirmation:focus,
 .password:focus {

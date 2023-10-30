@@ -16,7 +16,8 @@ class EventController extends Controller
         }
         return view('event.index', ['events' => $events]);
     }
-    public function reduceBoth(Request $request, $eventId) {
+    public function reduceBoth(Request $request, $eventId)
+    {
         $event = Event::find($eventId);
 
         if (!$event) {
@@ -49,7 +50,8 @@ class EventController extends Controller
             'name' => 'required',
             'price' => 'required',
             'total_booth' => 'required',
-            'event_date' => 'required',
+            // Menambahkan validasi tanggal
+            'event_date' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',

@@ -1,23 +1,19 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
     <title>Setting</title>
   </head>
   <body>
     @extends('componen.layout')
 
-    @section('content')
+@section('content')
 
     <div class="container">
-        <div class="card" style="background: darkgrey">
-                <h1 class="text-center fs-2 mt-4">DATA SETTING</h1>
+        <div class="card">
+                <h1 class="text-center fs-2 mt-4">SETTING</h1>
             <div class="card-body">
 
 
@@ -28,7 +24,7 @@
         @endif
         <table class="table">
             <thead>
-              <tr> 
+              <tr>
                 <th scope="col">NO</th>
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
@@ -48,9 +44,9 @@
                 <td>
                 <td class="d-flex">
                     <a href="{{ url('setting/' . $sett->id . '/show') }}"
-                        class="btn btn-warning btn-sm">Read</a>
+                        class="btn btn-warning m-1">Read</a>
                     <a href="{{ route('setting.edit', $sett->id) }}"
-                        class="btn btn-success btn-sm">Edit</a>
+                        class="btn btn-dark m-1">Edit</a>
                 </td>
               </tr>
               @endforeach

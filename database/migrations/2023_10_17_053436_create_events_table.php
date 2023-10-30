@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Result;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,7 +14,7 @@ return new class extends Migration {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('price');
+            $table->decimal('price');
             $table->string('total_booth');
             $table->string('event_date');
             $table->string('location');
@@ -30,5 +31,9 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('events');
+    }
+    public function results()
+    {
+        return $this->hasMany(Result::class, 'event_id');
     }
 };

@@ -1,6 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    @extends('componen.layout')
+
+    @section('content')
 <script>
 window.onload = function () {
 
@@ -77,6 +80,7 @@ function toggleDataSeries(e) {
 </head>
 <body>
 <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+@endsection
 <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
 </body>
 </html>
