@@ -58,7 +58,7 @@
                         @csrf
                         @method('delete')
 
-                        <button type="submit" class="btn btn-dark m-1">Delete</button>
+                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('yakin mau di delete?')">Delete</button>
                         <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
                     </form>
                 </td>
