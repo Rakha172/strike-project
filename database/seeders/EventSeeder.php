@@ -13,7 +13,7 @@ class EventSeeder extends Seeder
     {
         Event::create([
             'name' => 'Galatama',
-            'image' => 'logo',
+            'image' => 'logo/logo.png',
             'price' => '150000',
             'total_booth' => '10',
             'event_date' => '2023-12-12',
