@@ -1,6 +1,12 @@
 <?php
 
-use App\Http\Controllers\ChartController;
+use App\Http\Controllers\ChartWeightTotalSpecialController;
+use App\Http\Controllers\ChartWeightSpecialController;
+use App\Http\Controllers\ChartWeightController;
+use App\Http\Controllers\ChartWeightTotalController;
+use App\Http\Controllers\ChartTotalSpecialController;
+use App\Http\Controllers\ChartSpecialController;
+use App\Http\Controllers\ChartTotalController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
@@ -121,8 +127,20 @@ Route::get('/layout', function () {
     return view('componen.layout');
 });
 
-// table Chart
-Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
+// Chart Weight - Total - Special
+Route::get('/chart-weight-total-special', [ChartWeightTotalSpecialController::class, 'index'])->name('chart.index');
+// Chart Weight - Special
+Route::get('/chart-weight-special', [ChartWeightSpecialController::class, 'index'])->name('chart.index');
+// Chart Weight - Total
+Route::get('/chart-weight-total', [ChartWeightTotalController::class, 'index'])->name('chart.index');
+// Chart Total - Special
+Route::get('/chart-total-special', [ChartTotalSpecialController::class, 'index'])->name('chart.index');
+// Chart Weight
+Route::get('/chart-weight', [ChartWeightController::class, 'index'])->name('chart.index');
+// Chart Special
+Route::get('/chart-special', [ChartSpecialController::class, 'index'])->name('chart.index');
+// Chart Total
+Route::get('/chart-total', [ChartTotalController::class, 'index'])->name('chart.index');
 
 // table user
 Route::get('user', [UserController::class, 'index'])->name('user.index');
