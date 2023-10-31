@@ -15,7 +15,7 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-body">
-                <h1 class="text-center fs-2 mt-4">Resul Pemancingan</h1>
+                <h1 class="text-center fs-2 mt-4">Hasil Result Pemancingan</h1>
                 @foreach ($event_registration as $event)
                 <h2 class="text-center fs-3 mt-4">{{ $event->event->name }}</h2>
                 @endforeach
@@ -29,12 +29,12 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Berat Ikan (kg)</label>
-                            <input value="{{ old('weight') }}" name="weight" type="text" class="form-control @error('weight') is-invalid @enderror">
-                            @error('weight')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                            <label class="form-label">Berat Ikan</label>
+                            <input value="{{ old('weight')}}" name="weight" type="number" class="form-control @error('weight') is-invalid @enderror">
+                              @error('weight')
+                                  <div class="invalid-feedback">{{ $message }}</div>
+                              @enderror
+                          </div>
 
                         <div class="mb-3">
                             <label class="form-label">Status</label>
