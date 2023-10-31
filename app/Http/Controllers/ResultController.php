@@ -26,39 +26,32 @@ class ResultController extends Controller
         return view('result.create', compact('user', 'results', 'event_registration'));
     }
 
-  public function store(Request $request)
-{
-    $request->validate([
-        'participant' => 'required',
-        'event_id' => 'nullable|exists:events,id',
-        'weight' => 'required',
-        'status' => 'required|in:special,regular',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'participant' => 'required',
+            'event_id' => 'nullable|exists:events,id',
+            'weight' => 'required',
+            'status' => 'required|in:special,regular',
+        ]);
 
-    $user = auth()->user();
-    $weightInput = $request->input('weight');
+        $user = auth()->user();
+        $weightValueInKg = floatval($request->input('weight'));
 
-    if (strpos($weightInput, 'g') !== false) {
-        $weightValue = floatval(str_replace('g', '', $weightInput));
-        $weightValueInKg = $weightValue / 1000;
-    } else {
-        $weightValueInKg = floatval($weightInput);
+        $result = new Result;
+        $result->user_id = $user->id;
+        $result->weight = $weightValueInKg;
+        $result->status = $request->input('status');
+        $result->save();
+
+        // Tambahkan periksaan
+        if ($result->wasRecentlyCreated) {
+            return redirect()->route('result.index')->with('success', 'Data berhasil disimpan');
+        } else {
+            return redirect()->route('result.index')->with('error', 'Gagal menyimpan data');
+        }
     }
 
-    $result = new Result;
-    $result->user_id = $user->id;
-    $result->weight = $weightValueInKg;
-    // $result->status = $request->status;
-    $result->status = $request->input('status');
-    $result->save();
-
-    // Tambahkan periksaan
-    if ($result->wasRecentlyCreated) {
-        return redirect()->route('result.index')->with('success', 'Data berhasil disimpan');
-    } else {
-        return redirect()->route('result.index')->with('error', 'Gagal menyimpan data');
-    }
-}
 
     public function edit(Result $result)
     {

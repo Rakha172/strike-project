@@ -47,6 +47,7 @@
                             @csrf
                             @method('PUT')
                             <button type="submit" class="btn btn-primary" title="Konfirmasi Pesanan"><i class="fa fa-solid fa fa-check"></i></button>
+                            <button type="submit" class="btn btn-primary" title="Konfirmasi Pesanan"><i class="fa fa-solid fa fa-times"></i></button>
                         </form>
                     </td>
                 </tr>

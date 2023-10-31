@@ -53,7 +53,7 @@ class Event_RegistrationController extends Controller
 
         Event_Registration::create($validated);
 
-        return redirect('/dashboard')->with('success', 'Data berhasil dibuat.');
+        return redirect('/spin')->with('success', 'Data berhasil dibuat.');
     }
 
 
