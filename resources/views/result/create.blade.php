@@ -20,7 +20,6 @@
                     <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
                 @endforeach
 
-
                 <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
@@ -34,15 +33,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-                                {{-- <div class="mb-3">
-                                    <label class="form-label">Event</label>
-                                    <select name="event_id" class="form-control">
-                                        @foreach($events as $event)
-                                            <option value="{{ $event->id }}">{{ $event->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
 
                                 <div class="mb-3">
                                     <label class="form-label">Berat Ikan</label>
