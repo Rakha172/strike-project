@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ResultController extends Controller
 {
-
     public function index()
     {
         $results = Result::all();
@@ -20,38 +19,49 @@ class ResultController extends Controller
 
     public function create()
     {
-        $user = User::where('name', Auth::user()->name)->first();
+        $users = User::all();
+        $events = Event::all();
         $event_registration = Event_Registration::all();
         $results = Result::all();
-        return view('result.create', compact('user', 'results', 'event_registration'));
+        return view('result.create', compact('users', 'events', 'results', 'event_registration'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'participant' => 'required',
+            // Memastikan 'participant' sudah diisi
             'event_id' => 'nullable|exists:events,id',
             'weight' => 'required',
             'status' => 'required|in:special,regular',
         ]);
 
-        $user = auth()->user();
+        // Mengambil data yang dipilih dari select
+        $user_id = $request->input('participant');
+        $event_id = $request->input('event_id');
+
+        $user = User::find($user_id); // Mendapatkan user berdasarkan ID yang dipilih
+        $event = Event::find($event_id); // Mendapatkan event berdasarkan ID yang dipilih
+
+        if (!$user) {
+            return redirect()->route('result.create')->with('error', 'User tidak ditemukan.');
+        }
+
         $weightValueInKg = floatval($request->input('weight'));
 
         $result = new Result;
         $result->user_id = $user->id;
+        $result->event_id = $event_id;
         $result->weight = $weightValueInKg;
         $result->status = $request->input('status');
         $result->save();
 
-        // Tambahkan periksaan
         if ($result->wasRecentlyCreated) {
             return redirect()->route('result.index')->with('success', 'Data berhasil disimpan');
         } else {
-            return redirect()->route('result.index')->with('error', 'Gagal menyimpan data');
+            return redirect()->route('result.create')->with('error', 'Gagal menyimpan data');
         }
     }
-
 
     public function edit(Result $result)
     {
