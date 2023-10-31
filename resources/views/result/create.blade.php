@@ -20,7 +20,6 @@
                     <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
                 @endforeach
 
-
                 <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
