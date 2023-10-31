@@ -35,15 +35,6 @@
                                     </select>
                                 </div>
 
-                                {{-- <div class="mb-3">
-                                    <label class="form-label">Event</label>
-                                    <select name="event_id" class="form-control">
-                                        @foreach($events as $event)
-                                            <option value="{{ $event->id }}">{{ $event->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
-
                                 <div class="mb-3">
                                     <label class="form-label">Berat Ikan</label>
                                     <input value="{{ old('weight')}}" name="weight" type="number" class="form-control @error('weight') is-invalid @enderror">
