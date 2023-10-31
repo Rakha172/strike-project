@@ -17,7 +17,7 @@ return new class extends Migration {
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
                 $table->unsignedBigInteger('event_id')->nullable();
                 $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-                $table->decimal('weight', 8, 2)->default(0);
+                $table->integer('weight')->default(0);
                 $table->enum('status', ['special', 'regular']);
                 $table->timestamps();
             });
