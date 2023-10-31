@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\ChartWeightTotalSpecialController;
 use App\Http\Controllers\ChartWeightSpecialController;
 use App\Http\Controllers\ChartWeightController;
