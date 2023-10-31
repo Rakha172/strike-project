@@ -15,7 +15,9 @@ return new class extends Migration {
                 $table->id();
                 $table->unsignedBigInteger('user_id');
                 $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-                $table->decimal('weight', 8, 2)->default(0);
+                $table->unsignedBigInteger('event_id')->nullable();
+                $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+                $table->integer('weight')->default(0);
                 $table->enum('status', ['special', 'regular']);
                 $table->timestamps();
             });
@@ -28,5 +30,9 @@ return new class extends Migration {
     public function down(): void
     {
         Schema::dropIfExists('results');
+    }
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
     }
 };

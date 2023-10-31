@@ -7,6 +7,9 @@
     <title>Tambah Setting</title>
   </head>
   <body>
+    @extends('componen.layout')
+
+    @section('content')
 
     <div class="container mt-5">
         <div class="card">
@@ -49,6 +52,7 @@
             <button type="submit" class="btn btn-dark">Submit</button>
           </form>
     </div>
+    @endsection
   </body>
 </html>
 

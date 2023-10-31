@@ -18,14 +18,29 @@
             <div class="logo-name"><span>Project</span>Strike</div>
         </a>
         <ul class="side-menu">
-            <li ><a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Events</a></li>
-            <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
-            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Data Member</a></li>
-            <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>Data EventRegist</a></li>
-            <li><a href="{{ route('payment.index')}}"><i class='bx bx-dollar'></i>Payment-Confirm</a></li>
-            <li><a href="{{ route('chart.index')}}"><i class='bx bx-line-chart'></i>Grafik</a></li>
+            <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
+                <a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a>
+            </li>
+            <li class="{{ request()->is('event*') ? 'active' : '' }}">
+                <a href="{{ route('event.index') }}"><i class='bx bx-store-alt'></i>Event</a>
+            </li>
+            <li class="{{ request()->is('setting*') ? 'active' : '' }}">
+                <a href="{{ route('setting.index') }}"><i class='bx bx-cog'></i>Setting</a>
+            </li>
+            <li class="{{ request()->is('user*') ? 'active' : '' }}">
+                <a href="{{ route('user.index') }}"><i class='bx bx-user'></i>Member</a>
+            </li>
+            <li class="{{ request()->is('event_registration*') ? 'active' : '' }}">
+                <a href="{{ route('event_registration.index') }}"><i class='bx bx-user'></i>EventRegist</a>
+            </li>
+            <li class="{{ request()->is('payment*') ? 'active' : '' }}">
+                <a href="{{ route('payment.index') }}"><i class='bx bx-dollar'></i>Payment-Confirm</a>
+            </li>
+            <li class="{{ request()->is('chart*') ? 'active' : '' }}">
+                <a href="{{ route('chart.index') }}"><i class='bx bx-line-chart'></i>Grafik</a>
+            </li>
         </ul>
+
         <ul class="side-menu">
             <li>
                 <a href="#" class="logout">
@@ -55,7 +70,12 @@
                 <span class="count">12</span>
             </a> --}}
             <a href="#" class="profile">
-                <img src="images/logo.png">
+                @php
+                $user = Auth::user();
+                $namaPengguna = $user->name;
+                $inisial = $namaPengguna[0];
+                @endphp
+            <div class="profile-avatar">{{ $inisial }}</div>
             </a>
         </nav>
 
@@ -158,9 +178,9 @@ toggler.addEventListener('change', function () {
             } else if (path.includes("setting")) {
                 $("#menu-link").text("Setting");
             } else if (path.includes("user")) {
-                $("#menu-link").text("Data Member");
+                $("#menu-link").text("Member");
             } else if (path.includes("event_registration")) {
-                $("#menu-link").text("Data EventRegist");
+                $("#menu-link").text("EventRegist");
             } else if (path.includes("payment")) {
                 $("#menu-link").text("Payment");
             } else {

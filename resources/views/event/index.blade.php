@@ -1,20 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <title>Events</title>
+    <title>Add Events</title>
   </head>
   <body>
     @extends('componen.layout')
 
-    @section('content')
-
+@section('content')
 
     <div class="container">
         <div class="card">
@@ -45,21 +40,23 @@
               <tr>
                 <td>{{ $evnt->name }}</td>
                 <td><img src="{{ asset($evnt->image) }}" width="100"></td>
-                <td>{{ $evnt->price }}</td>
+                <td>Rp. {{ number_format($evnt->price, 0, '.', '.')}}</td>
                 <td>{{ $evnt->total_booth }}</td>
                 <td>{{ $evnt->event_date }}</td>
                 <td>{{ $evnt->location }}</td>
-                <td>{{ $evnt->description }}</td>
+                <td>
+                    {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
+                </td>
                 <td>
                 <td class="d-flex">
-                    {{-- <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-warning m-1">Edit</a> --}}
 
-                    <form action="{{ route('event.destroy', $evnt->id)}}"method="POST">
+                    <form action="{{ route('event.destroy', $evnt->id) }}" method="POST">
                         @csrf
                         @method('delete')
 
-                        <button type="submit" class="btn btn-dark m-1">Delete</button>
-                        <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
+                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Hapus</button>
+			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
+
                     </form>
                 </td>
               </tr>
@@ -71,7 +68,3 @@
         <div style="text-align: center;"> --}}
 
     @endsection
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-  </body>
-</html>

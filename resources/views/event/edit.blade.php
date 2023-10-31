@@ -20,12 +20,11 @@
 
             </div>
             <div class="mb-3">
-                <label class="form-label">Price</label>
-                <input value="{{ old('price', $events->price) }}" name="price" type="text" class="form-control @error('price') is-invalid @enderror">
-                  @error('price')
-                      <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
-
+                <label for="price" class="form-label">Price</label>
+                <input type="integer" class="form-control" name="price" value="{{ number_format($item->price, 0, '.', '.') ?? old('price')}}">
+                @error('price')
+                 <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
               </div>
               <div class="mb-3">
                 <label class="form-label">Total Booth</label>
@@ -57,20 +56,19 @@
               </div>
               <div class="mb-3">
                 <label class="form-label">Location</label>
-                <input value="{{ old('location', $events->location) }}" name="location" type="text" class="form-control @error('location') is-invalid @enderror">
-                  @error('location')
-                      <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
+               <textarea name="location" type="number" class="form-control @error('location') is-invalid @enderror">{{ old('location', $events->location) }}</textarea>
+               @error('location')
+                   <div class="invalid-feedback">{{ $message }}</div>
+               @enderror
 
               </div>
               <div class="mb-3">
                 <label class="form-label">Description</label>
-                <input value="{{ old('description', $events->description) }}" name="description" type="text" class="form-control @error('description') is-invalid @enderror">
-                  @error('description')
-                      <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
-
-              </div>
+                <textarea name="description" type="text" class="form-control @error('description') is-invalid @enderror">{{ old('description', $events->description) }}</textarea>
+                @error('description')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
             <button type="submit" class="btn btn-dark">Submit</button>
           </form>
     </div>
