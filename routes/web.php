@@ -208,7 +208,7 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 });
 
 // table result
-Route::group(['middleware' => 'can:role,"operator"'], function () {
+Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('result', [ResultController::class, 'index'])->name('result.index');
     Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
     Route::post('result', [ResultController::class, 'store'])->name('result.store');
