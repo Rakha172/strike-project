@@ -39,7 +39,7 @@ class RegisterController extends Controller
 
         // Sesuaikan dengan logika pengiriman email verifikasi jika diperlukan
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan masuk.');
+        return redirect()->route('login')->with(['success' => $request->name . " Berhasil Registrasi"]);
     }
 }
 
