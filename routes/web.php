@@ -108,7 +108,7 @@ Route::get('/event', function () {
 //landingevent regisevent
 Route::get('/regisevent', function () {
     return view('landingevent.regisevent');
-});
+}); 
 
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
