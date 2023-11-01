@@ -221,6 +221,7 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
     Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
+    Route::put('/payment/cancel/{event_registrationId}', [PaymentController::class, 'cancel'])->name('payment.cancel');
 });
 
 //spinner
