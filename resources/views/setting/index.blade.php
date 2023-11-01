@@ -42,11 +42,9 @@
                     </a>
                 <td>{{ $sett->history }}</td>
                 <td>
-                <td class="d-flex">
-                    <a href="{{ url('setting/' . $sett->id . '/show') }}"
-                        class="btn btn-warning m-1">Read</a>
-                    <a href="{{ route('setting.edit', $sett->id) }}"
-                        class="btn btn-dark m-1">Edit</a>
+                <td>
+                    <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-info m-1">Read</a>
+                    <a href="{{ route('setting.edit', $sett->id) }}" class="btn btn-warning m-1">Edit </a>
                 </td>
               </tr>
               @endforeach

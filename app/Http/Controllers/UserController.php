@@ -62,9 +62,10 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'required',
             'password' => 'required',
+            'role' => 'nullable',
         ]);
 
         $user->update($validated);
@@ -81,4 +82,3 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('berhasil', "$user->name Berhasil dihapus");
     }
 }
-
