@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class ChartTotalController extends Controller
@@ -9,9 +10,18 @@ class ChartTotalController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        return view('chart-total.index');
+        $results = Result::all();
+
+        $labels = $results->map(function ($result) {
+            return $result->user->name;
+        });
+
+        $fish_totals = $results->pluck('fish_total');
+
+        return view('chart-total.index', compact('labels', 'fish_totals'));
     }
 
     /**
