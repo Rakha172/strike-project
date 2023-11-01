@@ -21,18 +21,21 @@ class EventController extends Controller
 
     public function show($eventId)
     {
-        // Cari event berdasarkan nama
+        // Cari event berdasarkan ID
         $event = Event::find($eventId);
 
         if (!$event) {
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
+
         $users = User::whereHas('event_regist', function ($query) use ($eventId) {
             $query->where('event_id', $eventId);
         })->get();
 
         return view('event.show', compact('event', 'users'));
     }
+
+
 
 
 

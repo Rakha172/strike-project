@@ -33,6 +33,13 @@
                 <tr>
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $user->name }}</td>
+                    <td>
+                        @if ($user->event_regist)
+                            {{ $user->event_regist->booth }}
+                        @else
+                            N/A
+                        @endif
+                    </td>
                 </tr>
             @endforeach
         </tbody>
