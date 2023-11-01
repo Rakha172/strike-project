@@ -15,7 +15,6 @@
             <div class="card">
                     <h1 class="text-center fs-2 mt-4">DATA MEMBER</h1>
                 <div class="card-body">
-
             @if ($pesan = session('berhasil'))
             <div class="alert alert-primary" role="alert">
             {{ $pesan }}
@@ -27,6 +26,8 @@
                     <th scope="col">NO</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,16 +36,22 @@
                     <th scope="row">{{ $key + 1}}</th>
                     <td>{{ $usr->name }}</td>
                     <td>{{ $usr->email }}</td>
+                    <td>{{ $usr->role }}</td>
                     <td>
-                    <td class="d-flex">
+                        <a href="{{ route('user.edit', $usr->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('user.destroy', $usr->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-dark">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
-        {{-- <td colspan="n">
-            <div style="text-align: center;"> --}}
+    </div>
+</div>
 
-        @endsection
+@endsection
 

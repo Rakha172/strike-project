@@ -9,8 +9,8 @@
     <title>Edit setting</title>
 </head>
 
-<body style="background: lightgrey">
-    <div class="container mt-5 border border-3 border-dark">
+<body>
+    <div class="container mt-5 border border-2">
         <center>
             <h3>Edit Setting</h3>
         </center>
@@ -45,7 +45,7 @@
             </div>
 
             <br>
-            
+
             <div class="mb-3">
                 <label for="logo" class="form-label">Logo</label>
                         <img style="max-width:200px;max-height:200px;"src="{{ asset('logo/' . $setting->logo) }}">

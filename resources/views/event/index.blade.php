@@ -16,7 +16,7 @@
                 <h1 class="text-center fs-2 mt-4">DATA EVENTS</h1>
             <div class="card-body">
 
-        <a href="{{ route('event.create')}}" class="btn btn-dark">Tambah</a>
+        <a href="{{ route('event.create')}}" class="btn btn-success">Add</a>
 
         @if ($pesan = session('berhasil'))
         <div class="alert alert-primary" role="alert">
@@ -48,15 +48,16 @@
                     {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
                 </td>
                 <td>
-                <td class="d-flex">
+                <td>
 
                     <form action="{{ route('event.destroy', $evnt->id) }}" method="POST">
                         @csrf
                         @method('delete')
 
-                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Hapus</button>
-			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-warning m-1">Result</a>
+                        <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Delete</button>
+			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-primary m-1">Result</a>
 
+                        <a href="{{ route('event.show', $evnt->id) }}" class="btn btn-info m-1">Read</a>
                     </form>
                 </td>
               </tr>

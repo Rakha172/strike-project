@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
+use App\Models\Event_Registration;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -16,6 +18,24 @@ class EventController extends Controller
         }
         return view('event.index', ['events' => $events]);
     }
+
+    public function show($eventId)
+    {
+        // Cari event berdasarkan nama
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+        $users = User::whereHas('event_regist', function ($query) use ($eventId) {
+            $query->where('event_id', $eventId);
+        })->get();
+
+        return view('event.show', compact('event', 'users'));
+    }
+
+
+
     public function reduceBoth(Request $request, $eventId)
     {
         $event = Event::find($eventId);
@@ -34,10 +54,6 @@ class EventController extends Controller
         return response()->json(['message' => 'Both reduced successfully']);
     }
 
-    public function show(Event $events)
-    {
-        return view('event.show', compact('events'));
-    }
 
     public function create()
     {
@@ -120,4 +136,3 @@ class EventController extends Controller
         return redirect()->route('event.index')->with('berhasil', "$events->name Berhasil dihapus");
     }
 }
-
