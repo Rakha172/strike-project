@@ -18,6 +18,7 @@ return new class extends Migration {
                 $table->unsignedBigInteger('event_id')->nullable();
                 $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
                 $table->integer('weight')->default(0);
+                $table->string('fish_total');
                 $table->enum('status', ['special', 'regular']);
                 $table->timestamps();
             });

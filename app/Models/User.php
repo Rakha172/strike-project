@@ -39,12 +39,10 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'password' => 'hashed',
-    ]
-    ;
+            'password' => 'hashed',
+        ];
     public function event_regist()
     {
-        return $this->hasMany(Event_Registration::class, 'user_id', 'id');
+        return $this->hasOne(Event_Registration::class, 'user_id', 'id');
     }
 }
-
