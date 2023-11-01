@@ -26,7 +26,6 @@
                             <th>Participant</th>
                             {{-- <th>Events Registration</th> --}}
                             <th>Berat Ikan</th>
-                            <th>Jumlah Ikan</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -38,7 +37,6 @@
                             <td>{{ $result->user->name }}</td>
                             {{-- <td>{{ $result->eventRegistration->event->event_name }}</td> --}}
                             <td>{{ $result->weight }}</td>
-                            <td>{{ $result->fish_total }}</td>
                             <td>{{ $result->status }}</td>
                             <td>
                                 <form action="{{ route('result.destroy', $result->id) }}" method="POST">

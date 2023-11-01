@@ -42,14 +42,6 @@
                                       @enderror
                                   </div>
 
-                                  <div class="mb-3">
-                                    <label class="form-label">Jumlah Ikan</label>
-                                    <input value="{{ old('fish_total')}}" name="fish_total" type="number" class="form-control @error('fish_total') is-invalid @enderror">
-                                      @error('fish_total')
-                                          <div class="invalid-feedback">{{ $message }}</div>
-                                      @enderror
-                                  </div>
-
                                 <div class="mb-3">
                                     <label class="form-label">Status</label>
                                     <select name="status" id="status" class="form-control">
