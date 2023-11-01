@@ -16,6 +16,7 @@ class Event_Registration extends Model
         'user_id',
         'event_id',
         'payment_status',
+        'booth',
     ];
 
     public function user()

@@ -31,6 +31,7 @@
             <tr>
                 <th scope="col">User Name</th>
                 <th scope="col">Event Name</th>
+                <th scope="col">Booth</th>
                 <th scope="col">Payment Status</th>
                 <th scope="col">Confirm</th>
             </tr>
@@ -41,6 +42,7 @@
                     {{-- <td>{{ $payed->id }}</td> --}}
                     <td>{{ $payed->user->name }}</td>
                     <td>{{ $payed->event->name }} <i class="fa fa-solid fa fa-arrow-right"></i></td>
+                    <td>{{ $payed->booth }}</td>
                     <td>{{ $payed->payment_status }}</td>
                     <td>
                         <form action="{{ route('payment.update', $payed->id) }}" method="POST" onsubmit="return confirm('Konfirmasi pesanan?')">

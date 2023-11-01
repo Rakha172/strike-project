@@ -25,6 +25,7 @@
                             <th scope="col">No</th>
                             <th scope="col">User Name</th>
                             <th scope="col">Event Name</th>
+                            <th scope="col">Booth</th>
                             <th scope="col">Payment Status</th>
                         </tr>
                     </thead>
@@ -34,6 +35,7 @@
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td>{{ $item->user->name }}</td>
                                 <td>{{ $item->event->name }}</td>
+                                <td>{{ $item->booth }}</td>
                                 <td>{{ $item->payment_status }}</td>
                             </tr>
                         @endforeach

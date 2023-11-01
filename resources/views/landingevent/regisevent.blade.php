@@ -44,6 +44,14 @@
                 </select>
             </p>
 
+            <p>Select Booth
+                <select name="booth" class="form-control">
+                    @for ($i = 1; $i <= 10; $i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
+            </p>
+
             <div class="form-group">
                 <form action="{{ url('/dashboard') }}">
                     <button type="submit" class="btn btn-success btn-block">Daftar</button>
@@ -59,7 +67,6 @@
     alert("{{ session('error') }}");
 </script>
 @endif
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
