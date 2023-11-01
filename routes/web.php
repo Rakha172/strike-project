@@ -8,6 +8,7 @@ use App\Http\Controllers\ChartWeightTotalController;
 use App\Http\Controllers\ChartTotalSpecialController;
 use App\Http\Controllers\ChartSpecialController;
 use App\Http\Controllers\ChartTotalController;
+use App\Http\Controllers\Event\EventChartResultController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
@@ -181,6 +182,9 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('events/{event}', [EventController::class, 'edit'])->name('event.edit');
     Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
     Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+
+    // event chart result
+    Route::get('events/{event}/chart-result', EventChartResultController::class)->name('events.chart-result');
 });
 
 // table setting
