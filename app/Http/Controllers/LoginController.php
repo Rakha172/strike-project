@@ -34,7 +34,7 @@ class LoginController extends Controller
         if (Auth::guard('web')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
             if (Auth::user()->role == 'admin') {
-                return redirect('/dashboard')->with('success', 'Anda berhasil login!');
+                return redirect('/dashboard')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'member') {
                 return redirect('/event')->with(['success' => $request->name . "Berhasil Login"]);
 
