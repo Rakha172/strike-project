@@ -31,6 +31,7 @@
             <tr>
                 <th scope="col">User Name</th>
                 <th scope="col">Event Name</th>
+                <th scope="col">Booth</th>
                 <th scope="col">Payment Status</th>
                 <th scope="col">Confirm</th>
             </tr>
@@ -41,12 +42,24 @@
                     {{-- <td>{{ $payed->id }}</td> --}}
                     <td>{{ $payed->user->name }}</td>
                     <td>{{ $payed->event->name }} <i class="fa fa-solid fa fa-arrow-right"></i></td>
+                    <td>{{ $payed->booth }}</td>
                     <td>{{ $payed->payment_status }}</td>
                     <td>
-                        <form action="{{ route('payment.update', $payed->id) }}" method="POST" onsubmit="return confirm('Konfirmasi pesanan?')">
+                        <form action="{{ route('payment.update', $payed->id) }}" method="POST"
+                            onsubmit="return confirm('Konfirmasi pesanan?')">
                             @csrf
                             @method('PUT')
-                            <button type="submit" class="btn btn-primary" title="Konfirmasi Pesanan"><i class="fa fa-solid fa fa-check"></i></button>
+                            <button type="submit" class="btn btn-primary" title="Konfirmasi Pesanan">
+                                <i class="fa fa-solid fa fa-check"></i>
+                            </button>
+                        </form>
+                        <form action="{{ route('payment.cancel', $payed->id) }}" method="POST"
+                            onsubmit="return confirm('Batalkan pesanan?')">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger" title="Batalkan Pesanan">
+                                <i class="fa fa-solid fa fa-times"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -54,6 +67,8 @@
         </tbody>
     </table>
     {{ $eventStatusPayed->withQueryString()->links() }}
+</div>
+</div>
 </div>
 @endsection
 

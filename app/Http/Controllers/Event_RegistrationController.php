@@ -44,9 +44,21 @@ class Event_RegistrationController extends Controller
                 ->with('error', 'Anda sudah terdaftar untuk acara ini.');
         }
 
+        // Cek apakah booth sudah digunakan dalam event yang sama
+        $booth = $request->input('booth');
+        $existingBoothRegistration = Event_Registration::where('event_id', $request->input('event_id'))
+            ->where('booth', $booth)
+            ->first();
+
+        if ($existingBoothRegistration) {
+            return redirect()->route('regisevent')
+                ->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
+        }
+
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'booth' => 'required',
         ]);
 
         $validated['payment_status'] = 'waiting';
@@ -56,23 +68,12 @@ class Event_RegistrationController extends Controller
         return redirect('/dashboard')->with('success', 'Data berhasil dibuat.');
     }
 
-
-    public function edit(Event_Registration $event_registration)
-    {
-        $users = User::all();
-        $event = Event::all();
-
-
-        return view('event_registration.edit', compact('event_registration', 'users', 'event'));
-    }
-
-
-
     public function update(Request $request, Event_Registration $event_registration)
     {
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'booth' => 'required',
             'payment_status' => 'required',
         ]);
 

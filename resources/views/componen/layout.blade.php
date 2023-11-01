@@ -178,9 +178,9 @@ toggler.addEventListener('change', function () {
             } else if (path.includes("setting")) {
                 $("#menu-link").text("Setting");
             } else if (path.includes("user")) {
-                $("#menu-link").text("Data Member");
+                $("#menu-link").text("Member");
             } else if (path.includes("event_registration")) {
-                $("#menu-link").text("Data EventRegist");
+                $("#menu-link").text("EventRegist");
             } else if (path.includes("payment")) {
                 $("#menu-link").text("Payment");
             } else {

@@ -1,6 +1,13 @@
 <?php
 
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\ChartWeightTotalSpecialController;
+use App\Http\Controllers\ChartWeightSpecialController;
+use App\Http\Controllers\ChartWeightController;
+use App\Http\Controllers\ChartWeightTotalController;
+use App\Http\Controllers\ChartTotalSpecialController;
+use App\Http\Controllers\ChartSpecialController;
+use App\Http\Controllers\ChartTotalController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
@@ -96,29 +103,38 @@ Route::get('/', function () {
 });
 
 //landingevent
-Route::get('/event', function () {
-    return view('landingevent.landingevent');
+Route::group(['middleware' => 'can:role,"member"'], function () {
+    Route::get('/event', function () {
+        return view('landingevent.landingevent');
+    });
 });
 // Route dari table event buat landingevent
-Route::get('/event', function () {
-    $events = Event::all();
-    return view('landingevent.landingevent', compact('events'));
-})->name('events');
+Route::group(['middleware' => 'can:role,"member"'], function () {
+    Route::get('/event', function () {
+        $events = Event::all();
+        return view('landingevent.landingevent', compact('events'));
+    })->name('events');
+});
 
 //landingevent regisevent
-Route::get('/regisevent', function () {
-    return view('landingevent.regisevent');
-}); 
+Route::group(['middleware' => 'can:role,"member"'], function () {
+    Route::get('/regisevent', function () {
+        return view('landingevent.regisevent');
+    });
+});
 
 //dashboard
 // Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
+    // });
 });
 
 //layout dashboard
+// Route::group(['middleware' => 'can:role,"admin"'], function () {
 Route::get('/layout', function () {
     return view('componen.layout');
+    // });
 });
 
 //layout dashboard
@@ -126,58 +142,90 @@ Route::get('/main', function () {
     return view('componen.main');
 });
 
+// Chart Weight - Total - Special
+Route::get('/chart-weight-total-special', [ChartWeightTotalSpecialController::class, 'index'])->name('chart.index');
+// Chart Weight - Special
+Route::get('/chart-weight-special', [ChartWeightSpecialController::class, 'index'])->name('chart.index');
+// Chart Weight - Total
+Route::get('/chart-weight-total', [ChartWeightTotalController::class, 'index'])->name('chart.index');
+// Chart Total - Special
+Route::get('/chart-total-special', [ChartTotalSpecialController::class, 'index'])->name('chart.index');
+// Chart Weight
+Route::get('/chart-weight', [ChartWeightController::class, 'index'])->name('chart.index');
+// Chart Special
+Route::get('/chart-special', [ChartSpecialController::class, 'index'])->name('chart.index');
+// Chart Total
+Route::get('/chart-total', [ChartTotalController::class, 'index'])->name('chart.index');
+
 // table Chart
-Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
+});
 
 // table user
-Route::get('user', [UserController::class, 'index'])->name('user.index');
-Route::get('user/create', [UserController::class, 'create'])->name('user.create');
-Route::post('user', [UserController::class, 'store'])->name('user.store');
-Route::get('user/{user}', [UserController::class, 'edit'])->name('user.edit');
-Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
-Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('user', [UserController::class, 'index'])->name('user.index');
+    Route::get('user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('user', [UserController::class, 'store'])->name('user.store');
+    Route::get('user/{user}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('user/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+});
 
 // table events
-// Route::group(['middleware' => 'can:role,"member"'], function () {
-Route::get('events', [EventController::class, 'index'])->name('event.index');
-Route::get('events/create', [EventController::class, 'create'])->name('event.create');
-Route::post('events', [EventController::class, 'store'])->name('event.store');
-Route::get('events/{event}', [EventController::class, 'edit'])->name('event.edit');
-Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
-Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
-// });
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('events', [EventController::class, 'index'])->name('event.index');
+    Route::get('events/{id}/show', [EventController::class, 'show'])->name('event.show');
+    Route::get('events/create', [EventController::class, 'create'])->name('event.create');
+    Route::post('events', [EventController::class, 'store'])->name('event.store');
+    Route::get('events/{event}', [EventController::class, 'edit'])->name('event.edit');
+    Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
+    Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+});
 
 // table setting
-// Route::group(['middleware' => 'can:role,"admin"'], function () {
-Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-Route::get('/setting/create', [SettingController::class, 'create'])->name('setting.create');
-Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
-Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
-Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
-Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
-// });
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+    Route::get('/setting/create', [SettingController::class, 'create'])->name('setting.create');
+    Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
+    Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
+    Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
+    Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
+});
 
 // table event registration
-Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
-Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
-Route::post('event-registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
-Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
-Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
-Route::delete('event-registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
+Route::group(['middleware' => 'can:role,"member"'], function () {
+    Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
+    Route::post('event-registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
+    Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
+    Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
+    Route::delete('event-registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
+});
+
+// Halaman Regisevent
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
+});
 
 // table result
-Route::get('result', [ResultController::class, 'index'])->name('result.index');
-Route::get('result/create', [ResultController::class, 'crreate'])->name('result.create');
-Route::post('result', [ResultController::class, 'store'])->name('result.store');
-Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
-Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
-Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('result', [ResultController::class, 'index'])->name('result.index');
+    Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
+    Route::post('result', [ResultController::class, 'store'])->name('result.store');
+    Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
+    Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
+    Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
+});
 
 //Table payment
-Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
-Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+    Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
+    Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
+    Route::put('/payment/cancel/{event_registrationId}', [PaymentController::class, 'cancel'])->name('payment.cancel');
+});
 
 //spinner
-Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
-Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
-
+Route::group(['middleware' => 'can:role,"member"'], function () {
+    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
+    Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
+});

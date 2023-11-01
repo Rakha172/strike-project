@@ -38,6 +38,18 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select id="role" name="role" class="form-control @error('role') is-invalid @enderror" required>
+                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="member" {{ $user->role == 'member' ? 'selected' : '' }}>Member</option>
+                    <option value="operator" {{ $user->role == 'operator' ? 'selected' : '' }}>Operator</option>
+                </select>
+                @error('role')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
