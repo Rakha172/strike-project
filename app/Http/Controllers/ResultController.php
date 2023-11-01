@@ -30,9 +30,10 @@ class ResultController extends Controller
     {
         $request->validate([
             'participant' => 'required',
-            // Memastikan 'participant' sudah diisi
             'event_id' => 'nullable|exists:events,id',
             'weight' => 'required',
+            'fish_total' => 'required',
+            // Pastikan validasi untuk 'fish_total' sudah ditambahkan
             'status' => 'required|in:special,regular',
         ]);
 
@@ -40,8 +41,8 @@ class ResultController extends Controller
         $user_id = $request->input('participant');
         $event_id = $request->input('event_id');
 
-        $user = User::find($user_id); // Mendapatkan user berdasarkan ID yang dipilih
-        $event = Event::find($event_id); // Mendapatkan event berdasarkan ID yang dipilih
+        $user = User::find($user_id);
+        $event = Event::find($event_id);
 
         if (!$user) {
             return redirect()->route('result.create')->with('error', 'User tidak ditemukan.');
@@ -53,6 +54,7 @@ class ResultController extends Controller
         $result->user_id = $user->id;
         $result->event_id = $event_id;
         $result->weight = $weightValueInKg;
+        $result->fish_total = $request->input('fish_total');
         $result->status = $request->input('status');
         $result->save();
 
