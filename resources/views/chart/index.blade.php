@@ -1,86 +1,50 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    @extends('componen.layout')
+@extends('componen.layout')
 
-    @section('content')
+@section('content')
+<div style="display: flex; justify-content: flex-start;">
+    <div style="flex: 1;">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-window.onload = function () {
+    var labels = @json($labels);
+    var weights = @json($weights);
+    var fishTotals = @json($fish_totals);
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	title:{
-		text: "Leaderboard Strike"
-	},
-	axisY: {
-		title: "Total Weight",
-		titleFontColor: "#4F81BC",
-		lineColor: "#4F81BC",
-		labelFontColor: "#4F81BC",
-		tickColor: "#4F81BC"
-	},
-	axisY2: {
-		title: "Special",
-		titleFontColor: "#C0504E",
-		lineColor: "#C0504E",
-		labelFontColor: "#C0504E",
-		tickColor: "#C0504E"
-	},
-	toolTip: {
-		shared: true
-	},
-	legend: {
-		cursor:"pointer",
-		itemclick: toggleDataSeries
-	},
-	data: [{
-		type: "column",
-		name: "Total Weight",
-		legendText: "Total Weight",
-		showInLegend: true,
-		dataPoints:[
-			{ label: "Saudi", y: 266 },
-			{ label: "Venezuela", y: 302 },
-			{ label: "Iran", y: 157 },
-			{ label: "Iraq", y: 148 },
-			{ label: "Kuwait", y: 101 },
-			{ label: "UAE", y: 97 }
-		]
-	},
-	{
-		type: "column",
-		name: "Special",
-		legendText: "Special",
-		axisYType: "secondary",
-		showInLegend: true,
-		dataPoints:[
-			{ label: "Saudi", y: 10},
-			{ label: "Venezuela", y: 2 },
-			{ label: "Iran", y: 3 },
-			{ label: "Iraq", y: 4 },
-			{ label: "Kuwait", y: 2 },
-			{ label: "UAE", y: 3 }
-		]
-	}]
-});
-chart.render();
+    // Mencari indeks data dengan jumlah fish_total terbanyak
+    var maxFishTotalIndex = fishTotals.indexOf(Math.max(...fishTotals));
 
-function toggleDataSeries(e) {
-	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-		e.dataSeries.visible = false;
-	}
-	else {
-		e.dataSeries.visible = true;
-	}
-	chart.render();
-}
+    // Mencari indeks data dengan weight terbanyak
+    var maxWeightIndex = weights.indexOf(Math.max(...weights));
 
-}
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Fish Total',
+                data: fishTotals,
+                backgroundColor: '#17395c', // Navy
+                borderColor: '#17395c',
+                borderWidth: 1
+            }, {
+                label: 'Weight',
+                data: weights,
+                backgroundColor: '#efb758', // Warna kuning
+                borderColor: '#efb758',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 </script>
-</head>
-<body>
-<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 @endsection
-<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-</body>
-</html>
