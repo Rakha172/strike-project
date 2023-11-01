@@ -19,8 +19,6 @@
                     {{ $pesan }}
                 </div>
             @endif
-
-            <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
@@ -39,8 +37,6 @@
                                 <td>{{ $item->event->name }}</td>
                                 <td>{{ $item->booth }}</td>
                                 <td>{{ $item->payment_status }}</td>
-                                <td class="d-flex">
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>
