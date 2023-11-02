@@ -1,31 +1,33 @@
 <?php
 
 use App\Http\Controllers\ChartController;
-use App\Http\Controllers\ChartWeightTotalSpecialController;
-use App\Http\Controllers\ChartWeightSpecialController;
-use App\Http\Controllers\ChartWeightController;
-use App\Http\Controllers\ChartWeightTotalController;
-use App\Http\Controllers\ChartTotalSpecialController;
 use App\Http\Controllers\ChartSpecialController;
 use App\Http\Controllers\ChartTotalController;
+use App\Http\Controllers\ChartTotalSpecialController;
+use App\Http\Controllers\ChartWeightController;
+use App\Http\Controllers\ChartWeightSpecialController;
+use App\Http\Controllers\ChartWeightTotalController;
+use App\Http\Controllers\ChartWeightTotalSpecialController;
+use App\Http\Controllers\Event\EventChartResultAllController;
 use App\Http\Controllers\Event\EventChartResultController;
+use App\Http\Controllers\Event\EventChartResultSpecialController;
+use App\Http\Controllers\Event\EventChartResultTotalController;
 use App\Http\Controllers\Event_RegistrationController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\AuthenticateController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\SettingController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\SpinController;
+use App\Http\Controllers\UserController;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 
 
@@ -185,6 +187,10 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 
     // event chart result
     Route::get('events/{event}/chart-result', EventChartResultController::class)->name('events.chart-result');
+    Route::get('events/{event}/chart-total', EventChartResultTotalController::class)->name('events.chart-total');
+    Route::get('events/{event}/chart-special', EventChartResultSpecialController::class)->name('events.chart-special');
+    Route::get('events/{event}/chart-combined', EventChartResultAllController::class)->name('events.chart-combined');
+
 });
 
 // table setting
@@ -213,8 +219,8 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 
 // table result
 Route::group(['middleware' => 'can:role,"admin"'], function () {
-    Route::get('/result/{event}', [ResultController::class, 'index'])->name('result.index');
-    Route::get('/result/{eventId}/create', [ResultController::class, 'create'])->name('result.create');
+    Route::get('result', [ResultController::class, 'index'])->name('result.index');
+    Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
     Route::post('result', [ResultController::class, 'store'])->name('result.store');
     Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
     Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
