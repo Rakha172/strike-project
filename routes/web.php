@@ -129,6 +129,8 @@ Route::get('/chart-weight', [ChartWeightController::class, 'index'])->name('char
 Route::get('/chart-special', [ChartSpecialController::class, 'index'])->name('chart.index');
 Route::get('/chart-total', [ChartTotalController::class, 'index'])->name('chart.index');
 
+
+//ROLE ADMIN//
 // table user
 Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('user', [UserController::class, 'index'])->name('user.index');
@@ -182,6 +184,7 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 });
 
 
+//ROLE MEMBER//
 // table event registration
 Route::group(['middleware' => 'can:role,"member"'], function () {
     Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
