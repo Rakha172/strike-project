@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Edit User</title>
+    <title>{{$title->name}} | Edit User</title>
 </head>
 
 <body>
@@ -38,6 +38,18 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select id="role" name="role" class="form-control @error('role') is-invalid @enderror" required>
+                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="member" {{ $user->role == 'member' ? 'selected' : '' }}>Member</option>
+                    <option value="operator" {{ $user->role == 'operator' ? 'selected' : '' }}>Operator</option>
+                </select>
+                @error('role')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

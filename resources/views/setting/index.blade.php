@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>Setting</title>
+    <title>{{$title->name}} | Setting</title>
   </head>
   <body>
     @extends('componen.layout')
@@ -12,7 +12,7 @@
 @section('content')
 
     <div class="container">
-        <div class="card">
+        <div class="card" style="background-color:#F5F7F8;">
                 <h1 class="text-center fs-2 mt-4">SETTING</h1>
             <div class="card-body">
 
@@ -42,11 +42,9 @@
                     </a>
                 <td>{{ $sett->history }}</td>
                 <td>
-                <td class="d-flex">
-                    <a href="{{ url('setting/' . $sett->id . '/show') }}"
-                        class="btn btn-warning m-1">Read</a>
-                    <a href="{{ route('setting.edit', $sett->id) }}"
-                        class="btn btn-dark m-1">Edit</a>
+                <td>
+                    <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-info m-1">Read</a>
+                    <a href="{{ route('setting.edit', $sett->id) }}" class="btn btn-warning m-1">Edit </a>
                 </td>
               </tr>
               @endforeach

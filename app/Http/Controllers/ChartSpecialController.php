@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class ChartSpecialController extends Controller
@@ -11,7 +13,13 @@ class ChartSpecialController extends Controller
      */
     public function index()
     {
-        return view('chart-special.index');
+        $title = Setting::firstOrFail();
+        $results = Result::where('status', 'special')->get();
+        $labels = $results->map(function ($result) {
+            return $result->user->name;
+        });
+
+        return view('chart-special.index', compact('labels', 'title'));
     }
 
     /**

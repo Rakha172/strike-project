@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -40,11 +41,15 @@ class User extends Authenticatable
      */
     protected $casts = [
         'password' => 'hashed',
-    ]
-    ;
+    ];
+
     public function event_regist()
     {
-        return $this->hasMany(Event_Registration::class, 'user_id', 'id');
+        return $this->hasOne(Event_Registration::class, 'user_id', 'id');
+    }
+
+    public function events(): BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
     }
 }
-

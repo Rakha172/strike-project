@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Results</title>
+    <title>{{$title->name}} | Results</title>
 </head>
 <body>
     @extends('componen.layout')
@@ -16,16 +16,18 @@
     @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="background-color:#F5F7F8;">
                 <h1 class="text-center fs-2 mt-4">DATA RESULTS</h1>
-                <a href="{{ route('result.create') }}" class="btn btn-dark mb-3">Tambah</a>
+
+                <a href="{{ route('result.create', ['eventId' => $event->id] ) }}" class="btn btn-dark mb-3">Tambah</a>
+
                 <table class="table">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Participant</th>
                             {{-- <th>Events Registration</th> --}}
-                            <th>Berat</th>
+                            <th>Berat Ikan</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>

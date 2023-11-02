@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Event_Registration;
-use App\Models\Event;
 use App\Models\User;
+use App\Models\Event;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Models\Event_Registration;
 
 class Event_RegistrationController extends Controller
 {
     public function index()
     {
+        $title = Setting::firstOrFail();
         $event_registration = Event_Registration::all();
-        return view('event_registration.index', compact('event_registration'));
+        return view('event_registration.index', compact('event_registration', 'title'));
     }
     public function create()
     {
+        $title = Setting::firstOrFail();
         $events = Event::all();
         $users = User::all();
 
@@ -25,10 +28,10 @@ class Event_RegistrationController extends Controller
         if (auth()->check()) {
             $user = auth()->user(); // Mengambil pengguna yang sudah login
             $userName = $user->name;
-            $event = $user->events;
+            $event = $user->event;
         }
 
-        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event'));
+        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
     public function store(Request $request)
@@ -44,35 +47,36 @@ class Event_RegistrationController extends Controller
                 ->with('error', 'Anda sudah terdaftar untuk acara ini.');
         }
 
+        // Cek apakah booth sudah digunakan dalam event yang sama
+        $booth = $request->input('booth');
+        $existingBoothRegistration = Event_Registration::where('event_id', $request->input('event_id'))
+            ->where('booth', $booth)
+            ->first();
+
+        if ($existingBoothRegistration) {
+            return redirect()->route('regisevent')
+                ->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
+        }
+
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'booth' => 'required',
         ]);
 
         $validated['payment_status'] = 'waiting';
 
         Event_Registration::create($validated);
 
-        return redirect('/spin')->with('success', 'Data berhasil dibuat.');
+        return redirect('/dashboard')->with('success', 'Data berhasil dibuat.');
     }
-
-
-    public function edit(Event_Registration $event_registration)
-    {
-        $users = User::all();
-        $event = Event::all();
-
-
-        return view('event_registration.edit', compact('event_registration', 'users', 'event'));
-    }
-
-
 
     public function update(Request $request, Event_Registration $event_registration)
     {
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
+            'booth' => 'required',
             'payment_status' => 'required',
         ]);
 

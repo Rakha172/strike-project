@@ -25,6 +25,13 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Rahma Khairani Rangkuti',
+            'role' => 'member',
+            'email' => '1@gmail.com',
+            'password' => 'password',
+        ]);
+
+        User::create([
             'name' => 'operator',
             'role' => 'operator',
             'email' => 'operator@gmail.com',

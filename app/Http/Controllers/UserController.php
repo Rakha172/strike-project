@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -12,8 +13,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        $title = Setting::firstOrFail();
         $user = User::all();
-        return view('user.index', compact('user'));
+        return view('user.index', compact('user', 'title'));
     }
 
     /**
@@ -21,7 +23,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        $title = Setting::firstOrFail();
+        return view('user.create', compact('title'));
     }
 
     /**
@@ -53,7 +56,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        $title = Setting::firstOrFail();
+        return view('user.edit', compact('user', 'title'));
     }
 
     /**
@@ -62,9 +66,10 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name' => 'required',
+            'name' => 'required|max:255',
             'email' => 'required',
             'password' => 'required',
+            'role' => 'nullable',
         ]);
 
         $user->update($validated);
@@ -81,4 +86,3 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('berhasil', "$user->name Berhasil dihapus");
     }
 }
-

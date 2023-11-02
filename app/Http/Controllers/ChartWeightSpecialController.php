@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ChartWeightSpecialController extends Controller
@@ -11,8 +12,8 @@ class ChartWeightSpecialController extends Controller
      */
     public function index()
     {
-
-        return view('chart-weight-special.index');
+        $title = Setting::firstOrFail();
+        return view('chart-weight-special.index', compact('title'));
     }
 
     /**

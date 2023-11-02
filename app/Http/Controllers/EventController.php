@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\User;
+use App\Models\Event_Registration;
+use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -10,12 +13,35 @@ class EventController extends Controller
 {
     public function index()
     {
+        $title = Setting::firstOrFail();
         $events = Event::all();
         foreach ($events as $event) {
             $event->random_both = $event->random_both;
         }
-        return view('event.index', ['events' => $events]);
+        return view('event.index', compact('title','events'));
     }
+
+    public function show($eventId)
+    {
+        $title = Setting::firstOrFail();
+        // Cari event berdasarkan ID
+        $event = Event::find($eventId);
+
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        $users = User::whereHas('event_regist', function ($query) use ($eventId) {
+            $query->where('event_id', $eventId);
+        })->get();
+
+        return view('event.show', compact('event', 'users', 'title'));
+    }
+
+
+
+
+
     public function reduceBoth(Request $request, $eventId)
     {
         $event = Event::find($eventId);
@@ -34,14 +60,11 @@ class EventController extends Controller
         return response()->json(['message' => 'Both reduced successfully']);
     }
 
-    public function show(Event $events)
-    {
-        return view('event.show', compact('events'));
-    }
 
     public function create()
     {
-        return view('event.create');
+        $title = Setting::firstOrFail();
+        return view('event.create', compact('title'));
     }
 
     public function store(Request $request)
@@ -78,7 +101,8 @@ class EventController extends Controller
 
     public function edit(Event $events)
     {
-        return view('event.edit', compact('events'));
+        $title = Setting::firstOrFail();
+        return view('event.edit', compact('events', 'title'));
     }
 
     public function update(Request $request, Event $events)
@@ -120,4 +144,3 @@ class EventController extends Controller
         return redirect()->route('event.index')->with('berhasil', "$events->name Berhasil dihapus");
     }
 }
-

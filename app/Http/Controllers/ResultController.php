@@ -5,32 +5,42 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Event_Registration;
 use App\Models\Result;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ResultController extends Controller
 {
-    public function index()
+    public function index(Event $event)
     {
+        $title = Setting::firstOrFail();
         $results = Result::all();
-        return view('result.index', compact('results'));
+
+        return view('result.index', compact('results', 'event', 'title'));
     }
 
-    public function create()
+    public function create(Event $eventId)
     {
+        $title = Setting::firstOrFail();
         $users = User::all();
-        $events = Event::all();
-        $event_registration = Event_Registration::all();
-        $results = Result::all();
-        return view('result.create', compact('users', 'events', 'results', 'event_registration'));
+        $event_registration = $eventId->event_regist()->get();
+        $results = Result::where('event_id', $eventId->id)->get();
+
+        if (!$eventId) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        return view('result.create', compact('users', 'results', 'event_registration', 'eventId', 'title'));
     }
+
+
+
 
     public function store(Request $request)
     {
         $request->validate([
             'participant' => 'required',
-            // Memastikan 'participant' sudah diisi
             'event_id' => 'nullable|exists:events,id',
             'weight' => 'required',
             'status' => 'required|in:special,regular',
@@ -40,8 +50,8 @@ class ResultController extends Controller
         $user_id = $request->input('participant');
         $event_id = $request->input('event_id');
 
-        $user = User::find($user_id); // Mendapatkan user berdasarkan ID yang dipilih
-        $event = Event::find($event_id); // Mendapatkan event berdasarkan ID yang dipilih
+        $user = User::find($user_id);
+        $event = Event::find($event_id);
 
         if (!$user) {
             return redirect()->route('result.create')->with('error', 'User tidak ditemukan.');
@@ -65,11 +75,12 @@ class ResultController extends Controller
 
     public function edit(Result $result)
     {
+        $title = Setting::firstOrFail();
         $users = User::all();
         $event_registration = Event_Registration::all();
         $event = Event::all();
 
-        return view('result.edit', compact('result', 'users'));
+        return view('result.edit', compact('result', 'users', 'title'));
     }
 
     public function update(Request $request, Result $result)

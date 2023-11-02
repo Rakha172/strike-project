@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,8 @@ class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('register.register');
+        $title = Setting::firstOrFail();
+        return view('register.register', compact('title'));
     }
 
     public function register(Request $request)
@@ -39,7 +41,7 @@ class RegisterController extends Controller
 
         // Sesuaikan dengan logika pengiriman email verifikasi jika diperlukan
 
-        return redirect()->route('login')->with('success', 'Registrasi berhasil. Silakan masuk.');
+        return redirect()->route('login')->with(['success' => $request->name . " Berhasil Registrasi"]);
     }
 }
 
