@@ -11,20 +11,28 @@ use Illuminate\Support\Facades\Auth;
 
 class ResultController extends Controller
 {
-    public function index()
+    public function index(Event $event)
     {
         $results = Result::all();
-        return view('result.index', compact('results'));
+        return view('result.index', compact('results', 'event'));
     }
 
-    public function create()
+    public function create(Event $eventId)
     {
         $users = User::all();
-        $events = Event::all();
-        $event_registration = Event_Registration::all();
-        $results = Result::all();
-        return view('result.create', compact('users', 'events', 'results', 'event_registration'));
+        $event_registration = $eventId->event_regist()->get();
+        // dd($event_registration);
+        $results = Result::where('event_id', $eventId)->get();
+
+        if (!$eventId) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        return view('result.create', compact('users', 'results', 'event_registration', 'eventId'));
     }
+
+
+
 
     public function store(Request $request)
     {

@@ -16,9 +16,8 @@
         <div class="card">
             <div class="card-body">
                 <h1 class="text-center fs-2 mt-4">Hasil Result Pemancingan</h1>
-                @foreach ($events as $event)
-                    <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
-                @endforeach
+                <h2 class="text-center fs-3 mt-4">{{ $eventId->name }}</h2>
+
 
                 <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -29,7 +28,7 @@
                                     <label for="participant">Participant</label>
                                     <select name="participant" class="form-control">
                                         @foreach($event_registration as $eventReg)
-                                            <option value="{{ $eventReg->user->id }}">{{ $eventReg->user->name }}</option>
+                                            <option value="{{ $eventReg->user_id }}">{{ $eventReg->user->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
