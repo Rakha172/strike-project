@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Event extends Model
 {
@@ -23,6 +25,7 @@ class Event extends Model
     {
         return $this->hasMany(Event_Registration::class, 'event_id', 'id');
     }
+
     public function setBothAttribute($value)
     {
         $this->attributes['both'] = json_encode($value);
@@ -31,6 +34,16 @@ class Event extends Model
     public function getBothAttribute($value)
     {
         return json_decode($value, true);
+    }
+
+    public function results(): HasMany
+    {
+        return $this->hasMany(Result::class, 'event_id');
+    }
+
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'events_registration');
     }
 
 }

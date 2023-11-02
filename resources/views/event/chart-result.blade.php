@@ -10,8 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     var labels = @json($labels);
-    var fishTotals = @json($fish_totals);
-    var weights = @json($weights);
+    var data = @json($data);
 
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
@@ -19,17 +18,10 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Fish Total',
-                data: fishTotals,
+                label: 'Result',
+                data: data,
                 backgroundColor: '#17395c', // Navy
                 borderColor: '#17395c',
-                borderWidth: 1
-            },
-            {
-                label: 'Weight',
-                data: weights,
-                backgroundColor: '#efb758', // Warna kuning
-                borderColor: '#efb758',
                 borderWidth: 1
             }]
         },
