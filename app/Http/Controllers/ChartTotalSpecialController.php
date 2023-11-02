@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class ChartTotalSpecialController extends Controller
@@ -11,7 +12,15 @@ class ChartTotalSpecialController extends Controller
      */
     public function index()
     {
-        return view('chart-total-special.index');
+        $results = Result::where('status', 'special')->get();
+
+        $labels = $results->map(function ($result) {
+            return $result->user->name;
+        });
+
+        $fish_totals = $results->pluck('fish_total');
+
+        return view('chart-total-special.index', compact('labels', 'fish_totals'));
     }
 
     /**

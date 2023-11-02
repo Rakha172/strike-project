@@ -31,10 +31,18 @@ class PaymentController extends Controller
     public function update(Request $request, Event_Registration $event_registrationId)
     {
         $event_registrationId->update([
-            'payment_status' => 'payed',
+            'payment_status' => 'payed'
         ]);
 
-        return back()->with('success', 'Id pesanan ' . $event_registrationId->id . ' atas nama ' . ($event_registrationId->user->name) . ' Berhasil di konfirmasi');
+        return back()->with('success', 'Pesanan dengan ID ' . $event_registrationId->id . ' atas nama ' . $event_registrationId->user->name . ' berhasil dikonfirmasi');
+    }
 
+    public function cancel(Request $request, Event_Registration $event_registrationId)
+    {
+        $event_registrationId->update([
+            'payment_status' => 'cancel'
+        ]);
+
+        return back()->with('success', 'Pesanan dengan ID ' . $event_registrationId->id . ' atas nama ' . $event_registrationId->user->name . ' berhasil dibatalkan');
     }
 }

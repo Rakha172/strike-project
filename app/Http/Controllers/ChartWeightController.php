@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class ChartWeightController extends Controller
@@ -11,7 +12,15 @@ class ChartWeightController extends Controller
      */
     public function index()
     {
-        return view('chart-weight.index');
+        $results = Result::all();
+
+        $labels = $results->map(function ($result) {
+            return $result->user->name;
+        });
+
+        $weights = $results->pluck('weight');
+
+        return view('chart-weight.index', compact('labels', 'weights'));
     }
 
     /**

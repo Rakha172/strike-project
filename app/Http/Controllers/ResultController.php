@@ -40,8 +40,6 @@ class ResultController extends Controller
             'participant' => 'required',
             'event_id' => 'nullable|exists:events,id',
             'weight' => 'required',
-            'fish_total' => 'required',
-            // Pastikan validasi untuk 'fish_total' sudah ditambahkan
             'status' => 'required|in:special,regular',
         ]);
 
@@ -62,7 +60,6 @@ class ResultController extends Controller
         $result->user_id = $user->id;
         $result->event_id = $event_id;
         $result->weight = $weightValueInKg;
-        $result->fish_total = $request->input('fish_total');
         $result->status = $request->input('status');
         $result->save();
 
