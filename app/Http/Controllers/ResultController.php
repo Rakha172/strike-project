@@ -17,7 +17,7 @@ class ResultController extends Controller
         $title = Setting::firstOrFail();
         $results = Result::all();
 
-        return view('result.index', compact('results', 'event', compact('title')));
+        return view('result.index', compact('results', 'event', 'title'));
     }
 
     public function create(Event $eventId)
