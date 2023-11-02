@@ -18,10 +18,10 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Result',
+                label: 'Weight Total',
                 data: data,
-                backgroundColor: '#17395c', // Navy
-                borderColor: '#17395c',
+                backgroundColor: '#FF0000', // Red
+                borderColor: '#FF0000',
                 borderWidth: 1
             }]
         },
