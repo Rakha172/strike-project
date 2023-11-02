@@ -30,18 +30,19 @@
 
     <!-- Tambahkan judul nama event -->
     <h1 class="event-title">Events</h1>
+
+    @if (Session::has('success'))
+        <div class="alert custom-alert-success">
+            <div class="blurry-background"></div>
+            <div class="alert-content">
+                <p>{{ Session::get('success') }} '{{ Auth::user()->name }}'</p>
+            </div>
+        </div>
+    @endif
+
     <div class="container">
         @foreach ($events as $item)
             <div class="item-container">
-                <script>
-                    @if (Session::has('success'))
-                        toastr.info("{{ Session::get('success') }}", "User {{ Auth::user()->name }}", {
-                        });
-                    @elseif (Session::has('failed'))
-                        toastr.error("{{ Session::get('error') }}", "Oops!", {
-                        });
-                    @endif
-                </script>
                 <div class="img-container">
                     <img src="{{ $item['image'] }}" alt="Event Image">
                 </div>
