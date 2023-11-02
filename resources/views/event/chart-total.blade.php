@@ -18,10 +18,10 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Weight Total',
+                label: 'Jumlah Ikan',
                 data: data,
-                backgroundColor: '#FF0000', // Red
-                borderColor: '#FF0000',
+                backgroundColor: '#008000', // Green
+                borderColor: '#008000',
                 borderWidth: 1
             }]
         },

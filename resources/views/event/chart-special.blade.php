@@ -18,10 +18,10 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Weight Total',
+                label: 'Ikan Specials',
                 data: data,
-                backgroundColor: '#FF0000', // Red
-                borderColor: '#FF0000',
+                backgroundColor: '#000080', // Navy
+                borderColor: '#000080',
                 borderWidth: 1
             }]
         },
