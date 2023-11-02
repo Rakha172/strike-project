@@ -25,7 +25,7 @@ class Event_RegistrationController extends Controller
         if (auth()->check()) {
             $user = auth()->user(); // Mengambil pengguna yang sudah login
             $userName = $user->name;
-            $event = $user->events;
+            $event = $user->event;
         }
 
         return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event'));
