@@ -56,6 +56,7 @@
 
                         <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Delete</button>
 			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-primary m-1">Result</a>
+			            <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
 
                         <a href="{{ route('event.show', $evnt->id) }}" class="btn btn-info m-1">Read</a>
                     </form>

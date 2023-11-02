@@ -8,6 +8,7 @@
     <link href="{{ asset('css/register.css') }}" rel="stylesheet">
     <title>{{$title->name}} | Halaman Register</title>
   </head>
+
   <body>
     <div class="overlay"></div>
     <form action="{{ route('register') }}" method="POST" class="box">

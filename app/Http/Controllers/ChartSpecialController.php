@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Models\Result;
 use Illuminate\Http\Request;
 
 class ChartSpecialController extends Controller
@@ -13,7 +14,12 @@ class ChartSpecialController extends Controller
     public function index()
     {
         $title = Setting::firstOrFail();
-        return view('chart-special.index', compact('title'));
+        $results = Result::where('status', 'special')->get();
+        $labels = $results->map(function ($result) {
+            return $result->user->name;
+        });
+
+        return view('chart-special.index', compact('labels', 'title'));
     }
 
     /**

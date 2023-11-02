@@ -41,7 +41,7 @@
                 <tr>
                     {{-- <td>{{ $payed->id }}</td> --}}
                     <td>{{ $payed->user->name }}</td>
-                    <td>{{ $payed->event->name }} <i class="fa fa-solid fa fa-arrow-right"></i></td>
+                    <td>{{ $payed->event->name }}</td>
                     <td>{{ $payed->booth }}</td>
                     <td>{{ $payed->payment_status }}</td>
                     <td>
