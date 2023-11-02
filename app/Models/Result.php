@@ -16,7 +16,6 @@ class Result extends Model
         'user_id',
         'weight',
         'status',
-        // 'fish_total',
     ];
 
 
