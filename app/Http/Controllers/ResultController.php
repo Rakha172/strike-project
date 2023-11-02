@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Event_Registration;
 use App\Models\Result;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,17 +14,19 @@ class ResultController extends Controller
 {
     public function index()
     {
+        $title = Setting::firstOrFail();
         $results = Result::all();
-        return view('result.index', compact('results'));
+        return view('result.index', compact('results', compact('title')));
     }
 
     public function create()
     {
+        $title = Setting::firstOrFail();
         $users = User::all();
         $events = Event::all();
         $event_registration = Event_Registration::all();
         $results = Result::all();
-        return view('result.create', compact('users', 'events', 'results', 'event_registration'));
+        return view('result.create', compact('users', 'events', 'results', 'event_registration', 'title'));
     }
 
     public function store(Request $request)
@@ -64,11 +67,12 @@ class ResultController extends Controller
 
     public function edit(Result $result)
     {
+        $title = Setting::firstOrFail();
         $users = User::all();
         $event_registration = Event_Registration::all();
         $event = Event::all();
 
-        return view('result.edit', compact('result', 'users'));
+        return view('result.edit', compact('result', 'users', 'title'));
     }
 
     public function update(Request $request, Result $result)

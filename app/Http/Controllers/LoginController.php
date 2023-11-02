@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,8 @@ class LoginController extends Controller
 
     public function login()
     {
-        return view('login.login');
+        $title = Setting::firstOrFail();
+        return view('login.login', compact('title'));
     }
 
     public function handleLogin(Request $request)
