@@ -9,7 +9,7 @@
   <body>
     @extends('componen.layout')
     @section('content')
-    <div class="card mb-1" style="max-width: 100%; max-height: 400px;">
+    <div class="card mb-1" style="max-width: 100%; max-height: 400px; background-color:#F5F7F8;">
         <div class="row g-0">
             <div class="col-md-5">
                 <img src="{{ url('logo/' . $setting->logo) }}" class="img-fluid rounded-start" alt="Logo">

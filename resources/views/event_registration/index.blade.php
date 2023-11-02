@@ -12,8 +12,9 @@
 @section('content')
 
 <div class="container">
-    <div class="card">
-        <h1 class="text-center fs-2 mt-4">DATA EVENT REGIST</h1>
+
+    <div class="card" style="background-color:#F5F7F8;">
+        <h1 class="text-center fs-2 mt-4">DATA EVENTREGIST</h1>
         <div class="card-body">
             @if ($pesan = session('Berhasil'))
                 <div class="alert alert-primary" role="alert">

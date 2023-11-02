@@ -12,9 +12,9 @@
 @section('content')
 
         <div class="container">
-            <div class="card">
+            <div class="card" style="background-color:#F5F7F8;">
                     <h1 class="text-center fs-2 mt-4">DATA MEMBER</h1>
-                <div class="card-body">
+                <div class="card-body" >
             @if ($pesan = session('berhasil'))
             <div class="alert alert-primary" role="alert">
             {{ $pesan }}
