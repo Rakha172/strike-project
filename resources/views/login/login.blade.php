@@ -12,7 +12,7 @@
         <link href="{{ asset('css/login.css') }}" rel="stylesheet">
 
 
-    <title>Halaman Login</title>
+    <title>{{ $title->name}} | Halaman Login</title>
   </head>
   <body>
     <div class="overlay"></div>

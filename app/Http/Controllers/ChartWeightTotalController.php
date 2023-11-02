@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ChartWeightTotalController extends Controller
@@ -11,7 +12,8 @@ class ChartWeightTotalController extends Controller
      */
     public function index()
     {
-        return view('chart-weight-total.index');
+        $title = Setting::firstOrFail();
+        return view('chart-weight-total.index', compact('title'));
 
     }
 

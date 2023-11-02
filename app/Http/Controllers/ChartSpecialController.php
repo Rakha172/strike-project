@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ChartSpecialController extends Controller
@@ -11,7 +12,8 @@ class ChartSpecialController extends Controller
      */
     public function index()
     {
-        return view('chart-special.index');
+        $title = Setting::firstOrFail();
+        return view('chart-special.index', compact('title'));
     }
 
     /**

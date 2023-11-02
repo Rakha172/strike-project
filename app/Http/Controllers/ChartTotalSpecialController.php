@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ChartTotalSpecialController extends Controller
@@ -11,7 +12,8 @@ class ChartTotalSpecialController extends Controller
      */
     public function index()
     {
-        return view('chart-total-special.index');
+        $title = Setting::firstOrFail();
+        return view('chart-total-special.index', compact('title'));
     }
 
     /**
