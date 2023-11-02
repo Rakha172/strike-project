@@ -15,7 +15,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('css/regisevent.css') }}" rel="stylesheet">
 
-    <title>Pendaftaran Acara</title>
+    <title>{{$title->name}} | Registration Event</title>
 </head>
 
 <body>

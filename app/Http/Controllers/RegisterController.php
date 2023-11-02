@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,8 @@ class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('register.register');
+        $title = Setting::firstOrFail();
+        return view('register.register', compact('title'));
     }
 
     public function register(Request $request)

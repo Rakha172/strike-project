@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Event_Registration;
 use App\Models\Result;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,22 +14,24 @@ class ResultController extends Controller
 {
     public function index(Event $event)
     {
+        $title = Setting::firstOrFail();
         $results = Result::all();
-        return view('result.index', compact('results', 'event'));
+
+        return view('result.index', compact('results', 'event', compact('title')));
     }
 
     public function create(Event $eventId)
     {
+        $title = Setting::firstOrFail();
         $users = User::all();
         $event_registration = $eventId->event_regist()->get();
-        // dd($event_registration);
-        $results = Result::where('event_id', $eventId)->get();
+        $results = Result::where('event_id', $eventId->id)->get();
 
         if (!$eventId) {
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
 
-        return view('result.create', compact('users', 'results', 'event_registration', 'eventId'));
+        return view('result.create', compact('users', 'results', 'event_registration', 'eventId', 'title'));
     }
 
 
@@ -72,11 +75,12 @@ class ResultController extends Controller
 
     public function edit(Result $result)
     {
+        $title = Setting::firstOrFail();
         $users = User::all();
         $event_registration = Event_Registration::all();
         $event = Event::all();
 
-        return view('result.edit', compact('result', 'users'));
+        return view('result.edit', compact('result', 'users', 'title'));
     }
 
     public function update(Request $request, Result $result)

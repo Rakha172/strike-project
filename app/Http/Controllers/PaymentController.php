@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event_Registration;
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -11,6 +12,7 @@ class PaymentController extends Controller
 {
     public function index(Request $request)
     {
+        $title = Setting::firstOrFail();
         $page = 5;
         $keyword = $request->keyword;
         $eventStatusPayed = Event_Registration::query()
@@ -25,7 +27,7 @@ class PaymentController extends Controller
             ->paginate($page);
         // dd($eventStatusPayed);
 
-        return view('payment.payment-confirm-admin', compact('eventStatusPayed'));
+        return view('payment.payment-confirm-admin', compact('eventStatusPayed', 'title'));
     }
 
     public function update(Request $request, Event_Registration $event_registrationId)
