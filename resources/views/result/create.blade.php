@@ -16,11 +16,11 @@
         <div class="card">
             <div class="card-body">
                 <h1 class="text-center fs-2 mt-4">Hasil Result Pemancingan</h1>
-                <h2 class="text-center fs-3 mt-4">{{ $eventId->name }}</h2>
+                <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
 
-
-                <form action="{{ route("result.store") }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route("result.store", ['event' => $event->id]) }}" method="POST">
                     @csrf
+                    @method("POST")
                     <div class="form-group">
                         <div class="form-group">
                             <div class="form-group">
@@ -51,7 +51,7 @@
 
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
-                        </form>
+                </form>
                     </div>
                 </div>
             </div>
