@@ -16,13 +16,13 @@
             <div class="card-body">
                 <h1 class="text-center fs-2 mt-4">Edit Hasil Result Pemancingan</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
-                <form action="{{ route("result.update", ['event' => $event->id, 'result' => $result->id]) }}" method="POST">
+                <form action="{{ route("result.update", [ 'result' => $result->id]) }}" method="POST">
                     @csrf
                     @method("PUT")
 
                     <div class="form-group">
                         <div class="mb-3">
-                            <label for "participant">Participant</label>
+                            <label for="participant">Participant</label>
                             <select name="participant" class="form-control">
                                 @foreach($event_registration as $eventReg)
                                     <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>{{ $eventReg->user->name }}</option>

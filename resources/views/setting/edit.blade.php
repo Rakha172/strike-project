@@ -35,6 +35,20 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label class="form-label">Slogan</label>
+                <textarea name="slogan" type="text" class="form-control @error('slogan') is-invalid @enderror">{{ old('slogan', $setting->slogan) }}"</textarea>
+                @error('slogan')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="desc" type="text" class="form-control @error('desc') is-invalid @enderror">{{ old('desc', $setting->desc) }}"</textarea>
+                @error('desc')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
 
             <div class="mb-3">
                 <label class="form-label">Location</label>

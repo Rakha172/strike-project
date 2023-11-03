@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->text('history');
             $table->string('location');
             $table->text('logo');
+            $table->string('slogan');
+            $table->text('desc');
             $table->timestamps();
         });
     }
