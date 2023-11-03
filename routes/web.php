@@ -1,13 +1,5 @@
 <?php
 
-use App\Http\Controllers\ChartController;
-use App\Http\Controllers\ChartSpecialController;
-use App\Http\Controllers\ChartTotalController;
-use App\Http\Controllers\ChartTotalSpecialController;
-use App\Http\Controllers\ChartWeightController;
-use App\Http\Controllers\ChartWeightSpecialController;
-use App\Http\Controllers\ChartWeightTotalController;
-use App\Http\Controllers\ChartWeightTotalSpecialController;
 use App\Http\Controllers\Event\EventChartResultAllController;
 use App\Http\Controllers\Event\EventChartResultController;
 use App\Http\Controllers\Event\EventChartResultSpecialController;
@@ -165,9 +157,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
     Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
     Route::put('/payment/cancel/{event_registrationId}', [PaymentController::class, 'cancel'])->name('payment.cancel');
-
-    //table chart lama
-    Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
 
     //Halaman RegisEvent
     Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
