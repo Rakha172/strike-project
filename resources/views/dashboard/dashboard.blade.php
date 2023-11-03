@@ -85,7 +85,7 @@
                     <h1>Dashboard</h1>
                     <script>
                         @if (Session::has('success'))
-                            toastr.info("{{ Session::get('success') }}", "User {{ Auth::user()->name }}", {
+                            toastr.info("{{ Session::get('success') }}", "{{ Auth::user()->name }}", {
                             });
                         @elseif (Session::has('failed'))
                             toastr.error("{{ Session::get('error') }}", "Oops!", {

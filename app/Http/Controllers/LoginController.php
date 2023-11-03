@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,8 @@ class LoginController extends Controller
 
     public function login()
     {
-        return view('login.login');
+        $title = Setting::firstOrFail();
+        return view('login.login', compact('title'));
     }
 
     public function handleLogin(Request $request)
@@ -36,7 +38,7 @@ class LoginController extends Controller
             if (Auth::user()->role == 'admin') {
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'member') {
-                return redirect('/event')->with(['success' => $request->name . "Berhasil Login"]);
+                return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
             } else if (Auth::user()->role == 'operator') {
                 return redirect('/result')->with(['success' => $request->name . "Berhasil Login"]);
 

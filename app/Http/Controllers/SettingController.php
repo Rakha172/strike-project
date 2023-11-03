@@ -13,8 +13,9 @@ class SettingController extends Controller
      */
     public function index()
     {
+        $title = Setting::firstOrFail();
         $setting = Setting::all();
-        return view('setting.index', compact('setting'));
+        return view('setting.index', compact('setting', 'title'));
     }
 
     /**
@@ -22,9 +23,10 @@ class SettingController extends Controller
      */
     public function show($id)
     {
+        $title = Setting::firstOrFail();
         $setting = Setting::first();
 
-        return view('setting.show', compact('setting'));
+        return view('setting.show', compact('setting', 'title'));
     }
 
     /**
@@ -32,9 +34,10 @@ class SettingController extends Controller
      */
     public function edit(string $id)
     {
+        $title = Setting::firstOrFail();
         $setting = Setting::first();
 
-        return view('setting.edit', compact('setting'));
+        return view('setting.edit', compact('setting', 'title'));
     }
 
     /**

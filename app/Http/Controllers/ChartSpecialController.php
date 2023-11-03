@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\Result;
 use Illuminate\Http\Request;
 
@@ -11,16 +12,15 @@ class ChartSpecialController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $results = Result::where('status', 'special')->get();
+    {
+        $title = Setting::firstOrFail();
+        $results = Result::where('status', 'special')->get();
+        $labels = $results->map(function ($result) {
+            return $result->user->name;
+        });
 
-    $labels = $results->map(function ($result) {
-        return $result->user->name;
-    });
-
-    return view('chart-special.index', compact('labels'));
-}
-
+        return view('chart-special.index', compact('labels', 'title'));
+    }
 
     /**
      * Show the form for creating a new resource.

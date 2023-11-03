@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Event_Registration;
 use App\Models\Result;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,22 +14,25 @@ class ResultController extends Controller
 {
     public function index(Event $event)
     {
+        $title = Setting::firstOrFail();
         $results = Result::all();
-        return view('result.index', compact('results', 'event'));
+
+        return view('result.index', compact('results', 'event', 'title'));
     }
 
     public function create(Event $event)
     {
-        // Periksa apakah event ada atau tidak
-        if (!$event) {
-            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
-        }
 
+        $title = Setting::firstOrFail();
         $users = User::all();
         $event_registration = $event->event_regist()->get();
         $results = Result::where('event_id', $event->id)->get();
 
-        return view('result.create', compact('users', 'results', 'event_registration', 'event'));
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
 
@@ -60,6 +64,7 @@ class ResultController extends Controller
     }
     public function edit(Result $result)
     {
+
         // Get the associated event for this result
         $event = $result->event;
 
