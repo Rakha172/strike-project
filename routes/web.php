@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
 use App\Models\Event;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -95,6 +96,13 @@ Route::post('/reset-password', function (Request $request) {
 //LandingPage
 Route::get('/', function () {
     return view('landingpage.index');
+});
+
+//landingpage
+Route::get('/', function () {
+    $setting = Setting::all();
+    $events = Event::all();
+    return view('landingpage.index', compact('setting', 'events'));
 });
 
 //dashboard
