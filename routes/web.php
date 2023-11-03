@@ -164,10 +164,10 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
 
     //table result
-    Route::get('result', [ResultController::class, 'index'])->name('result.index');
-    Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
-    Route::post('result', [ResultController::class, 'store'])->name('result.store');
-    Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
+    Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
+    Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
+    Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
+    Route::get('result/{result}/{event}', [ResultController::class, 'edit'])->name('result.edit');
     Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
     Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
 
@@ -196,17 +196,6 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     //landingevent
     Route::get('/event', function () {
         return view('landingevent.landingevent');
-    });
-
-
-    // table result
-    Route::group(['middleware' => 'can:role,"admin"'], function () {
-        Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
-        Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
-        Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
-        Route::get('result/{result}/{event}', [ResultController::class, 'edit'])->name('result.edit');
-        Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
-        Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
     });
 
     //event untuk landingevent
