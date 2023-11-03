@@ -22,7 +22,7 @@ class EventChartResultTotalController extends Controller
         $labels = $data->pluck('label')->toArray();
         $data = $data->pluck('data')->toArray();
 
-        return view('event.chart-total', compact('data', 'labels'));
+        return view('event.chart-total', compact('data', 'labels', 'event'));
 
     }
 }

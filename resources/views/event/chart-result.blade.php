@@ -2,7 +2,11 @@
 
 @section('content')
 
-<a href="{{ route('events.chart-total') }}" class="btn btn-primary">Chart Total</a>
+<a href="{{ route('events.chart-total', $event) }}" class="btn btn-primary"><span>Total</span></a>
+&nbsp; &nbsp;
+<a href="{{ route('events.chart-special', $event)}}" class="btn btn-primary"><span>Special</span></a>
+&nbsp; &nbsp;
+<a href="{{ route('events.chart-combined', $event)}}" class="btn btn-primary"><span>Combined</span></a>
 
 <div style="display: flex; justify-content: flex-start;">
     <div style="flex: 1;">
