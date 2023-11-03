@@ -29,6 +29,8 @@
                 <th scope="col">Name</th>
                 <th scope="col">Image</th>
                 <th scope="col">History</th>
+                <th scope="col">Slogan</th>
+                <th scope="col">Descriptiom</th>
               </tr>
             </thead>
             <tbody>
@@ -41,6 +43,8 @@
                         <img style="max-width:200px;max-height:200px;" src="{{ asset('logo/' . $sett->logo) }}">
                     </a>
                 <td>{{ $sett->history }}</td>
+                <td>{{ $sett->slogan }}</td>
+                <td>{{ $sett->desc }}</td>
                 <td>
                 <td>
                     <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-info m-1">Read</a>
@@ -51,9 +55,6 @@
             </tbody>
           </table>
     </div>
-    {{-- <td colspan="n">
-        <div style="text-align: center;"> --}}
-
     @endsection
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
