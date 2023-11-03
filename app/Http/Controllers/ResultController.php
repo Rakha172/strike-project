@@ -81,16 +81,29 @@ class ResultController extends Controller
 
     public function update(Request $request, Result $result)
     {
+        // Get the associated event for this result
+        $event = $result->event;
+
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
         $validated = $request->validate([
-            'weight' => 'required',
-            'status' => 'required',
-            'user_id' => 'required|exists:users,id',
+            'weight' => 'required|numeric',
+            'status' => 'required|in:special,regular',
+            'participant' => 'required',
         ]);
 
-        $result->update($validated);
+        $result->update([
+            'weight' => $validated['weight'],
+            'status' => $validated['status'],
+            'participant' => $validated['participant'],
+        ]);
 
-        return redirect()->route('result.index')->with('success', 'Data berhasil diperbarui');
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
+
 
     public function destroy(Result $result)
     {
