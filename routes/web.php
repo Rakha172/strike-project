@@ -120,16 +120,6 @@ Route::get('/main', function () {
     return view('componen.main');
 });
 
-// Chart Weight - Total - Special
-Route::get('/chart-weight-total-special', [ChartWeightTotalSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-weight-special', [ChartWeightSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-weight-total', [ChartWeightTotalController::class, 'index'])->name('chart.index');
-Route::get('/chart-total-special', [ChartTotalSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-weight', [ChartWeightController::class, 'index'])->name('chart.index');
-Route::get('/chart-special', [ChartSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-total', [ChartTotalController::class, 'index'])->name('chart.index');
-
-
 //ROLE ADMIN//
 // table user
 Route::group(['middleware' => 'can:role,"admin"'], function () {
