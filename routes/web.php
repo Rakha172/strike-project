@@ -198,6 +198,17 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
         return view('landingevent.landingevent');
     });
 
+
+    // table result
+    Route::group(['middleware' => 'can:role,"admin"'], function () {
+        Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
+        Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
+        Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
+        Route::get('result/{result}/{event}', [ResultController::class, 'edit'])->name('result.edit');
+        Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
+        Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
+    });
+
     //event untuk landingevent
     Route::get('/event', function () {
         $events = Event::all();

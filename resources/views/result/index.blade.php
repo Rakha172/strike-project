@@ -19,7 +19,7 @@
             <div class="card-body" style="background-color:#F5F7F8;">
                 <h1 class="text-center fs-2 mt-4">DATA RESULTS</h1>
 
-                <a href="{{ route('result.create', ['eventId' => $event->id] ) }}" class="btn btn-dark mb-3">Tambah</a>
+                <a href="{{ route('result.create', ['event' => $event->id] ) }}" class="btn btn-dark mb-3">Tambah</a>
 
                 <table class="table">
                     <thead>
@@ -45,6 +45,7 @@
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda Yakin ingin menghapus data ini?')">Delete</button>
+                                   <a href="{{ route('result.edit', ['event' => $event->id, 'result' => $result->id]) }}" class="btn btn-warning m-1">Edit</a>
                                 </form>
                             </td>
                         </tr>
