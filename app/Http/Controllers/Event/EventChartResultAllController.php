@@ -39,6 +39,6 @@ class EventChartResultAllController extends Controller
         $dataTotalIkan = $dataTotalIkan->pluck('data')->toArray();
         $dataIkanSpecial = $dataIkanSpecial->pluck('data')->toArray();
 
-        return view('event.chart-combined', compact('labels', 'dataWeightTotal', 'dataTotalIkan', 'dataIkanSpecial'));
+        return view('event.chart-combined', compact('labels', 'dataWeightTotal', 'dataTotalIkan', 'dataIkanSpecial', 'event'));
     }
 }
