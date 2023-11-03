@@ -1,6 +1,9 @@
 @extends('componen.layout')
 
 @section('content')
+
+<a href="{{ route('events.chart-total') }}" class="btn btn-primary">Chart Total</a>
+
 <div style="display: flex; justify-content: flex-start;">
     <div style="flex: 1;">
         <canvas id="myChart"></canvas>
