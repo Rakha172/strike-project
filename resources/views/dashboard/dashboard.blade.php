@@ -37,7 +37,6 @@
             <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Member</a></li>
             <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>EventRegist</a></li>
             <li><a href="{{ route('payment.index')}}"><i class='bx bx-dollar'></i>Payment-Confirm</a></li>
-            <li><a href="{{ route('chart.index')}}"><i class='bx bx-line-chart'></i>Grafik</a></li>
         </ul>
         <ul class="side-menu">
             <li>
