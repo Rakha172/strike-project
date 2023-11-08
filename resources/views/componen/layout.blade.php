@@ -35,9 +35,6 @@
             <li class="{{ request()->is('payment*') ? 'active' : '' }}">
                 <a href="{{ route('payment.index') }}"><i class='bx bx-dollar'></i>Payment-Confirm</a>
             </li>
-            <li class="{{ request()->is('chart*') ? 'active' : '' }}">
-                <a href="{{ route('chart.index') }}"><i class='bx bx-line-chart'></i>Grafik</a>
-            </li>
         </ul>
 
         <ul class="side-menu">
