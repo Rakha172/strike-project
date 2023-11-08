@@ -14,6 +14,7 @@ class Result extends Model
 
     protected $fillable = [
         'user_id',
+        'event_id',
         'weight',
         'status',
     ];
@@ -23,7 +24,10 @@ class Result extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'event_id');
+    }
     public function event_registration()
     {
         return $this->belongsTo(Event_Registration::class, 'event_registration_id');

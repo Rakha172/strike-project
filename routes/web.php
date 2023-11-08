@@ -1,13 +1,5 @@
 <?php
 
-use App\Http\Controllers\ChartController;
-use App\Http\Controllers\ChartSpecialController;
-use App\Http\Controllers\ChartTotalController;
-use App\Http\Controllers\ChartTotalSpecialController;
-use App\Http\Controllers\ChartWeightController;
-use App\Http\Controllers\ChartWeightSpecialController;
-use App\Http\Controllers\ChartWeightTotalController;
-use App\Http\Controllers\ChartWeightTotalSpecialController;
 use App\Http\Controllers\Event\EventChartResultAllController;
 use App\Http\Controllers\Event\EventChartResultController;
 use App\Http\Controllers\Event\EventChartResultSpecialController;
@@ -22,6 +14,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
 use App\Models\Event;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -105,6 +98,13 @@ Route::get('/', function () {
     return view('landingpage.index');
 });
 
+//landingpage
+Route::get('/', function () {
+    $setting = Setting::all();
+    $events = Event::all();
+    return view('landingpage.index', compact('setting', 'events'));
+});
+
 //dashboard
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
@@ -119,16 +119,6 @@ Route::get('/layout', function () {
 Route::get('/main', function () {
     return view('componen.main');
 });
-
-// Chart Weight - Total - Special
-Route::get('/chart-weight-total-special', [ChartWeightTotalSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-weight-special', [ChartWeightSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-weight-total', [ChartWeightTotalController::class, 'index'])->name('chart.index');
-Route::get('/chart-total-special', [ChartTotalSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-weight', [ChartWeightController::class, 'index'])->name('chart.index');
-Route::get('/chart-special', [ChartSpecialController::class, 'index'])->name('chart.index');
-Route::get('/chart-total', [ChartTotalController::class, 'index'])->name('chart.index');
-
 
 //ROLE ADMIN//
 // table user
@@ -164,10 +154,10 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
 
     //table result
-    Route::get('result', [ResultController::class, 'index'])->name('result.index');
-    Route::get('result/create', [ResultController::class, 'create'])->name('result.create');
-    Route::post('result', [ResultController::class, 'store'])->name('result.store');
-    Route::get('result/{result}', [ResultController::class, 'edit'])->name('result.edit');
+    Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
+    Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
+    Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
+    Route::get('result/{result}/{event}', [ResultController::class, 'edit'])->name('result.edit');
     Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
     Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
 
@@ -175,9 +165,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('payment-confirm', [PaymentController::class, 'index'])->name('payment.index');
     Route::put('payment-confirm/{event_registrationId}', [PaymentController::class, 'update'])->name('payment.update');
     Route::put('/payment/cancel/{event_registrationId}', [PaymentController::class, 'cancel'])->name('payment.cancel');
-
-    //table chart lama
-    Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
 
     //Halaman RegisEvent
     Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');

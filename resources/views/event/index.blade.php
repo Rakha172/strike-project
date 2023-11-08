@@ -33,6 +33,7 @@
                 <th scope="col">Event Date</th>
                 <th scope="col">Location</th>
                 <th scope="col">Description</th>
+                <th scope="col">Option</th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +67,6 @@
             </tbody>
           </table>
     </div>
-    {{-- <td colspan="n">
-        <div style="text-align: center;"> --}}
-
     @endsection
+</body>
+</html>

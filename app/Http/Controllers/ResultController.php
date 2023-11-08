@@ -20,86 +20,97 @@ class ResultController extends Controller
         return view('result.index', compact('results', 'event', 'title'));
     }
 
-    public function create(Event $eventId)
+    public function create(Event $event)
     {
+
         $title = Setting::firstOrFail();
         $users = User::all();
-        $event_registration = $eventId->event_regist()->get();
-        $results = Result::where('event_id', $eventId->id)->get();
+        $event_registration = $event->event_regist()->get();
+        $results = Result::where('event_id', $event->id)->get();
 
-        if (!$eventId) {
+        if (!$event) {
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
 
-        return view('result.create', compact('users', 'results', 'event_registration', 'eventId', 'title'));
+        return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
 
-
-
-    public function store(Request $request)
+    public function store(Request $request, Event $event)
     {
+
         $request->validate([
             'participant' => 'required',
-            'event_id' => 'nullable|exists:events,id',
             'weight' => 'required',
             'status' => 'required|in:special,regular',
         ]);
 
-        // Mengambil data yang dipilih dari select
-        $user_id = $request->input('participant');
-        $event_id = $request->input('event_id');
-
-        $user = User::find($user_id);
-        $event = Event::find($event_id);
+        $user = User::find($request->input('participant'));
 
         if (!$user) {
-            return redirect()->route('result.create')->with('error', 'User tidak ditemukan.');
+            return redirect()->route('result.create', ['event' => $event->id])->with('error', 'User tidak ditemukan.');
         }
 
-        $weightValueInKg = floatval($request->input('weight'));
+        $result = new Result([
+            'user_id' => $user->id,
+            'event_id' => $event->id,
+            'weight' => floatval($request->input('weight')),
+            'status' => $request->input('status'),
+        ]);
 
-        $result = new Result;
-        $result->user_id = $user->id;
-        $result->event_id = $event_id;
-        $result->weight = $weightValueInKg;
-        $result->status = $request->input('status');
         $result->save();
 
-        if ($result->wasRecentlyCreated) {
-            return redirect()->route('result.index')->with('success', 'Data berhasil disimpan');
-        } else {
-            return redirect()->route('result.create')->with('error', 'Gagal menyimpan data');
-        }
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
     }
-
     public function edit(Result $result)
     {
-        $title = Setting::firstOrFail();
-        $users = User::all();
-        $event_registration = Event_Registration::all();
-        $event = Event::all();
 
-        return view('result.edit', compact('result', 'users', 'title'));
+        // Get the associated event for this result
+        $event = $result->event;
+
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        $event_registration = $event->event_regist()->get();
+        $results = Result::where('event_id', $event->id)->get();
+
+        return view('result.edit', compact('results', 'event_registration', 'event', 'result'));
     }
 
     public function update(Request $request, Result $result)
     {
+        // Get the associated event for this result
+        $event = $result->event;
+
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
         $validated = $request->validate([
-            'weight' => 'required',
-            'status' => 'required',
-            'user_id' => 'required|exists:users,id',
+            'weight' => 'required|numeric',
+            'status' => 'required|in:special,regular',
+            'participant' => 'required',
         ]);
 
-        $result->update($validated);
+        $result->update([
+            'weight' => $validated['weight'],
+            'status' => $validated['status'],
+            'participant' => $validated['participant'],
+        ]);
 
-        return redirect()->route('result.index')->with('success', 'Data berhasil diperbarui');
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
+
 
     public function destroy(Result $result)
     {
+        $event = $result->event;
+
         $result->delete();
 
-        return redirect()->route('result.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil dihapus');
     }
 }
