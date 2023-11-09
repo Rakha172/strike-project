@@ -49,11 +49,11 @@ class SettingController extends Controller
             'name' => 'required',
             'history' => 'required',
             'location' => 'required',
-            'logo' => 'required|nullable|image',
+            'logo' => 'nullable|image',
             'slogan' => 'required',
-            'description' => 'required',
-        ], [
-            'logo.image' => "Foto harus berupa image",
+            'desc' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
         ]);
 
         if ($request->hasFile('logo')) {
@@ -77,7 +77,9 @@ class SettingController extends Controller
         $id->history = $request->input('history');
         $id->location = $request->input('location');
         $id->slogan = $request->input('slogan');
-        $id->description = $request->input('description');
+        $id->desc = $request->input('desc');
+        $id->phone = $request->input('phone');
+        $id->email = $request->input('email');
         $id->save();
 
         // Menambahkan pesan berhasil ke sesi

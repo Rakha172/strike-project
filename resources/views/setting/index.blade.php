@@ -30,7 +30,10 @@
                 <th scope="col">Image</th>
                 <th scope="col">History</th>
                 <th scope="col">Slogan</th>
-                <th scope="col">Descriptiom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Option</th>
               </tr>
             </thead>
             <tbody>
@@ -45,7 +48,8 @@
                 <td>{{ $sett->history }}</td>
                 <td>{{ $sett->slogan }}</td>
                 <td>{{ $sett->desc }}</td>
-                <td>
+                <td>{{ $sett->phone }}</td>
+                <td>{{ $sett->email }}</td>
                 <td>
                     <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-info m-1">Read</a>
                     <a href="{{ route('setting.edit', $sett->id) }}" class="btn btn-warning m-1">Edit </a>

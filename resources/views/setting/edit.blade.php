@@ -30,22 +30,8 @@
 
             <div class="mb-3">
                 <label class="form-label">History</label>
-                <textarea name="history" type="text" class="form-control @error('history') is-invalid @enderror">{{ old('history', $setting->history) }}"</textarea>
+                <textarea name="history" type="text" class="form-control @error('history') is-invalid @enderror">{{ old('history', $setting->history) }}</textarea>
                 @error('history')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Slogan</label>
-                <textarea name="slogan" type="text" class="form-control @error('slogan') is-invalid @enderror">{{ old('slogan', $setting->slogan) }}"</textarea>
-                @error('slogan')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Description</label>
-                <textarea name="desc" type="text" class="form-control @error('desc') is-invalid @enderror">{{ old('desc', $setting->desc) }}"</textarea>
-                @error('desc')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
@@ -72,6 +58,38 @@
                             </div>
                         @enderror
                 <br>
+
+                <div class="mb-3">
+                    <label class="form-label">Slogan</label>
+                    <textarea name="slogan" type="text" class="form-control @error('slogan') is-invalid @enderror">{{ old('slogan', $setting->slogan) }}</textarea>
+                    @error('slogan')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="desc" type="text" class="form-control @error('desc') is-invalid @enderror">{{ old('desc', $setting->desc) }}</textarea>
+                    @error('desc')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <textarea name="phone" type="number" class="form-control @error('phone') is-invalid @enderror">{{ old('phone', $setting->phone) }}</textarea>
+                    @error('phone')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <textarea name="email" type="text" class="form-control @error('email') is-invalid @enderror">{{ old('email', $setting->email) }}</textarea>
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
 
                 <center>
                     <input value="Update Data" type="submit"

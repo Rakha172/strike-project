@@ -35,10 +35,11 @@
     <div class="overlay"></div>
     <form action="{{ route('login') }}" method="POST" class="box">
         @csrf
-        <div class="header">
+        <div class="header"> 
             <h4>Login To Your Account</h4>
             <p>Welcome, Please sign in!</p>
         </div>
+        <br>
         <div class="login area">
             <script>
                 @if (Session::has('success'))

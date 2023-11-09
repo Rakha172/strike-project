@@ -15,7 +15,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('css/regisevent.css') }}" rel="stylesheet">
 
-    <title>{{$title->name}} | Registration Event</title>
+    <title>{{ $title->name }} | Registration Event</title>
 </head>
 
 <body>
@@ -26,11 +26,20 @@
             <h4>Pendaftaran Acara</h4>
             <p>Silakan isi formulir pendaftaran acara</p>
         </div>
+        <br>
+
+        {{-- @if (session('success')) --}}
+            <div class="alert alert-primary">
+                Berhasil Dibuat
+                {{-- {{ session('success') }} --}}
+            </div>
+        {{-- @endif --}}
+
         <div class="login area">
             <p>Username
                 @if (auth()->check())
-                    <input type="text" class="form-control" placeholder="Masukkan Username Anda"
-                        value="{{ auth()->user()->name }}">
+                    <input type="text" class="form-control" value="{{ auth()->user()->name }}"
+                        style="background: #0d6efd" readonly>
                     <input name="user_id" type="hidden" class="form-control" placeholder="Masukkan Username Anda"
                         value="{{ auth()->user()->id }}">
                 @endif
@@ -59,14 +68,14 @@
             </div>
         </div>
     </form>
-@if(session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-<script>
-    alert("{{ session('error') }}");
-</script>
-@endif
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        <script>
+            alert("{{ session('error') }}");
+        </script>
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -78,13 +87,11 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     <script>
-        @if(session('error'))
-        alert("{{ session('error') }}");
+        @if (session('error'))
+            alert("{{ session('error') }}");
         @endif
     </script>
 
 </body>
 
 </html>
-
-

@@ -68,7 +68,7 @@ class Event_RegistrationController extends Controller
 
         Event_Registration::create($validated);
 
-        return redirect('/dashboard')->with('success', 'Data berhasil dibuat.');
+        return redirect('/regisevent')->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration)
