@@ -14,20 +14,47 @@
             <h3>{{ $event->name }}</h3>
             {{-- <p>Both: {{ $event->random_both }}</p> --}}
 
-                    <button id="spin">Spin</button>
-                    <span class="arrow"></span>
-                    <div class="container">
-                        @for ($i = 1; $i <= 10; $i++)
-                            <div class="{{ 'number-' . $i }}">{{ $i }}</div>
-                        @endfor
-                    </div>
-                </div>
-            @endforeach
+            <button id="spin">Spin</button>
+            <span class="arrow"></span>
+            <div class="container">
+                @for ($i = 1; $i <= 1; $i++)
+                    <div class="one">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 2; $i++)
+                    <div class="two">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 3; $i++)
+                    <div class="three">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 4; $i++)
+                    <div class="four">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 5; $i++)
+                    <div class="five">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 6; $i++)
+                    <div class="six">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 7; $i++)
+                    <div class="seven">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 8; $i++)
+                    <div class="eight">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 9; $i++)
+                    <div class="nine">{{ $no[$i - 1] }}</div>
+                @endfor
+                @for ($i = 1; $i <= 10; $i++)
+                    <div class="ten">{{ $no[$i - 1] }}</div>
+                @endfor
+            </div>
 
-            <script>
-                // Tambahkan skrip JavaScript untuk melakukan putaran (seperti yang disebutkan pada contoh sebelumnya)
-                // ...
-            </script>
+        </div>
+
+        <script>
+            // Tambahkan skrip JavaScript untuk melakukan putaran (seperti yang disebutkan pada contoh sebelumnya)
+            // ...
+        </script>
 
         </div>
     @endforeach
@@ -40,6 +67,10 @@
             if (!spinning) {
                 let number = Math.floor(Math.random() * 10) + 1; // Menghasilkan nomor antara 1 hingga 10
                 let rotateDegrees = 360 * 5 + (number - 1) * (360 / 10); // Menghitung derajat rotasi
+
+                // Menghilangkan nomor yang telah dipilih
+        let selectedNumberDiv = document.querySelector(`.number-${number}`);
+        selectedNumberDiv.style.display = 'none';
 
                 container.style.transition = 'transform 5s ease-out';
                 container.style.transform = `rotate(${rotateDegrees}deg)`;
@@ -59,18 +90,26 @@
             alert(`Selamat, nomor yang terpilih adalah ${selectedNumber}`);
             spinning = false;
             container.style.transition = ''; // Menghapus transisi untuk putaran berikutnya
+
+            // Menampilkan kembali nomor yang sebelumnya disembunyikan
+    let previouslySelectedNumberDiv = document.querySelector(`.number-${selectedNumber}`);
+    previouslySelectedNumberDiv.style.display = 'block';
         }
 
         // Fungsi untuk mendapatkan derajat rotasi saat ini
         function getRotationDegrees(element) {
             let style = window.getComputedStyle(element);
-            let matrix = style.transform || style.webkitTransform || style.mozTransform;
-            if (matrix === 'none') return 0;
-            let values = matrix.split('(')[1].split(')')[0].split(',');
-            let a = values[0];
-            let b = values[1];
-            let angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
-            return angle < 0 ? angle + 360 : angle;
+            let matrix = style.transform || style.webkitTransform || style.mozTransform || style.msTransform;
+            let angle;
+            if (matrix === 'none') {
+                angle = 0;
+            } else {
+                let values = matrix.split('(')[1].split(')')[0].split(',');
+                let a = values[0];
+                let b = values[1];
+                angle = Math.atan2(b, a) * (180 / Math.PI);
+            }
+            return (angle < 0 ? angle + 360 : angle);
         }
     </script>
 </body>

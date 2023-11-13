@@ -28,12 +28,12 @@
         </div>
         <br>
 
-        {{-- @if (session('success')) --}}
+        @if (session('success'))
             <div class="alert alert-primary">
                 Berhasil Dibuat
-                {{-- {{ session('success') }} --}}
+                {{ session('success') }}
             </div>
-        {{-- @endif --}}
+        @endif
 
         <div class="login area">
             <p>Username

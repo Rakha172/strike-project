@@ -93,7 +93,8 @@
 
                 <center>
                     <input value="Update Data" type="submit"
-                        style="background-color: darkgrey;border-radius:15px;width:400px;"></br>
+                          style="background-color: black;border-radius:10px
+                          ;width:500px;color:white;"></br>
                 </center>
             </div>
 
