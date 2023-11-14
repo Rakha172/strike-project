@@ -11,50 +11,57 @@
 
 @section('content')
 
-    <div class="container">
-        <div class="card" style="background-color:#F5F7F8;">
-                <h1 class="text-center fs-2 mt-4">SETTING</h1>
-            <div class="card-body">
-
-
-        @if ($pesan = session('berhasil'))
-        <div class="alert alert-primary" role="alert">
-           {{ $pesan }}
+<div class="container">
+    <div class="card">
+        <h2 class="card-header text-center">SETTING</h2>
+        <div class="card-body">
+            @if ($pesan = session('info'))
+                <div class="alert alert-primary" role="alert">
+                    {{ $pesan }}
+                </div>
+            @endif
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">NO</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">History</th>
+                            <th scope="col">Slogan</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($setting as $key => $sett)
+                            <tr>
+                                <th scope="row">{{ $key + 1 }}</th>
+                                <td>{{ $sett->name }}</td>
+                                <td>
+                                    <a href="{{ asset('logo/' . $sett->logo) }}" target="_blank">
+                                        <img src="{{ asset('logo/' . $sett->logo) }}" class="img-fluid" style="max-width:200px;max-height:200px;">
+                                    </a>
+                                </td>
+                                <td>{{ $sett->history }}</td>
+                                <td>{{ $sett->slogan }}</td>
+                                <td>{{ $sett->desc }}</td>
+                                <td>{{ $sett->phone }}</td>
+                                <td>{{ $sett->email }}</td>
+                                <td>
+                                    <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-dark m-1">Read</a>
+                                    <a href="{{ route('setting.edit', $sett->id) }}" class="btn btn-info m-1">Edit</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-        @endif
-        <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">NO</th>
-                <th scope="col">Name</th>
-                <th scope="col">Image</th>
-                <th scope="col">History</th>
-                <th scope="col">Slogan</th>
-                <th scope="col">Descriptiom</th>
-              </tr>
-            </thead>
-            <tbody>
-                @foreach ($setting as $key => $sett)
-              <tr>
-                <th scope="row">{{ $key + 1}}</th>
-                <td>{{ $sett->name }}</td>
-                <td>
-                    <a href="{{ asset('logo/' . $sett->logo) }}" style="max-width:200px;max-height:200px;">
-                        <img style="max-width:200px;max-height:200px;" src="{{ asset('logo/' . $sett->logo) }}">
-                    </a>
-                <td>{{ $sett->history }}</td>
-                <td>{{ $sett->slogan }}</td>
-                <td>{{ $sett->desc }}</td>
-                <td>
-                <td>
-                    <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-info m-1">Read</a>
-                    <a href="{{ route('setting.edit', $sett->id) }}" class="btn btn-warning m-1">Edit </a>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
     </div>
+</div>
     @endsection
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 

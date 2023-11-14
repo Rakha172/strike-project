@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->text('logo');
             $table->string('slogan');
             $table->text('desc');
+            $table->string('phone');
+            $table->text('email');
             $table->timestamps();
         });
     }
