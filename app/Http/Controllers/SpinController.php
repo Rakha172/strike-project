@@ -19,5 +19,4 @@ class SpinController extends Controller
     return view('spin.spin', compact('events', 'numbers'));
 }
 
-
 }
