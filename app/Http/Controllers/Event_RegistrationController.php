@@ -62,6 +62,8 @@ class Event_RegistrationController extends Controller
             'user_id' => 'required',
             'event_id' => 'required',
             'booth' => 'required',
+            'qualification' => 'required|in:weight,total,special', // Validate the qualification field
+
         ]);
 
         $validated['payment_status'] = 'waiting';
@@ -78,6 +80,8 @@ class Event_RegistrationController extends Controller
             'event_id' => 'required',
             'booth' => 'required',
             'payment_status' => 'required',
+            'qualification' => 'required|in:weight,total,special', // Validate the qualification field
+
         ]);
 
         $event_registration->update($validated);

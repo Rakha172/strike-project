@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Event\EventChartResultAllController;
+use App\Http\Controllers\Event\EventChartResultAndSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndTotalController;
+use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
 use App\Http\Controllers\Event\EventChartResultController;
 use App\Http\Controllers\Event\EventChartResultSpecialController;
 use App\Http\Controllers\Event\EventChartResultTotalController;
@@ -145,6 +148,9 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('events/{event}/chart-total', EventChartResultTotalController::class)->name('events.chart-total');
     Route::get('events/{event}/chart-special', EventChartResultSpecialController::class)->name('events.chart-special');
     Route::get('events/{event}/chart-combined', EventChartResultAllController::class)->name('events.chart-combined');
+    Route::get('events/{event}/chart-result-and-special', EventChartResultAndSpecialController::class)->name('events.chart-result-and-special');
+    Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
+    Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
 
     //table setting
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');

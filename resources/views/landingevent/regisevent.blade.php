@@ -47,16 +47,27 @@
             <p>Event
                 <select name="event_id" id="event_id" class="form-control">
                     @foreach ($events as $event)
+                    @if (!$event->members->contains(Auth::user()))
                         <option value="{{ $event->id }}">{{ $event->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </p>
-
             <p>Select Booth
                 <select name="booth" class="form-control">
                     @for ($i = 1; $i <= 10; $i++)
                         <option value="{{ $i }}">{{ $i }}</option>
                     @endfor
+                </select>
+            </p>
+
+            <p>Qualification
+                <select name="qualification" class="form-control">
+                    @foreach (['weight', 'total', 'special'] as $qualificationOption)
+                        <option value="{{ $qualificationOption }}" {{ old('qualification') == $qualificationOption ? 'selected' : '' }}>
+                            {{ ucfirst($qualificationOption) }}
+                        </option>
+                    @endforeach
                 </select>
             </p>
 
