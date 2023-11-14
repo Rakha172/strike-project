@@ -24,10 +24,10 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-    <title>{{ $title->name}} | Halaman Login</title>
+    <title>{{ $title->name }} | Halaman Login</title>
 </head>
-    {{-- JS Toastr Link --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+{{-- JS Toastr Link --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
     integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -35,7 +35,7 @@
     <div class="overlay"></div>
     <form action="{{ route('login') }}" method="POST" class="box">
         @csrf
-        <div class="header"> 
+        <div class="header">
             <h4>Login To Your Account</h4>
             <p>Welcome, Please sign in!</p>
         </div>
@@ -46,17 +46,18 @@
                     toastr.info("{{ Session::get('success') }}", "", {
                         positionClass: "toast-top-center"
                     });
-                @elseif (Session::has('failed'))
-                    toastr.error("{{ Session::get('error') }}", "Oops!", {
+                @endif
+            </script>
+
+            <script>
+                @if ($errors->has('email'))
+                    toastr.error("{{ $errors->first('email') }}", "", {
+                        positionClass: "toast-top-center"
                     });
                 @endif
             </script>
+
             <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
-            @error('email')
-                <div class="invalid-feedback text-start">
-                    {{ $message }}
-                </div>
-            @enderror
 
             <div class="password-container">
                 <input type="password" name="password" class="password" id="password" placeholder="Masukkan Password"

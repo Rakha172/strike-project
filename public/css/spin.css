@@ -70,15 +70,15 @@ body{
     background-color: #9c27b0 ;
     transform: rotate(216deg);
 }
-.container .eight {
+.container #eight {
     background-color: #f44336 ;
     transform: rotate(252deg);
 }
-.container .nine {
+.container #nine {
     background-color: #5e725a ;
     transform: rotate(288deg);
 }
-.container .ten {
+.container #ten {
     background-color: #8b140c ;
     transform: rotate(324deg);
 }
@@ -115,4 +115,8 @@ body{
     cursor: pointer;
     outline: none;
     letter-spacing: 1px;
+}
+
+.number.selected {
+    background-color: #ff0000; /* Anda dapat menyesuaikan warna latar belakang sesuai keinginan */
 }

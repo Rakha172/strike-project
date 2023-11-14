@@ -15,8 +15,10 @@
         <div class="card mb-1" style="max-width: 100%; max-height: 600px; background-color:#F5F7F8;">
             <div class="row g-0">
                 <div class="col-md-5">
-                    <img src="{{ url('logo/' . $setting->logo) }}" style="width: 55%;margin-left: 15px;margin-top:10px"
-                        alt="Logo">
+                    <a href="{{ url('logo/' . $setting->logo) }}">
+                        <img src="{{ url('logo/' . $setting->logo) }}" style="width: 55%;margin-left: 15px;margin-top:10px"
+                            alt="Logo">
+                    </a>
                 </div>
 
                 <div class="col-md-6">

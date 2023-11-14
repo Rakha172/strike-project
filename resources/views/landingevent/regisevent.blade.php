@@ -30,7 +30,6 @@
 
         @if (session('success'))
             <div class="alert alert-primary">
-                Berhasil Dibuat
                 {{ session('success') }}
             </div>
         @endif
@@ -64,6 +63,11 @@
             <div class="form-group">
                 <form action="{{ url('/dashboard') }}">
                     <button type="submit" class="btn btn-success btn-block">Daftar</button>
+                </form>
+                <br>
+                <br>
+                <form action="{{ route('events') }}">
+                    <button type="submit" class="btn btn-primary">Kembali</button>
                 </form>
             </div>
         </div>
