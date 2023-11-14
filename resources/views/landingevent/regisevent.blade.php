@@ -61,13 +61,13 @@
             </p>
 
             <div class="form-group">
-                <form action="{{ url('/dashboard') }}">
-                    <button type="submit" class="btn btn-success btn-block">Daftar</button>
+                <form action="{{ url('/registevent') }}">
+                    <button type="submit" class="btn btn-primary">Daftar</button>
                 </form>
                 <br>
                 <br>
                 <form action="{{ route('events') }}">
-                    <button type="submit" class="btn btn-primary">Kembali</button>
+                    <button type="submit" class="btn btn-primary" style="margin-top: -10px">Kembali</button>
                 </form>
             </div>
         </div>

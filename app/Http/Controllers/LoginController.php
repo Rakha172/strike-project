@@ -40,8 +40,7 @@ class LoginController extends Controller
             } else if (Auth::user()->role == 'member') {
                 return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
             } else if (Auth::user()->role == 'operator') {
-                return redirect('/result')->with(['success' => $request->name . "Berhasil Login"]);
-
+                return redirect('/eventsop')->with(['success' => $request->name . "Berhasil Login"]);
             }
         }
 
