@@ -45,7 +45,6 @@
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda Yakin ingin menghapus data ini?')">Delete</button>
-                                   <a href="{{ route('result.edit', ['event' => $event->id, 'result' => $result->id]) }}" class="btn btn-warning m-1">Edit</a>
                                 </form>
                             </td>
                         </tr>
