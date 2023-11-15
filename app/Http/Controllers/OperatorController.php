@@ -19,7 +19,7 @@ class OperatorController extends Controller
         foreach ($events as $event) {
             $event->random_both = $event->random_both;
         }
-        return view('operator.index', compact('title','events'));
+        return view('operator.index', compact('title', 'events'));
     }
 
     public function show($eventId)
@@ -61,13 +61,12 @@ class OperatorController extends Controller
         return response()->json(['message' => 'Both reduced successfully']);
     }
 
-
     public function indexop(Event $event)
     {
         $title = Setting::firstOrFail();
         $results = Result::all();
 
-        return view('result.index', compact('results', 'event', 'title'));
+        return view('operator.index-result', compact('results', 'event', 'title'));
     }
 
     public function create(Event $event)
@@ -79,16 +78,15 @@ class OperatorController extends Controller
         $results = Result::where('event_id', $event->id)->get();
 
         if (!$event) {
-            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
-        return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
+        return view('operator.create-result', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
 
     public function store(Request $request, Event $event)
     {
-
         $request->validate([
             'participant' => 'required',
             'weight' => 'required',
@@ -110,8 +108,9 @@ class OperatorController extends Controller
 
         $result->save();
 
-        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
+        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
     }
+
     public function edit(Result $result)
     {
 
@@ -120,13 +119,13 @@ class OperatorController extends Controller
 
         // Periksa apakah event ada atau tidak
         if (!$event) {
-            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
         $event_registration = $event->event_regist()->get();
         $results = Result::where('event_id', $event->id)->get();
 
-        return view('result.edit', compact('results', 'event_registration', 'event', 'result'));
+        return view('operator.edit-result', compact('results', 'event_registration', 'event', 'result'));
     }
 
     public function update(Request $request, Result $result)
@@ -136,7 +135,7 @@ class OperatorController extends Controller
 
         // Periksa apakah event ada atau tidak
         if (!$event) {
-            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
         $validated = $request->validate([
@@ -151,16 +150,6 @@ class OperatorController extends Controller
             'participant' => $validated['participant'],
         ]);
 
-        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
-    }
-
-
-    public function destroy(Result $result)
-    {
-        $event = $result->event;
-
-        $result->delete();
-
-        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil dihapus');
+        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 }
