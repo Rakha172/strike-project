@@ -19,7 +19,7 @@ class OperatorController extends Controller
         foreach ($events as $event) {
             $event->random_both = $event->random_both;
         }
-        return view('operator.index', compact('title','events'));
+        return view('operator.index', compact('title', 'events'));
     }
 
     public function show($eventId)
@@ -38,10 +38,6 @@ class OperatorController extends Controller
 
         return view('operator.show', compact('event', 'users', 'title'));
     }
-
-
-
-
 
     public function reduceBoth(Request $request, $eventId)
     {
@@ -153,3 +149,4 @@ class OperatorController extends Controller
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 }
+

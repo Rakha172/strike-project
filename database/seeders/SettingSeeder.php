@@ -23,8 +23,9 @@ class SettingSeeder extends Seeder
             'desc' => ' Untuk anda yang mempunyai hobi memancing, kami menyediakan kolam
             pemancingan luas yang berisikan berbagai jenis ikan seperti Ikan Mas (Karper),
             Bawal, Gurame, Mujair, dan Patin di mana anda dapat menyalurkan hobie sepuas hati.',
+            'phone' => '1234567890',
+            'email' => 'strike@gmail.com',
+
         ]);
     }
 }
-
-
