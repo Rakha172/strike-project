@@ -46,15 +46,7 @@
                     {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
                 </td>
                 <td>
-                <td>
-
-                    <form action="{{ route('event.destroy', $evnt->id) }}" method="POST">
-                        @csrf
-                        @method('delete')
-
-			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-dark m-1">Result</a>
-
-                    </form>
+			        <a href="{{ route('resultop.index', $evnt->id) }}" class="btn btn-dark m-1">Result</a>
                 </td>
               </tr>
               @endforeach
