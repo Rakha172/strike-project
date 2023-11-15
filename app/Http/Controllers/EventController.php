@@ -73,11 +73,13 @@ class EventController extends Controller
             'name' => 'required',
             'price' => 'required',
             'total_booth' => 'required',
-            // Menambahkan validasi tanggal
             'event_date' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
+            'qualification' => 'required|in:weight,total,special,combined,weight special,weight total,total special',
+            'start' => 'nullable|date_format:H:i',
+            'end' => 'nullable|date_format:H:i',
         ]);
 
         // Upload gambar untuk field 'image'
@@ -85,6 +87,7 @@ class EventController extends Controller
         $slugimage = Str::slug($image->getClientOriginalName());
         $new_image = time() . '_' . $slugimage;
         $image->move('uploads/event-app/', $new_image);
+
 
         $events = new Event;
         $events->image = 'uploads/event-app/' . $new_image;
@@ -94,6 +97,9 @@ class EventController extends Controller
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
+        $events->qualification = $request->qualification;
+        $events->start = $request->start;
+        $events->end = $request->end;
         $events->save();
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil ditambahkan");
@@ -115,6 +121,9 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
+            'qualification' => 'required|in:weight,total,special,combined,weight special,weight total,total special',
+            'start' => 'nullable|date_format:H:i',
+            'end' => 'nullable|date_format:H:i',
         ]);
 
         // Upload gambar untuk field 'image'
@@ -124,6 +133,7 @@ class EventController extends Controller
         $image->move('uploads/event-app/', $new_image);
 
         $events = new Event;
+
         $events->image = 'uploads/event-app/' . $new_image;
         $events->name = $request->name;
         $events->price = $request->price;
@@ -131,7 +141,11 @@ class EventController extends Controller
         $events->event_date = $request->event_date;
         $events->location = $request->location;
         $events->description = $request->description;
+        $events->qualification = $request->qualification;
+        $events->start = $request->start;
+        $events->end = $request->end;
         $events->save();
+
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil diubah");
     }

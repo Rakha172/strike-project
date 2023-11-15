@@ -20,6 +20,18 @@ return new class extends Migration {
             $table->string('location');
             $table->string('description');
             $table->string('image');
+            $table->enum('qualification', [
+                'weight',
+                'total',
+                'special',
+                'combined',
+                'weight special',
+                'weight total
+            ',
+                'total special'
+            ]);
+            $table->time('start');
+            $table->time('end');
             $table->timestamps();
         });
     }
