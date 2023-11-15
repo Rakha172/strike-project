@@ -125,7 +125,7 @@ Route::get('/main', function () {
 });
 
 //ROLE ADMIN//
-    // table user
+// table user
 Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('user', [UserController::class, 'index'])->name('user.index');
     Route::get('user/create', [UserController::class, 'create'])->name('user.create');
@@ -203,12 +203,22 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
 });
 
+//ROLE OPERATOR//
 Route::group(['middleware' => 'can:role,"operator"'], function () {
     //table event
     Route::get('/eventsop', [OperatorController::class, 'index'])->name('eventsop.index');
 
+    // Route::get('events/{id}/show', [OperatorController::class, 'show'])->name('event.show');
+    // Route::get('events/create', [OperatorController::class, 'create'])->name('event.create');
+    // Route::post('events', [OperatorController::class, 'store'])->name('event.store');
+    // Route::get('events/{event}', [OperatorController::class, 'edit'])->name('event.edit');
+    // Route::put('events/{event}', [OperatorController::class, 'update'])->name('event.update');
+    // Route::delete('events/{event}', [OperatorController::class, 'destroy'])->name('event.destroy');
+
     //table result
-    Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
-    Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
-    Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
+    Route::get('resultop/{event}', [OperatorController::class, 'indexop'])->name('resultop.index');
+    Route::get('/resultop/{event}/create', [OperatorController::class, 'create'])->name('resultop.create');
+    Route::post('resultop/{event}', [OperatorController::class, 'store'])->name('resultop.store');
+    Route::get('resultop/{result}/{event}', [OperatorController::class, 'edit'])->name('resultop.edit');
+    Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 });
