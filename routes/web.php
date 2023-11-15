@@ -105,7 +105,7 @@ Route::get('/', function () {
 //landingpage
 Route::get('/', function () {
     $setting = Setting::all();
-    $events = Event::all();
+    $events = Event::all();   
     return view('landingpage.index', compact('setting', 'events'));
 });
 

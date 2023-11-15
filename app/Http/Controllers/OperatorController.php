@@ -39,10 +39,6 @@ class OperatorController extends Controller
         return view('operator.show', compact('event', 'users', 'title'));
     }
 
-
-
-
-
     public function reduceBoth(Request $request, $eventId)
     {
         $event = Event::find($eventId);
