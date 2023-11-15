@@ -34,44 +34,66 @@
             </div>
         </div>
     @endif
-
     <div class="container">
+        @php
+            $registeredEvents = [];
+            $unregisteredEvents = [];
+        @endphp
+
         @foreach ($events as $item)
-            @if (!$item->members->contains(Auth::user()))
-                <div class="item-container">
-                    <div class="img-container">
-                        <img src="{{ $item['image'] }}" alt="Event Image">
-                    </div>
-                    <div class="body-container">
-                        <div class="overlay"></div>
-
-                        <div class="event-info">
-                            <p class="title">{{ $item['name'] }}</p>
-                            <div class="separator"></div>
-                            <p class="title">{{ $item['qualification'] }}</p>
-                            <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
-
-                            <div class="additional-info">
-                                <p class="info">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    {{ $item['location'] }}
-                                </p>
-                                <p class="info">
-                                    <i class="far fa-calendar-alt"></i>
-                                    {{ $item['event_date'] }}
-                                </p>
-
-                                <p class="info description">
-                                    {{ $item['description'] }}
-                                </p>
-                            </div>
-                        </div>
-                        <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
-                    </div>
-                </div>
+            @if ($item->members->contains(Auth::user()))
+                @php
+                    $registeredEvents[] = $item;
+                @endphp
+            @else
+                @php
+                    $unregisteredEvents[] = $item;
+                @endphp
             @endif
         @endforeach
+
+        @foreach (array_merge($unregisteredEvents, $registeredEvents) as $item)
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{{ $item['image'] }}" alt="Event Image">
+                </div>
+                <div class="body-container">
+                    <div class="overlay"></div>
+
+                    <div class="event-info">
+                        <p class="title">{{ $item['name'] }}</p>
+                        <div class="separator"></div>
+                        <p class="title">{{ $item['qualification'] }}</p>
+                        <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
+
+                        <div class="additional-info">
+                            <p class="info">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ $item['location'] }}
+                            </p>
+                            <p class="info">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ $item['event_date'] }}
+                            </p>
+
+                            <p class="info description">
+                                {{ $item['description'] }}
+                            </p>
+                        </div>
+                    </div>
+
+                    @if ($item->members->contains(Auth::user()))
+                        <button class="action" disabled>Already Registered</button>
+                    @else
+                        <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
+                    @endif
+                </div>
+            </div>
+        @endforeach
     </div>
+
+
+
 </body>
 
 </html>
