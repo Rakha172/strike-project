@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Event_Registration;
 use App\Models\Setting;
 use App\Models\Result;
-use Illuminate\Support\Str;
+    use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class OperatorController extends Controller
