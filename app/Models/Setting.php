@@ -9,10 +9,15 @@ class Setting extends Model
 {
     use HasFactory;
     protected $table = 'setting';
+
     protected $fillabel = [
         'name',
         'history',
         'location',
         'logo',
+        'slogan',
+        'desc',
+        'phone',
+        'email',
     ];
 }

@@ -11,7 +11,7 @@ class SettingSeeder extends Seeder
 {
     public function run(): void
     {
-        $sourcePath = public_path('logo/logo.png');
+        $sourcePath = public_path('img/logo.png');
         File::copy($sourcePath, public_path('logo/logo.png'));
 
         Setting::create([
@@ -26,3 +26,5 @@ class SettingSeeder extends Seeder
         ]);
     }
 }
+
+

@@ -49,13 +49,14 @@ class SettingController extends Controller
             'name' => 'required',
             'history' => 'required',
             'location' => 'required',
-            'logo' => 'required|nullable|image',
+            'logo' => 'nullable|image',
             'slogan' => 'required',
-            'description' => 'required',
-        ], [
-            'logo.image' => "Foto harus berupa image",
+            'desc' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
         ]);
 
+        // dd($request->name);
         if ($request->hasFile('logo')) {
             // Hapus gambar lama
             $oldLogoPath = public_path('logo/' . $id->logo);
@@ -71,14 +72,32 @@ class SettingController extends Controller
 
             // Perbarui nama file gambar di database
             $id->logo = $newLogoName;
-        }
 
-        $id->name = $request->input('name');
-        $id->history = $request->input('history');
-        $id->location = $request->input('location');
-        $id->slogan = $request->input('slogan');
-        $id->description = $request->input('description');
-        $id->save();
+            $id->name = $request->input('name');
+            $id->history = $request->input('history');
+            $id->location = $request->input('location');
+            $id->slogan = $request->input('slogan');
+            $id->desc = $request->input('desc');
+            $id->phone = $request->input('phone');
+            $id->email = $request->input('email');
+            $id->save();
+
+            $newLogoPublicPath = public_path('logo/' . $newLogoName);
+            if (file_exists($newLogoPublicPath)) {
+                unlink($newLogoPublicPath); // Hapus gambar baru jika sudah ada
+            }
+            copy(storage_path('app/public/logo/' . $newLogoName), $newLogoPublicPath);
+        } else {
+
+            $id->name = $request->input('name');
+            $id->history = $request->input('history');
+            $id->location = $request->input('location');
+            $id->slogan = $request->input('slogan');
+            $id->desc = $request->input('desc');
+            $id->phone = $request->input('phone');
+            $id->email = $request->input('email');
+            $id->save();
+        }
 
         // Menambahkan pesan berhasil ke sesi
         return redirect()->route('setting.index')->with(['info' => $request->name . " Berhasil Di Update"]);

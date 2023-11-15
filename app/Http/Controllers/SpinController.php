@@ -8,11 +8,15 @@ use Illuminate\Http\Request;
 class SpinController extends Controller
 {
     public function spin()
-    {
-        // Dapatkan data acara dengan nilai "both" acak
-        $events = Event::inRandomOrder()->get();
+{
+    // Mendapatkan angka-angka dari controller (gantilah dengan logika atau data sebenarnya)
+    $numbers = range(1, 10);
 
-        // Kirimkan data acara ke tampilan "spin"
-        return view('spin.spin', compact('events'));
-    }
+    // Dapatkan data acara dengan nilai "both" acak
+    $events = Event::inRandomOrder()->get();
+
+    // Kirimkan data acara dan angka-angka ke tampilan "spin"
+    return view('spin.spin', compact('events', 'numbers'));
+}
+
 }
