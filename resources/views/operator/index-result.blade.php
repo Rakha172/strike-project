@@ -8,50 +8,47 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Edit Result Operator</title>
+    <title>{{$title->name}} | Results</title>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <div class="card">
-            <div class="card-body">
-                <h1 class="text-center fs-2 mt-4" style="background-color:#cdecfa;">Edit Result Operator</h1>
+            <div class="card-body" style="background-color:#c5e4f3;">
+                <h1 class="text-center fs-2 mt-4">DATA RESULTS</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
-                <form action="{{ route("resultop.update", [ 'result' => $result->id]) }}" method="POST">
-                    @csrf
-                    @method("PUT")
+                <a href="{{ route('resultop.create', ['event' => $event->id] ) }}" class="btn btn-dark mb-3">Tambah</a>
 
-                    <div class="form-group">
-                        <div class="mb-3">
-                            <label for="participant">Participant</label>
-                            <select name="participant" class="form-control" style="background-color:#cdecfa;">
-                                @foreach($event_registration as $eventReg)
-                                    <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>{{ $eventReg->user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Berat Ikan</label>
-                            <input value="{{ $result->weight }}" name="weight" type="number" class="form-control @error('weight') is-invalid @enderror" style="background-color:#cdecfa;">
-                            @error('weight')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" id="status" class="form-control" style="background-color:#cdecfa;">
-                                <option value="special" @if($result->status == 'special') selected @endif>Special</option>
-                                <option value="regular" @if($result->status == 'regular') selected @endif>Regular</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
-                </form>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Participant</th>
+                            {{-- <th>Events Registration</th> --}}
+                            <th>Berat Ikan</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($results as $result)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $result->user->name }}</td>
+                            {{-- <td>{{ $result->eventRegistration->event->event_name }}</td> --}}
+                            <td>{{ $result->weight }}</td>
+                            <td>{{ $result->status }}</td>
+                            <td>
+                                <a href="{{ route('resultop.edit', ['event' => $event->id, 'result' => $result->id]) }}" class="btn btn-primary m-1">Edit</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
 
