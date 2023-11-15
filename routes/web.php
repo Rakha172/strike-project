@@ -207,18 +207,9 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 Route::group(['middleware' => 'can:role,"operator"'], function () {
     //table event
     Route::get('/eventsop', [OperatorController::class, 'index'])->name('eventsop.index');
-    Route::get('events/{id}/show', [OperatorController::class, 'show'])->name('event.show');
-    Route::get('events/create', [OperatorController::class, 'create'])->name('event.create');
-    Route::post('events', [OperatorController::class, 'store'])->name('event.store');
-    Route::get('events/{event}', [OperatorController::class, 'edit'])->name('event.edit');
-    Route::put('events/{event}', [OperatorController::class, 'update'])->name('event.update');
-    Route::delete('events/{event}', [OperatorController::class, 'destroy'])->name('event.destroy');
 
     //table result
-    Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
-    Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
-    Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
-    Route::get('result/{result}/{event}', [ResultController::class, 'edit'])->name('result.edit');
-    Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
-    Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
+    Route::get('resultop/{event}', [OperatorController::class, 'indexop'])->name('resultop.index');
+    Route::get('/resultop/{event}/create', [OperatorController::class, 'create'])->name('resultop.create');
+    Route::post('resultop/{event}', [OperatorController::class, 'store'])->name('resultop.store');
 });
