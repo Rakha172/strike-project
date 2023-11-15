@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Event_Registration;
 use App\Models\Setting;
 use App\Models\Result;
-    use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class OperatorController extends Controller
@@ -19,7 +19,7 @@ class OperatorController extends Controller
         foreach ($events as $event) {
             $event->random_both = $event->random_both;
         }
-        return view('operator.index', compact('title','events'));
+        return view('operator.index', compact('title', 'events'));
     }
 
     public function show($eventId)
@@ -153,3 +153,4 @@ class OperatorController extends Controller
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 }
+
