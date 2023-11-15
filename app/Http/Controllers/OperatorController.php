@@ -78,10 +78,10 @@ class OperatorController extends Controller
         $results = Result::where('event_id', $event->id)->get();
 
         if (!$event) {
-            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
-        return view('operator.create', compact('users', 'results', 'event_registration', 'event', 'title'));
+        return view('operator.create-result', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
 
@@ -108,6 +108,48 @@ class OperatorController extends Controller
 
         $result->save();
 
-        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
+        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
+    }
+
+    public function edit(Result $result)
+    {
+
+        // Get the associated event for this result
+        $event = $result->event;
+
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        $event_registration = $event->event_regist()->get();
+        $results = Result::where('event_id', $event->id)->get();
+
+        return view('operator.edit-result', compact('results', 'event_registration', 'event', 'result'));
+    }
+
+    public function update(Request $request, Result $result)
+    {
+        // Get the associated event for this result
+        $event = $result->event;
+
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        $validated = $request->validate([
+            'weight' => 'required|numeric',
+            'status' => 'required|in:special,regular',
+            'participant' => 'required',
+        ]);
+
+        $result->update([
+            'weight' => $validated['weight'],
+            'status' => $validated['status'],
+            'participant' => $validated['participant'],
+        ]);
+
+        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 }
