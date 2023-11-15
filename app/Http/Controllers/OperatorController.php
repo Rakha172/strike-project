@@ -153,3 +153,4 @@ class OperatorController extends Controller
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 }
+
