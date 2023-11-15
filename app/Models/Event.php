@@ -19,6 +19,10 @@ class Event extends Model
         'location',
         'description',
         'image',
+        'qualification',
+        'start',
+        'end',
+
 
     ];
     public function event_regist()

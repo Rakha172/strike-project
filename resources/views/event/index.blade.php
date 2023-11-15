@@ -31,7 +31,10 @@
                 <th scope="col">Price</th>
                 <th scope="col">Total Booth</th>
                 <th scope="col">Event Date</th>
+                <th scope="col">Start</th>
+                <th scope="col">End</th>
                 <th scope="col">Location</th>
+                <th scope="col">Qualification</th>
                 <th scope="col">Description</th>
                 <th scope="col">Option</th>
               </tr>
@@ -44,7 +47,10 @@
                 <td>Rp. {{ number_format($evnt->price, 0, '.', '.')}}</td>
                 <td>{{ $evnt->total_booth }}</td>
                 <td>{{ $evnt->event_date }}</td>
+                <td>{{ $evnt->start }}</td>
+                <td>{{ $evnt->end }}</td>
                 <td>{{ $evnt->location }}</td>
+                <td>{{ $evnt->qualification }}</td>
                 <td>
                     {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
                 </td>
