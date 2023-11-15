@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
                 } else if (Auth::user()->role == 'member') {
                     return redirect()->route('event.index');
                 } else if (Auth::user()->role == 'operator') {
-                    return redirect()->route('result.index');
+                    return redirect()->route('operator.index');
                 }
             }
         }
