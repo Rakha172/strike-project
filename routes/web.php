@@ -105,7 +105,7 @@ Route::get('/', function () {
 //landingpage
 Route::get('/', function () {
     $setting = Setting::all();
-    $events = Event::all();   
+    $events = Event::all();
     return view('landingpage.index', compact('setting', 'events'));
 });
 
@@ -207,13 +207,6 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 Route::group(['middleware' => 'can:role,"operator"'], function () {
     //table event
     Route::get('/eventsop', [OperatorController::class, 'index'])->name('eventsop.index');
-
-    // Route::get('events/{id}/show', [OperatorController::class, 'show'])->name('event.show');
-    // Route::get('events/create', [OperatorController::class, 'create'])->name('event.create');
-    // Route::post('events', [OperatorController::class, 'store'])->name('event.store');
-    // Route::get('events/{event}', [OperatorController::class, 'edit'])->name('event.edit');
-    // Route::put('events/{event}', [OperatorController::class, 'update'])->name('event.update');
-    // Route::delete('events/{event}', [OperatorController::class, 'destroy'])->name('event.destroy');
 
     //table result
     Route::get('resultop/{event}', [OperatorController::class, 'indexop'])->name('resultop.index');
