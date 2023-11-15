@@ -51,9 +51,8 @@ class LoginController extends Controller
 
     public function logout()
     {
-        Auth::guard('web')->logout();
-
-        return to_route('login');
+         Auth::logout();
+    return redirect('/login')->with('status', 'Anda berhasil logout.');
     }
 }
 

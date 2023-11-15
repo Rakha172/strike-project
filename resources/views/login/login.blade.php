@@ -40,11 +40,21 @@
             <p>Welcome, Please sign in!</p>
         </div>
         <br>
+
         <div class="login area">
+
             <script>
                 @if (Session::has('success'))
                     toastr.info("{{ Session::get('success') }}", "", {
                         positionClass: "toast-top-center"
+                    });
+                @endif
+            </script>
+
+
+            <script>
+                @if (session('status'))
+                    toastr.error("{{ session('status') }}", "", {
                     });
                 @endif
             </script>
