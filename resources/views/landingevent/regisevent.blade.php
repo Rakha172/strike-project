@@ -54,6 +54,7 @@
                     @endforeach
                 </select>
             </p>
+            
             <p style="margin-right: 168px">Select Booth
                 <select name="booth" class="form-control" style="width:125px;margin-left:2px">
                     @for ($i = 1; $i <= 10; $i++)

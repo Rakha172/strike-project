@@ -8,21 +8,19 @@
   </head>
   <body>
     <div class="container"><br>
-        <div class="card" style="background: lightblue;">
+        <div class="card" style="background: rgb(211, 233, 241);">
             <form action="{{route('logout')}}">
-                <button style="width: 80px;margin-top:20px;margin-left:10px;background:red;color:white;border-radius:10px">
+                <button style="width: 80px;margin-top:80px;margin-left:10px;background:red;color:white;border-radius:10px">
                     Logout
                 </button>
-            </form>
-                <h1 class="text-center fs-2 mt-4">Halaman Operator Event</h1>
+                <h1 class="text-center fs-2 mt-1">Halaman Operator Event</h1>
             <div class="card-body">
-
         @if ($pesan = session('berhasil'))
         <div class="alert alert-primary" role="alert">
            {{ $pesan }}
         </div>
         @endif
-        <table class="table" style="background: white">
+        <table class="table">
             <thead>
               <tr>
                 <th scope="col">Name</th>
@@ -55,9 +53,7 @@
                         @method('delete')
 
 			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-dark m-1">Result</a>
-			            <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
-
-                        <a href="{{ route('event.show', $evnt->id) }}" class="btn btn-info m-1">Read</a>
+                        
                     </form>
                 </td>
               </tr>

@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\User;
 use App\Models\Event_Registration;
 use App\Models\Setting;
+use App\Models\Result;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -61,86 +62,105 @@ class OperatorController extends Controller
     }
 
 
-    public function create()
+    public function indexop(Event $event)
     {
         $title = Setting::firstOrFail();
-        return view('event.create', compact('title'));
+        $results = Result::all();
+
+        return view('result.index', compact('results', 'event', 'title'));
     }
 
-    public function store(Request $request)
+    public function create(Event $event)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'total_booth' => 'required',
-            // Menambahkan validasi tanggal
-            'event_date' => 'required|date|after_or_equal:' . now()->format('Y-m-d'),
-            'location' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|mimes:png,jpg|max:2040',
-        ]);
 
-        // Upload gambar untuk field 'image'
-        $image = $request->image;
-        $slugimage = Str::slug($image->getClientOriginalName());
-        $new_image = time() . '_' . $slugimage;
-        $image->move('uploads/event-app/', $new_image);
-
-        $events = new Event;
-        $events->image = 'uploads/event-app/' . $new_image;
-        $events->name = $request->name;
-        $events->price = $request->price;
-        $events->total_booth = $request->total_booth;
-        $events->event_date = $request->event_date;
-        $events->location = $request->location;
-        $events->description = $request->description;
-        $events->save();
-
-        return redirect()->route('operator-event')->with('berhasil', "$request->name Berhasil ditambahkan");
-    }
-
-    public function edit(Event $events)
-    {
         $title = Setting::firstOrFail();
-        return view('event.edit', compact('events', 'title'));
+        $users = User::all();
+        $event_registration = $event->event_regist()->get();
+        $results = Result::where('event_id', $event->id)->get();
+
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
-    public function update(Request $request, Event $events)
+
+    public function store(Request $request, Event $event)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'price' => 'required',
-            'total_booth' => 'required',
-            'event_date' => 'required',
-            'location' => 'required',
-            'description' => 'required',
-            'image' => 'required|image|mimes:png,jpg|max:2040',
+
+        $request->validate([
+            'participant' => 'required',
+            'weight' => 'required',
+            'status' => 'required|in:special,regular',
         ]);
 
-        // Upload gambar untuk field 'image'
-        $image = $request->image;
-        $slugimage = Str::slug($image->getClientOriginalName());
-        $new_image = time() . '_' . $slugimage;
-        $image->move('uploads/event-app/', $new_image);
+        $user = User::find($request->input('participant'));
 
-        $events = new Event;
-        $events->image = 'uploads/event-app/' . $new_image;
-        $events->name = $request->name;
-        $events->price = $request->price;
-        $events->total_booth = $request->total_booth;
-        $events->event_date = $request->event_date;
-        $events->location = $request->location;
-        $events->description = $request->description;
-        $events->save() ;
+        if (!$user) {
+            return redirect()->route('result.create', ['event' => $event->id])->with('error', 'User tidak ditemukan.');
+        }
 
-        return redirect()->route('operator-event')->with('berhasil', "$request->name Berhasil diubah");
+        $result = new Result([
+            'user_id' => $user->id,
+            'event_id' => $event->id,
+            'weight' => floatval($request->input('weight')),
+            'status' => $request->input('status'),
+        ]);
+
+        $result->save();
+
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
+    }
+    public function edit(Result $result)
+    {
+
+        // Get the associated event for this result
+        $event = $result->event;
+
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        $event_registration = $event->event_regist()->get();
+        $results = Result::where('event_id', $event->id)->get();
+
+        return view('result.edit', compact('results', 'event_registration', 'event', 'result'));
     }
 
-    public function destroy($id)
+    public function update(Request $request, Result $result)
     {
-        $events = Event::find($id);
-        $events->delete();
+        // Get the associated event for this result
+        $event = $result->event;
 
-        return redirect()->route('operator-event')->with('berhasil', "$events->name Berhasil dihapus");
+        // Periksa apakah event ada atau tidak
+        if (!$event) {
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
+        }
+
+        $validated = $request->validate([
+            'weight' => 'required|numeric',
+            'status' => 'required|in:special,regular',
+            'participant' => 'required',
+        ]);
+
+        $result->update([
+            'weight' => $validated['weight'],
+            'status' => $validated['status'],
+            'participant' => $validated['participant'],
+        ]);
+
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
+    }
+
+
+    public function destroy(Result $result)
+    {
+        $event = $result->event;
+
+        $result->delete();
+
+        return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil dihapus');
     }
 }
