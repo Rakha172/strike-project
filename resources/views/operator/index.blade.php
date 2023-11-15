@@ -52,8 +52,8 @@
                         @csrf
                         @method('delete')
 
-			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-dark m-1">Result</a>
-                        
+			            <a href="{{ route('resultop.index', $evnt->id) }}" class="btn btn-dark m-1">Result</a>
+
                     </form>
                 </td>
               </tr>

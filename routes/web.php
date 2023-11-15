@@ -209,7 +209,7 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('/eventsop', [OperatorController::class, 'index'])->name('eventsop.index');
 
     //table result
-    Route::get('result/{event}', [ResultController::class, 'index'])->name('resultop.index');
-    Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('resultop.create');
-    Route::post('result/{event}', [ResultController::class, 'store'])->name('resultop.store');
+    Route::get('result/{event}', [OperatorController::class, 'indexop'])->name('resultop.index');
+    Route::get('/result/{event}/create', [OperatorController::class, 'create'])->name('resultop.create');
+    Route::post('result/{event}', [OperatorController::class, 'store'])->name('resultop.store');
 });
