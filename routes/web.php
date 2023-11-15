@@ -121,7 +121,7 @@ Route::get('/main', function () {
 });
 
 //ROLE ADMIN//
-// table user
+    // table user
 Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('user', [UserController::class, 'index'])->name('user.index');
     Route::get('user/create', [UserController::class, 'create'])->name('user.create');
@@ -194,4 +194,25 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     //spinner
     Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
     Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
+});
+
+
+//ROLE OPERATOR//
+Route::group(['middleware' => 'can:role,"admin"'], function () {
+     //table event
+     Route::get('events', [EventController::class, 'index'])->name('event.index');
+     Route::get('events/{id}/show', [EventController::class, 'show'])->name('event.show');
+     Route::get('events/create', [EventController::class, 'create'])->name('event.create');
+     Route::post('events', [EventController::class, 'store'])->name('event.store');
+     Route::get('events/{event}', [EventController::class, 'edit'])->name('event.edit');
+     Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
+     Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+
+     //table result
+     Route::get('result/{event}', [ResultController::class, 'index'])->name('result.index');
+     Route::get('/result/{event}/create', [ResultController::class, 'create'])->name('result.create');
+     Route::post('result/{event}', [ResultController::class, 'store'])->name('result.store');
+     Route::get('result/{result}/{event}', [ResultController::class, 'edit'])->name('result.edit');
+     Route::put('result/{result}', [ResultController::class, 'update'])->name('result.update');
+     Route::delete('result/{result}', [ResultController::class, 'destroy'])->name('result.destroy');
 });
