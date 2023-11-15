@@ -66,7 +66,7 @@ class OperatorController extends Controller
         $title = Setting::firstOrFail();
         $results = Result::all();
 
-        return view('result.index', compact('results', 'event', 'title'));
+        return view('operator.index-result', compact('results', 'event', 'title'));
     }
 
     public function create(Event $event)
@@ -81,7 +81,7 @@ class OperatorController extends Controller
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
 
-        return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
+        return view('operator.create', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
 
