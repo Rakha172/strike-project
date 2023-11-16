@@ -16,14 +16,21 @@
             <div class="card-body" style="background-color:#c5e4f3;">
                 <h1 class="text-center fs-2 mt-4">DATA RESULTS</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
-                <a href="{{ route('resultop.create', ['event' => $event->id] ) }}" class="btn btn-dark mb-3">Tambah</a>
-
+                <div class="row justify-content-between">
+                    <div class="col-auto">
+                        <a href="{{ route('resultop.create', ['event' => $event->id] ) }}" class="btn btn-dark m-1">Tambah</a>
+                    </div>
+                    <div class="col-auto">
+                        <form action="{{ url('/eventsop') }}">
+                            <button type="submit" class="btn btn-dark m-1">Kembali</button>
+                        </form>
+                    </div>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Participant</th>
-                            {{-- <th>Events Registration</th> --}}
                             <th>Berat Ikan</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -34,7 +41,6 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $result->user->name }}</td>
-                            {{-- <td>{{ $result->eventRegistration->event->event_name }}</td> --}}
                             <td>{{ $result->weight }}</td>
                             <td>{{ $result->status }}</td>
                             <td>
