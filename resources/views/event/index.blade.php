@@ -43,7 +43,8 @@
                 @foreach ($events as $key => $evnt)
               <tr>
                 <td>{{ $evnt->name }}</td>
-                <td><img src="{{ asset($evnt->image) }}" width="100"></td>
+                <td>
+                    <a href="{{ asset($evnt->image) }}"><img src="{{ asset($evnt->image) }}" width="100"></a></td>
                 <td>Rp. {{ number_format($evnt->price, 0, '.', '.')}}</td>
                 <td>{{ $evnt->total_booth }}</td>
                 <td>{{ $evnt->event_date }}</td>
@@ -60,8 +61,9 @@
                     <form action="{{ route('event.destroy', $evnt->id) }}" method="POST">
                         @csrf
                         @method('delete')
-
+                        @if (!$evnt->members->count() > 0)
                         <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Delete</button>
+                        @endif
 			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-primary m-1">Result</a>
 			            {{-- <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a> --}}
 
