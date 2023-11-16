@@ -2,25 +2,16 @@
 
 @section('content')
 
-<a href="{{ route('events.chart-total', $event) }}" class="btn btn-primary"><span>Total</span></a>
-&nbsp; &nbsp;
-<a href="{{ route('events.chart-special', $event)}}" class="btn btn-primary"><span>Special</span></a>
-&nbsp; &nbsp;
-<a href="{{ route('events.chart-combined', $event)}}" class="btn btn-primary"><span>Combined</span></a>
-&nbsp; &nbsp;
-<a href="{{ route('events.chart-result-and-special', $event)}}" class="btn btn-primary"><span>Weight Special</span></a>
-&nbsp; &nbsp;
-<a href="{{ route('events.chart-result-and-total', $event)}}" class="btn btn-primary"><span>Weight Total</span></a>
-&nbsp; &nbsp;
-<a href="{{ route('events.chart-result-and-total-special', $event)}}" class="btn btn-primary"><span>Total Special</span></a>
-
 <div style="display: flex; justify-content: flex-start;">
     <div style="flex: 1;">
         <canvas id="myChart"></canvas>
     </div>
 </div>
 
+<!-- Tambahkan skrip Chart.js dan plugin datalabels -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 <script>
     var labels = @json($labels);
     var data = @json($data);
@@ -42,6 +33,19 @@
             scales: {
                 y: {
                     beginAtZero: true
+                }
+            },
+            plugins: {
+                datalabels: {
+                    color: 'black', // Warna teks label
+                    anchor: 'end',
+                    align: 'end',
+                    font: {
+                        weight: 'bold'
+                    },
+                    formatter: function(value, context) {
+                        return value; // Sesuaikan format nilai sesuai kebutuhan Anda
+                    }
                 }
             }
         }
