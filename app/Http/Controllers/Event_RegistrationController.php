@@ -31,10 +31,10 @@ class Event_RegistrationController extends Controller
             $event = $user->event;
         }
 
-        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event', 'title'));
+        return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
-    public function store(Request $request)
+    public function storeEventRegistration(Request $request)
     {
         // Ambil semua event registration yang sudah ada untuk pengguna dan event yang sedang diinputkan
         $existingRegistrations = Event_Registration::where('user_id', auth()->user()->id)
@@ -43,7 +43,7 @@ class Event_RegistrationController extends Controller
 
         // Jika sudah ada event registration, beri pesan kesalahan
         if ($existingRegistrations->isNotEmpty()) {
-            return redirect()->route('regisevent')
+            return redirect()->route('landingevent')
                 ->with('error', 'Anda sudah terdaftar untuk acara ini.');
         }
 
@@ -62,15 +62,13 @@ class Event_RegistrationController extends Controller
             'user_id' => 'required',
             'event_id' => 'required',
             'booth' => 'required',
-            'qualification' => 'required|in:weight,total,special', // Validate the qualification field
-
         ]);
 
         $validated['payment_status'] = 'waiting';
 
         Event_Registration::create($validated);
 
-        return redirect('/regisevent')->with('success', 'Berhasil Dibuat.');
+        return redirect('/landingevent')->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration)

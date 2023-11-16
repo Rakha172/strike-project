@@ -44,7 +44,6 @@
                     </div>
                     <div class="body-container">
                         <div class="overlay"></div>
-
                         <div class="event-info">
                             <p class="title">{{ $item['name'] }}</p>
                             <div class="separator"></div>
@@ -66,12 +65,50 @@
                                 </p>
                             </div>
                         </div>
-                        <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
+                        @foreach ($events as $item)
+                            @if (!$item->members->contains(Auth::user()))
+                                <!-- ... (bagian lainnya) ... -->
+                                <button class="action" data-event-id="{{ $item->id }}">Book it</button>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             @endif
         @endforeach
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.action').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var eventId = this.getAttribute('data-event-id');
+                    // Kirim permintaan AJAX ke server untuk membuat event registration
+                    fetch('{{ route('store-event-registration') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            body: JSON.stringify({
+                                user_id: '{{ auth()->user()->id }}',
+                                event_id: eventId,
+                                booth: 1, // Ganti sesuai kebutuhan Anda
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert(data.message); // Tampilkan pesan alert dari response
+                            // Redirect atau lakukan tindakan lain jika diperlukan
+                            window.location.reload(); // Reload halaman setelah berhasil
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Terjadi kesalahan saat mendaftar event.');
+                        });
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

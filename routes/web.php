@@ -181,16 +181,12 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 //ROLE MEMBER//
 // table event registration
 Route::group(['middleware' => 'can:role,"member"'], function () {
-    Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
-    Route::post('event-registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
+    Route::get('/landingevent', [Event_RegistrationController::class, 'create'])->name('landingevent');
+    Route::post('/store-event-registration', [Event_RegistrationController::class, 'storeEventRegistration'])->name('store-event-registration');
     Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
     Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
     Route::delete('event-registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
 
-    //landingevent
-    Route::get('/event', function () {
-        return view('landingevent.landingevent');
-    });
 
     //event untuk landingevent
     Route::get('/event', function () {
@@ -211,7 +207,6 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     //table result
     Route::get('resultop/{event}', [OperatorController::class, 'indexop'])->name('resultop.index');
     Route::get('/resultop/{event}/create', [OperatorController::class, 'create'])->name('resultop.create');
-    Route::post('resultop/{event}', [OperatorController::class, 'store'])->name('resultop.store');
     Route::get('resultop/{result}/{event}', [OperatorController::class, 'edit'])->name('resultop.edit');
     Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 });
