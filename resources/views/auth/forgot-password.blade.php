@@ -48,7 +48,7 @@
                     });
                 @endif
             </script>
-            <input type="email" name="email"  class="email @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Masukkan Email" required>
+            <input type="text" name="phone"  class="email @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Masukkan Nomor HP" required>
             @error('email')
                 <div class="invalid-feedback text-start">
                     {{ $message }}
