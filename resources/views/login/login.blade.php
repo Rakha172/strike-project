@@ -57,7 +57,7 @@
                 @endif
             </script>
 
-            <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
+            <input type="text" name="email" class="email" placeholder="Masukkan Nomor HP" required>
 
             <div class="password-container">
                 <input type="password" name="password" class="password" id="password" placeholder="Masukkan Password"
