@@ -65,16 +65,35 @@
                         <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Delete</button>
                         @endif
 			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-primary m-1">Result</a>
-			            <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+			            {{-- <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a> --}}
+
+                        <!-- Tambahkan kondisi untuk qualification -->
+                        @if ($evnt->qualification == 'weight')
+                        <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @elseif ($evnt->qualification == 'total')
+                        <a href="{{ route('events.chart-total', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @elseif ($evnt->qualification == 'special')
+                        <a href="{{ route('events.chart-special', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @elseif ($evnt->qualification == 'weight special')
+                        <a href="{{ route('events.chart-result-and-special', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @elseif ($evnt->qualification == 'weight total')
+                        <a href="{{ route('events.chart-result-and-total', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @elseif ($evnt->qualification == 'total special')
+                        <a href="{{ route('events.chart-result-and-total-special', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @else
+                        <a href="{{ route('events.chart-combined', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a>
+                        @endif
 
                         <a href="{{ route('event.show', $evnt->id) }}" class="btn btn-info m-1">Read</a>
                     </form>
                 </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-    </div>
-    @endsection
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+@endsection
 </body>
 </html>
