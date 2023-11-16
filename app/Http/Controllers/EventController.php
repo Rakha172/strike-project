@@ -18,7 +18,7 @@ class EventController extends Controller
         foreach ($events as $event) {
             $event->random_both = $event->random_both;
         }
-        return view('event.index', compact('title','events'));
+        return view('event.index', compact('title', 'events'));
     }
 
     public function show($eventId)
