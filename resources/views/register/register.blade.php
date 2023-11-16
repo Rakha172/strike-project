@@ -25,7 +25,7 @@
           </div>
         @enderror
 
-        <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
+        <input type="text" name="email" class="email" placeholder="Masukkan Nomor HP" required>
         @error('email')
           <div class="invalid-feedback text-start">
             {{ $message }}
