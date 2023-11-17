@@ -23,11 +23,11 @@
     var options = {
     series: [
         {
-            name: 'Weight Total',
+            name: 'Weight Quantity',
             data: dataWeightTotal,
         },
         {
-            name: 'Jumlah Ikan', // Nama series untuk data "jumlah ikan"
+            name: 'Fish Quantity', // Nama series untuk data "jumlah ikan"
             data: dataTotalIkan, // Masukkan data "jumlah ikan" ke dalam series
         }
     ],
@@ -43,7 +43,7 @@
             },
           }
         },
-        colors: ['#FF0000', '#00FF00'], // Atur warna bar di sini
+        colors: ['#FF0000', '#00FF00'], // warna bar
         xaxis: {
         },
         dataLabels: {
@@ -114,4 +114,3 @@
 
 </script>
 @endsection
-
