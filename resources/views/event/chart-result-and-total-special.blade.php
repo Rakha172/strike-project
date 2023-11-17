@@ -23,11 +23,11 @@
     var options = {
     series: [
         {
-            name: 'Jumlah Ikan',
+            name: 'Fish Quantity',
             data: dataTotalIkan,
         },
         {
-            name: 'Ikan Special', // Nama series untuk data "ikan special"
+            name: 'Special', // Nama series untuk data "ikan special"
             data: dataIkanSpecial, // Masukkan data "ikan special" ke dalam series
         }
     ],
@@ -43,7 +43,7 @@
             },
           }
         },
-        colors: ['#0000FF', '#00FF00'], // Atur warna bar di sini
+        colors: ['#0000FF', '#00FF00'], // warna bar
         xaxis: {
         },
         dataLabels: {
@@ -114,4 +114,3 @@
 
 </script>
 @endsection
-
