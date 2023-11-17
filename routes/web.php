@@ -216,12 +216,12 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 
     //event chart result
-    Route::get('events/{event}/chart-result', EventChartResultController::class)->name('events.chart-result');
-    Route::get('events/{event}/chart-total', EventChartResultTotalController::class)->name('events.chart-total');
-    Route::get('events/{event}/chart-special', EventChartResultSpecialController::class)->name('events.chart-special');
-    Route::get('events/{event}/chart-combined', EventChartResultAllController::class)->name('events.chart-combined');
-    Route::get('events/{event}/chart-result-and-special', EventChartResultAndSpecialController::class)->name('events.chart-result-and-special');
-    Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
-    Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
+    // Route::get('events/{event}/chart-result', EventChartResultController::class)->name('events.chart-result');
+    // Route::get('events/{event}/chart-total', EventChartResultTotalController::class)->name('events.chart-total');
+    // Route::get('events/{event}/chart-special', EventChartResultSpecialController::class)->name('events.chart-special');
+    // Route::get('events/{event}/chart-combined', EventChartResultAllController::class)->name('events.chart-combined');
+    // Route::get('events/{event}/chart-result-and-special', EventChartResultAndSpecialController::class)->name('events.chart-result-and-special');
+    // Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
+    // Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
 
 });
