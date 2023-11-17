@@ -21,7 +21,7 @@
 
     var options = {
           series: [{
-          name: 'Jumlah Ikan',
+          name: 'Fish Quantity',
           data: data,
         }],
           chart: {
@@ -36,7 +36,7 @@
             },
           }
         },
-        colors: ['#00FF00'], // Atur warna bar di sini
+        colors: ['#00FF00'], // warna bar
         xaxis: {
         },
         dataLabels: {
@@ -107,4 +107,3 @@
 
 </script>
 @endsection
-

@@ -34,7 +34,7 @@
                             <select name="qualification" class="form-control @error('qualification') is-invalid @enderror">
                                 <option value="weight" {{ old('qualification') == 'weight' ? 'selected' : '' }}>Weight
                                 </option>
-                                <option value="total" {{ old('qualification') == 'total' ? 'selected' : '' }}>Total
+                                <option value="quantity" {{ old('qualification') == 'quantity' ? 'selected' : '' }}>Quantity
                                 </option>
                                 <option value="special" {{ old('qualification') == 'special' ? 'selected' : '' }}>Special
                                 </option>
@@ -42,10 +42,10 @@
                                 </option>
                                 <option value="weight special"
                                     {{ old('qualification') == 'weight special' ? 'selected' : '' }}>Weight Special</option>
-                                <option value="weight total" {{ old('qualification') == 'weight total' ? 'selected' : '' }}>
-                                    Weight Total</option>
-                                <option value="total special"
-                                    {{ old('qualification') == 'total special' ? 'selected' : '' }}>Total Special</option>
+                                <option value="weight quantity" {{ old('qualification') == 'weight quantity' ? 'selected' : '' }}>
+                                    Weight Quantity</option>
+                                <option value="quantity special"
+                                    {{ old('qualification') == 'quantity special' ? 'selected' : '' }}>Quantity Special</option>
                             </select>
                             @error('qualification')
                                 <div class="invalid-feedback">{{ $message }}</div>

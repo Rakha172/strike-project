@@ -38,10 +38,6 @@ class EventController extends Controller
         return view('event.show', compact('event', 'users', 'title'));
     }
 
-
-
-
-
     public function reduceBoth(Request $request, $eventId)
     {
         $event = Event::find($eventId);
@@ -60,7 +56,6 @@ class EventController extends Controller
         return response()->json(['message' => 'Both reduced successfully']);
     }
 
-
     public function create()
     {
         $title = Setting::firstOrFail();
@@ -77,7 +72,7 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
-            'qualification' => 'required|in:weight,total,special,combined,weight special,weight total,total special',
+            'qualification' => 'required|in:weight,quantity,special,combined,weight special,weight quantity,quantity special',
             'start' => 'nullable|date_format:H:i',
             'end' => 'nullable|date_format:H:i',
         ]);
@@ -87,7 +82,6 @@ class EventController extends Controller
         $slugimage = Str::slug($image->getClientOriginalName());
         $new_image = time() . '_' . $slugimage;
         $image->move('uploads/event-app/', $new_image);
-
 
         $events = new Event;
         $events->image = 'uploads/event-app/' . $new_image;
@@ -121,7 +115,7 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
-            'qualification' => 'required|in:weight,total,special,combined,weight special,weight total,total special',
+            'qualification' => 'required|in:weight,quantity,special,combined,weight special,weight quantity,quantity special',
             'start' => 'nullable|date_format:H:i',
             'end' => 'nullable|date_format:H:i',
         ]);
@@ -133,7 +127,6 @@ class EventController extends Controller
         $image->move('uploads/event-app/', $new_image);
 
         $events = new Event;
-
         $events->image = 'uploads/event-app/' . $new_image;
         $events->name = $request->name;
         $events->price = $request->price;
@@ -145,7 +138,6 @@ class EventController extends Controller
         $events->start = $request->start;
         $events->end = $request->end;
         $events->save();
-
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil diubah");
     }

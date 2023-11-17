@@ -21,7 +21,7 @@
 
     var options = {
           series: [{
-          name: 'Ikan Special',
+          name: 'Special',
           data: data,
         }],
           chart: {
@@ -36,7 +36,7 @@
             },
           }
         },
-        colors: ['#0000FF'], // Atur warna bar di sini
+        colors: ['#0000FF'], // warna bar
         xaxis: {
         },
         dataLabels: {
@@ -107,4 +107,3 @@
 
 </script>
 @endsection
-
