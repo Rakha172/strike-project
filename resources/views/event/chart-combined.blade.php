@@ -21,22 +21,21 @@
     var dataIkanSpecial = @json($dataIkanSpecial); // Variabel untuk data "jumlah ikan"
     var dataTotalIkan = @json($dataTotalIkan); // Variabel untuk data "ikan special"
 
-
     var options = {
-    series: [
-        {
-            name: 'Weight Total',
-            data: dataWeightTotal,
-        },
-        {
-            name: 'Ikan Special', // Nama series untuk data "ikan special"
-            data: dataIkanSpecial, // Masukkan data "ikan special" ke dalam series
-        }
-        {
-            name: 'Jumlah Ikan', // Nama series untuk data "Jumlah ikan"
-            data: dataTotalIkan, // Masukkan data "jumlah ikan" ke dalam series
-        }
-    ],
+        series: [
+    {
+        name: 'Weight Total',
+        data: dataWeightTotal,
+    },
+    {
+        name: 'Ikan Special',
+        data: dataIkanSpecial,
+    },
+    {
+        name: 'Jumlah Ikan',
+        data: dataTotalIkan,
+    }
+],
           chart: {
           height: 350,
           type: 'bar',
