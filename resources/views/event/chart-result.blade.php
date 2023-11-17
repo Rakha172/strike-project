@@ -21,7 +21,7 @@
 
     var options = {
           series: [{
-          name: 'Weight Total',
+          name: 'Weight Quantity',
           data: data,
         }],
           chart: {
@@ -36,7 +36,7 @@
             },
           }
         },
-        colors: ['#FF0000'], // Atur warna bar di sini
+        colors: ['#FF0000'], // warna bar
         xaxis: {
         },
         dataLabels: {
@@ -107,4 +107,3 @@
 
 </script>
 @endsection
-
