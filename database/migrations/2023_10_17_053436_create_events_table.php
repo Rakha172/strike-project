@@ -22,13 +22,12 @@ return new class extends Migration {
             $table->string('image');
             $table->enum('qualification', [
                 'weight',
-                'total',
+                'quantity',
                 'special',
                 'combined',
                 'weight special',
-                'weight total
-            ',
-                'total special'
+                'weight quantity',
+                'quantity special'
             ]);
             $table->time('start');
             $table->time('end');
