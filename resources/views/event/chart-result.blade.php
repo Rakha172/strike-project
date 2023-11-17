@@ -36,6 +36,9 @@
             },
           }
         },
+        colors: ['#FF0000'], // Atur warna bar di sini
+        xaxis: {
+        },
         dataLabels: {
           enabled: true,
           formatter: function (val) {
