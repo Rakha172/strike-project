@@ -87,9 +87,6 @@
                                     <td>
                                         <a href="{{ route('resultop.index', $evnt->id) }}"
                                             class="btn btn-dark m-1">Result</a>
-                                        {{-- <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a> --}}
-
-                                        <!-- Tambahkan kondisi untuk qualification -->
                                         @if ($evnt->qualification == 'weight')
                                             <a href="{{ route('events.chart-result', $evnt->id) }}"
                                                 class="btn btn-primary m-1">Chart Result</a>
@@ -112,6 +109,8 @@
                                             <a href="{{ route('events.chart-combined', $evnt->id) }}"
                                                 class="btn btn-primary m-1">Chart Result</a>
                                         @endif
+                                        <a href="{{ route('operator.attended', $evnt->id) }}"
+                                            class="btn btn-warning">Attended</a>
 
                                     </td>
                                 </tr>
