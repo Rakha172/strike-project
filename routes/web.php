@@ -143,15 +143,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::put('events/{event}', [EventController::class, 'update'])->name('event.update');
     Route::delete('events/{event}', [EventController::class, 'destroy'])->name('event.destroy');
 
-    //event chart result
-    Route::get('events/{event}/chart-result', EventChartResultController::class)->name('events.chart-result');
-    Route::get('events/{event}/chart-total', EventChartResultTotalController::class)->name('events.chart-total');
-    Route::get('events/{event}/chart-special', EventChartResultSpecialController::class)->name('events.chart-special');
-    Route::get('events/{event}/chart-combined', EventChartResultAllController::class)->name('events.chart-combined');
-    Route::get('events/{event}/chart-result-and-special', EventChartResultAndSpecialController::class)->name('events.chart-result-and-special');
-    Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
-    Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
-
     //table setting
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
     Route::get('/setting/create', [SettingController::class, 'create'])->name('setting.create');
@@ -176,7 +167,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     //Halaman RegisEvent
     Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
 });
-
 
 //ROLE MEMBER//
 // table event registration
@@ -215,7 +205,22 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('resultop/{result}/{event}', [OperatorController::class, 'edit'])->name('resultop.edit');
     Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 
+    //scan
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');
+    Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
+    Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
+});
+
+//ROLE ADMIN-OPERATOR CHART//
+Route::group(['middleware' => 'can:role,"operator", "admin"'], function () {
+    //event chart result
+    Route::get('events/{event}/chart-result', EventChartResultController::class)->name('events.chart-result');
+    Route::get('events/{event}/chart-total', EventChartResultTotalController::class)->name('events.chart-total');
+    Route::get('events/{event}/chart-special', EventChartResultSpecialController::class)->name('events.chart-special');
+    Route::get('events/{event}/chart-combined', EventChartResultAllController::class)->name('events.chart-combined');
+    Route::get('events/{event}/chart-result-and-special', EventChartResultAndSpecialController::class)->name('events.chart-result-and-special');
+    Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
+    Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
 
 });
