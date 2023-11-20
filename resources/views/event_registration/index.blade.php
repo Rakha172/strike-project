@@ -21,28 +21,41 @@
                     {{ $pesan }}
                 </div>
             @endif
-                <table class="table">
-                    <thead>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Event Name</th>
+                        <th scope="col">QR Code</th>
+                        <th scope="col">Booth</th>
+                        <th scope="col">Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($event_registration as $key => $item)
                         <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">User Name</th>
-                            <th scope="col">Event Name</th>
-                            <th scope="col">Booth</th>
-                            <th scope="col">Payment Status</th>
+                            <th scope="row">{{ $key + 1 }}</th>
+                            <td>{{ $item->user->name }}</td>
+                            <td>{{ $item->event->name }}</td>
+                            <td>
+                                <?php
+                                $eventRegId = $item->id;
+                                $kode = $eventRegId . '/' . 'wayangriders/' . $item->event->password . '';
+                                require_once 'qrcode/qrlib.php';
+                                $filename = 'wayangriders' . $eventRegId . '.png';
+                                $path = public_path('up/qrcode_images/' . $filename);
+                                QRcode::png("$kode", $path, 2, 2);
+                                ?>
+                                <img src="{{ asset('up/qrcode_images/' . $filename) }}" alt="">
+                            </td>
+                            <td>{{ $item->booth }}</td>
+                            <td>{{ $item->payment_status }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($event_registration as $key => $item)
-                            <tr>
-                                <th scope="row">{{ $key + 1 }}</th>
-                                <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->event->name }}</td>
-                                <td>{{ $item->booth }}</td>
-                                <td>{{ $item->payment_status }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                    @endforeach
+                </tbody>
+            </table>
+
             </div>
         </div>
     </div>

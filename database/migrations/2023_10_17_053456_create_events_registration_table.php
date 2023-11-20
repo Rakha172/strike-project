@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
             $table->string('booth');
-            $table->enum('payment_status', ['waiting', 'payed', 'cancel'])->default('waiting');
+            $table->enum('payment_status', ['waiting', 'payed','attended', 'cancel'])->default('waiting');
             $table->enum('qualification', ['weight', 'total', 'special']);
             $table->timestamps();
         });

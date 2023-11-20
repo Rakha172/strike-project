@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log; // Pastikan ini di atas kelas Controller
+
 use App\Models\Event;
 use App\Models\User;
 use App\Models\Event_Registration;
 use App\Models\Setting;
 use App\Models\Result;
-    use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Console\View\Components\Alert;
 
 class OperatorController extends Controller
 {
@@ -47,11 +51,9 @@ class OperatorController extends Controller
             return response()->json(['message' => 'Event not found'], 404);
         }
 
-        // Mengurangkan jumlah 'both' sesuai dengan logika yang Anda inginkan.
-        // Contoh: mengurangkan satu dari jumlah 'both' saat permintaan diproses.
+
         $event->both = $event->both - 1;
 
-        // Simpan perubahan pada event
         $event->save();
 
         return response()->json(['message' => 'Both reduced successfully']);
@@ -110,10 +112,8 @@ class OperatorController extends Controller
     public function edit(Result $result)
     {
 
-        // Get the associated event for this result
         $event = $result->event;
 
-        // Periksa apakah event ada atau tidak
         if (!$event) {
             return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
@@ -125,28 +125,76 @@ class OperatorController extends Controller
     }
 
     public function update(Request $request, Result $result)
-    {
-        // Get the associated event for this result
-        $event = $result->event;
+{
+    $event = $result->event;
 
-        // Periksa apakah event ada atau tidak
-        if (!$event) {
-            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
+    if (!$event) {
+        return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
+    }
+
+    $validated = $request->validate([
+        'weight' => 'required|numeric',
+        'status' => 'required|in:special,regular',
+        'participant' => 'required',
+    ]);
+
+    $result->update([
+        'weight' => $validated['weight'],
+        'status' => $validated['status'],
+        'participant' => $validated['participant'],
+    ]);
+
+    return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
+}
+
+
+    public function showAttendedPage()
+{
+    return view('operator.attended');
+}
+
+
+
+
+public function scan(Request $request)
+{
+    try {
+        $eventRegistrationId = $request->input('event_registration_id');
+        Log::info('Received scanned event registration ID: ' . $eventRegistrationId);
+
+        $eventRegistration = Event_Registration::find($eventRegistrationId);
+
+        if ($eventRegistration) {
+            Log::info('Found event registration with ID: ' . $eventRegistrationId);
+
+            if ($eventRegistration->payment_status === 'payed') {
+                // Ubah status pembayaran menjadi "attended"
+                $eventRegistration->update(['payment_status' => 'attended']);
+                Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
+
+                return redirect()->route('eventsop.index')->with('success', 'Status pembayaran diubah menjadi attended.');
+            } else {
+                Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
+                return back()->with('warning', 'Status pembayaran tidak sesuai');
+            }
+        } else {
+            Log::warning('Event Registration not found for ID: ' . $eventRegistrationId);
+            return redirect()->back()->with('failed', 'Data registrasi acara tidak ditemukan');
         }
-
-        $validated = $request->validate([
-            'weight' => 'required|numeric',
-            'status' => 'required|in:special,regular',
-            'participant' => 'required',
-        ]);
-
-        $result->update([
-            'weight' => $validated['weight'],
-            'status' => $validated['status'],
-            'participant' => $validated['participant'],
-        ]);
-
-        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
+    } catch (\Exception $e) {
+        Log::error('Error in scan method: ' . $e->getMessage());
+        return back()->with('error', 'Terjadi kesalahan dalam pemindaian.');
     }
 }
+
+
+
+}
+
+
+
+
+
+
+
 
