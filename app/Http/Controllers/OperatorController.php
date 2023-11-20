@@ -89,6 +89,7 @@ class OperatorController extends Controller
             'participant' => 'required',
             'weight' => 'required',
             'status' => 'required|in:special,regular',
+            'image_data' => 'required',
         ]);
 
         $user = User::find($request->input('participant'));
@@ -102,12 +103,30 @@ class OperatorController extends Controller
             'event_id' => $event->id,
             'weight' => floatval($request->input('weight')),
             'status' => $request->input('status'),
+            'image_path' => $this->saveImage($request->input('image_data')),
         ]);
 
         $result->save();
 
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
     }
+
+    private function saveImage($imageData)
+    {
+        $folderPath = 'images/results/';
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+
+        $image = str_replace('data:image/png;base64,', '', $imageData);
+        $image = str_replace(' ', '+', $image);
+        $imageName = 'result_' . time() . '.png';
+        $filePath = $folderPath . $imageName;
+        file_put_contents($filePath, base64_decode($image));
+
+        return $filePath;
+    }
+
 
     public function edit(Result $result)
     {
@@ -125,24 +144,32 @@ class OperatorController extends Controller
     }
 
     public function update(Request $request, Result $result)
-{
-    $event = $result->event;
+    {
+        $event = $result->event;
+        if (!$event) {
+            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
+        }
 
-    if (!$event) {
-        return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
-    }
+        $validated = $request->validate([
+            'weight' => 'required|numeric',
+            'status' => 'required|in:special,regular',
+            'participant' => 'required',
+            'image_data' => 'nullable|string', // Tambahkan validasi untuk data gambar (opsional)
+        ]);
 
-    $validated = $request->validate([
-        'weight' => 'required|numeric',
-        'status' => 'required|in:special,regular',
-        'participant' => 'required',
-    ]);
+        $imagePath = $validated['image_data'] ?? null;
 
-    $result->update([
-        'weight' => $validated['weight'],
-        'status' => $validated['status'],
-        'participant' => $validated['participant'],
-    ]);
+        // Tambahkan pengecekan panjang data gambar sebelum update
+        if ($imagePath !== null && strlen($imagePath) > 2000) {
+            return redirect()->back()->with('error', 'Ukuran gambar terlalu besar.');
+        }
+
+        $result->update([
+            'weight' => $validated['weight'],
+            'status' => $validated['status'],
+            'participant' => $validated['participant'],
+            'image_path' => $imagePath ?? $result->image_path,
+        ]);
 
     return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
 }
