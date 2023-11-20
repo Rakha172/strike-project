@@ -127,7 +127,6 @@ class OperatorController extends Controller
         return $filePath;
     }
 
-
     public function edit(Result $result)
     {
 
@@ -171,51 +170,44 @@ class OperatorController extends Controller
             'image_path' => $imagePath ?? $result->image_path,
         ]);
 
-    return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
-}
+        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
+    }
 
 
     public function showAttendedPage()
-{
-    return view('operator.attended');
-}
-
-
-
-
-public function scan(Request $request)
-{
-    try {
-        $eventRegistrationId = $request->input('event_registration_id');
-        Log::info('Received scanned event registration ID: ' . $eventRegistrationId);
-
-        $eventRegistration = Event_Registration::find($eventRegistrationId);
-
-        if ($eventRegistration) {
-            Log::info('Found event registration with ID: ' . $eventRegistrationId);
-
-            if ($eventRegistration->payment_status === 'payed') {
-                // Ubah status pembayaran menjadi "attended"
-                $eventRegistration->update(['payment_status' => 'attended']);
-                Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
-
-                return redirect()->route('eventsop.index')->with('success', 'Status pembayaran diubah menjadi attended.');
-            } else {
-                Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
-                return back()->with('warning', 'Status pembayaran tidak sesuai');
-            }
-        } else {
-            Log::warning('Event Registration not found for ID: ' . $eventRegistrationId);
-            return redirect()->back()->with('failed', 'Data registrasi acara tidak ditemukan');
-        }
-    } catch (\Exception $e) {
-        Log::error('Error in scan method: ' . $e->getMessage());
-        return back()->with('error', 'Terjadi kesalahan dalam pemindaian.');
+    {
+        return view('operator.attended');
     }
-}
+    public function scan(Request $request)
+    {
+        try {
+            $eventRegistrationId = $request->input('event_registration_id');
+            Log::info('Received scanned event registration ID: ' . $eventRegistrationId);
 
+            $eventRegistration = Event_Registration::find($eventRegistrationId);
 
+            if ($eventRegistration) {
+                Log::info('Found event registration with ID: ' . $eventRegistrationId);
 
+                if ($eventRegistration->payment_status === 'payed') {
+                    // Ubah status pembayaran menjadi "attended"
+                    $eventRegistration->update(['payment_status' => 'attended']);
+                    Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
+
+                    return redirect()->route('eventsop.index')->with('success', 'Status pembayaran diubah menjadi attended.');
+                } else {
+                    Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
+                    return back()->with('warning', 'Status pembayaran tidak sesuai');
+                }
+            } else {
+                Log::warning('Event Registration not found for ID: ' . $eventRegistrationId);
+                return redirect()->back()->with('failed', 'Data registrasi acara tidak ditemukan');
+            }
+        } catch (\Exception $e) {
+            Log::error('Error in scan method: ' . $e->getMessage());
+            return back()->with('error', 'Terjadi kesalahan dalam pemindaian.');
+        }
+    }
 }
 
 
