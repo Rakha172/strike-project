@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/landingevent.css') }}" />
     <title>Halaman Event</title>
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -70,12 +71,40 @@
                                 </p>
                             </div>
                         </div>
-                        <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
+                            <button class="action" onclick="bookEvent('{{ route('store-event-registration') }}', '{{ $item->id }}');">Book it</button>
                     </div>
                 </div>
             </div>
+            @endif
         @endforeach
     </div>
+
+    <script>
+        function bookEvent(url, eventId) {
+            // Send an AJAX request to the server
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({ event_id: eventId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server
+                if (data.success) {
+                    alert('Successfully registered for the event.');
+                    // Optionally, you can update the UI to reflect the registration status
+                } else {    
+                    alert('Failed to register for the event. ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 
 </html>

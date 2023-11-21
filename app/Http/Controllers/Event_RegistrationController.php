@@ -36,39 +36,38 @@ class Event_RegistrationController extends Controller
 
     public function storeEventRegistration(Request $request)
     {
-        // Ambil semua event registration yang sudah ada untuk pengguna dan event yang sedang diinputkan
-        $existingRegistrations = Event_Registration::where('user_id', auth()->user()->id)
-            ->where('event_id', $request->input('event_id'))
-            ->get();
+        try {
+            $validated = $request->validate([
+                'event_id' => 'required',
+            ]);
 
-        // Jika sudah ada event registration, beri pesan kesalahan
-        if ($existingRegistrations->isNotEmpty()) {
-            return redirect()->route('landingevent')
-                ->with('error', 'Anda sudah terdaftar untuk acara ini.');
+            $event = Event::findOrFail($validated['event_id']);
+
+            // Check if the user is already registered for the event
+            $existingRegistration = Event_Registration::where('user_id', auth()->user()->id)
+                ->where('event_id', $event->id)
+                ->first();
+
+            if ($existingRegistration) {
+                return response()->json(['error' => 'You are already registered for this event.']);
+            }
+
+            // Perform additional validation or business logic if needed
+
+            // Create a new registration
+            $registration = new Event_Registration([
+                'user_id' => auth()->user()->id,
+                'event_id' => $event->id,
+                'payment_status' => 'waiting',
+                // Add other fields as needed
+            ]);
+
+            $registration->save();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to register for the event.']);
         }
-
-        // Cek apakah booth sudah digunakan dalam event yang sama
-        $booth = $request->input('booth');
-        $existingBoothRegistration = Event_Registration::where('event_id', $request->input('event_id'))
-            ->where('booth', $booth)
-            ->first();
-
-        if ($existingBoothRegistration) {
-            return redirect()->route('regisevent')
-                ->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
-        }
-
-        $validated = $request->validate([
-            'user_id' => 'required',
-            'event_id' => 'required',
-            'booth' => 'required',
-        ]);
-
-        $validated['payment_status'] = 'waiting';
-
-        Event_Registration::create($validated);
-
-        return redirect('/landingevent')->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration)
