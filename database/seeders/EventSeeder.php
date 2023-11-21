@@ -16,7 +16,7 @@ class EventSeeder extends Seeder
             'image' => 'logo/logo.png',
             'price' => '150000',
             'total_booth' => '10',
-            'event_date' => '2023-11-20',
+            'event_date' => '2023-11-21',
             'location' => 'Indonesia,Jawa Barat,Bandung',
             'description' => 'Galatama adalah istilah dalam kolam pemancingan atau khusus diperuntukan dalam perlombaan memancing. Istilah ini diambil dari Liga Sepakbola Utama semi profesional, sebelum diubah menjadi Liga Indonesia.',
             'start' => '08:00:00',
