@@ -19,14 +19,12 @@
             <div class="card-body" style="background-color:#F5F7F8;">
                 <h1 class="text-center fs-2 mt-4">DATA RESULTS</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
-                <a href="{{ route('result.create', ['event' => $event->id] ) }}" class="btn btn-dark mb-3">Tambah</a>
 
                 <table class="table">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Participant</th>
-                            {{-- <th>Events Registration</th> --}}
                             <th>Berat Ikan</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -37,7 +35,6 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $result->user->name }}</td>
-                            {{-- <td>{{ $result->eventRegistration->event->event_name }}</td> --}}
                             <td>{{ $result->weight }}</td>
                             <td>{{ $result->status }}</td>
                             <td>

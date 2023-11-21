@@ -13,7 +13,7 @@ class EventChartResultTotalController extends Controller
         $data = $event->members->map(function ($member) use ($event) {
             return [
                 'label' => $member->name,
-                'data' => $event->results()->where('user_id', $member->id)->sum('status'),
+                'data' => $event->results()->where('user_id', $member->id)->count(),
             ];
         });
 

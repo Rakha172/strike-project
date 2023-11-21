@@ -35,53 +35,93 @@
             </script>
 
             <form action="{{ route('logout') }}">
-                <button style="width: 80px;margin-top:30px;margin-left:10px;
+                <button
+                    style="width: 80px;margin-top:30px;margin-left:10px;
                                background:red;color:white;border-radius:10px">
                     Logout
                 </button>
             </form>
-                <h1 class="text-center fs-2 mt-1">Halaman Operator Event</h1><br>
-                <div class="card-body">
-                    @if ($pesan = session('berhasil'))
-                        <div class="alert alert-primary" role="alert">
-                            {{ $pesan }}
-                        </div>
-                    @endif
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Total Booth</th>
-                                <th scope="col">Event Date</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Option</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($events as $key => $evnt)
+            <h1 class="text-center fs-2 mt-1">Halaman Operator Event</h1><br>
+            <div class="card-body">
+                @if ($pesan = session('berhasil'))
+                    <div class="alert alert-primary" role="alert">
+                        {{ $pesan }}
+                    </div>
+                @endif
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Total Booth</th>
+                            <th scope="col">Event Date</th>
+                            <th scope="col">Start</th>
+                            <th scope="col">End</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Qualification</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Option</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($events as $key => $evnt)
+                            @php
+                                $eventDate = \Carbon\Carbon::parse($evnt->event_date)->format('Y-m-d');
+                                $today = \Carbon\Carbon::now()->format('Y-m-d');
+                            @endphp
+                            @if ($eventDate == $today)
                                 <tr>
                                     <td>{{ $evnt->name }}</td>
                                     <td><img src="{{ asset($evnt->image) }}" width="100"></td>
                                     <td>Rp. {{ number_format($evnt->price, 0, '.', '.') }}</td>
                                     <td>{{ $evnt->total_booth }}</td>
                                     <td>{{ $evnt->event_date }}</td>
+                                    <td>{{ $evnt->start }}</td>
+                                    <td>{{ $evnt->end }}</td>
                                     <td>{{ $evnt->location }}</td>
+                                    <td>{{ $evnt->qualification }}</td>
                                     <td>
                                         {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
                                     </td>
                                     <td>
                                         <a href="{{ route('resultop.index', $evnt->id) }}"
                                             class="btn btn-dark m-1">Result</a>
+                                        {{-- <a href="{{ route('events.chart-result', $evnt->id) }}" class="btn btn-primary m-1">Chart Result</a> --}}
+
+                                        <!-- Tambahkan kondisi untuk qualification -->
+                                        @if ($evnt->qualification == 'weight')
+                                            <a href="{{ route('events.chart-result', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @elseif ($evnt->qualification == 'total')
+                                            <a href="{{ route('events.chart-total', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @elseif ($evnt->qualification == 'special')
+                                            <a href="{{ route('events.chart-special', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @elseif ($evnt->qualification == 'weight special')
+                                            <a href="{{ route('events.chart-result-and-special', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @elseif ($evnt->qualification == 'weight total')
+                                            <a href="{{ route('events.chart-result-and-total', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @elseif ($evnt->qualification == 'total special')
+                                            <a href="{{ route('events.chart-result-and-total-special', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @else
+                                            <a href="{{ route('events.chart-combined', $evnt->id) }}"
+                                                class="btn btn-primary m-1">Chart Result</a>
+                                        @endif
+
                                     </td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
-
