@@ -18,7 +18,7 @@ return new class extends Migration {
                 $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
                 $table->integer('weight')->default(0);
                 $table->enum('status', ['special', 'regular']);
-                $table->string('image_path', 2000)->nullable();
+                $table->mediumText('image_path')->nullable();
                 $table->timestamps();
             });
         }

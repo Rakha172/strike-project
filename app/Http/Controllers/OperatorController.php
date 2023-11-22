@@ -153,26 +153,43 @@ class OperatorController extends Controller
             'weight' => 'required|numeric',
             'status' => 'required|in:special,regular',
             'participant' => 'required',
-            'image_data' => 'nullable|string', // Tambahkan validasi untuk data gambar (opsional)
+            'image_data' => 'nullable|string', // Validasi untuk data gambar (opsional)
         ]);
 
-        $imagePath = $validated['image_data'] ?? null;
-
-        // Tambahkan pengecekan panjang data gambar sebelum update
-        if ($imagePath !== null && strlen($imagePath) > 2000) {
-            return redirect()->back()->with('error', 'Ukuran gambar terlalu besar.');
+        // Jika ada data gambar baru, simpan gambar dan perbarui path di database
+        if ($request->has('image_data')) {
+            $imagePath = $this->saveImage($validated['image_data']);
+        } else {
+            // Jika tidak ada data gambar baru, gunakan path yang sudah ada di database
+            $imagePath = $result->image_path;
         }
 
+        // Perbarui data hasil
         $result->update([
             'weight' => $validated['weight'],
             'status' => $validated['status'],
             'participant' => $validated['participant'],
-            'image_path' => $imagePath ?? $result->image_path,
+            'image_path' => $imagePath,
         ]);
 
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 
+    private function save($imageData)
+    {
+        $folderPath = 'images/results/';
+        if (!file_exists($folderPath)) {
+            mkdir($folderPath, 0777, true);
+        }
+
+        $image = str_replace('data:image/png;base64,', '', $imageData);
+        $image = str_replace(' ', '+', $image);
+        $imageName = 'result_' . time() . '.png';
+        $filePath = $folderPath . $imageName;
+        file_put_contents($filePath, base64_decode($image));
+
+        return $filePath;
+    }
 
     public function showAttendedPage()
     {
