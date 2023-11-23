@@ -152,7 +152,7 @@ class OperatorController extends Controller
         $validated = $request->validate([
             'weight' => 'required|numeric',
             'status' => 'required|in:special,regular',
-            'participant' => 'required',
+            'participant' => 'required|exists:events_registration,user_id', // Pastikan user_id ada di event_registrations
             'image_data' => 'nullable|string', // Validasi untuk data gambar (opsional)
         ]);
 
