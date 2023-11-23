@@ -63,10 +63,18 @@ class Event_RegistrationController extends Controller
             'event_id' => 'required',
             'booth' => 'required',
             'qualification' => 'required|in:weight,total,special', // Validate the qualification field
-
         ]);
 
         $validated['payment_status'] = 'waiting';
+
+        // Periksa jumlah pendaftar
+        $event = Event::find($request->input('event_id'));
+        $currentRegistrations = Event_Registration::where('event_id', $event->id)->count();
+        $totalBooth = $event->total_booth;
+
+        if ($currentRegistrations >= $totalBooth) {
+            return redirect()->route('regisevent')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
+        }
 
         Event_Registration::create($validated);
 
