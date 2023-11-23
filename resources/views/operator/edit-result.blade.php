@@ -36,9 +36,11 @@
                             @method("PUT")
                             <div class="mb-3">
                                 <label for="participant">Participant</label>
-                                <select name="participant" class="form-control" style="background-color:#cdecfa;">
+                                <select name="participant" class="form-control">
                                     @foreach($event_registration as $eventReg)
-                                        <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>{{ $eventReg->user->name }}</option>
+                                        <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>
+                                            {{ $eventReg->user->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
