@@ -110,7 +110,7 @@
                                                 class="btn btn-primary m-1">Chart Result</a>
                                         @endif
                                         <a href="{{ route('operator.attended', $evnt->id) }}"
-                                            class="btn btn-warning">Attended</a>
+                                            class="btn btn-warning m-1">Attended</a>
 
                                     </td>
                                 </tr>
