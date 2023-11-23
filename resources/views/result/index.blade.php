@@ -42,6 +42,7 @@
                                     @csrf
                                     @method('delete')
                                     <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda Yakin ingin menghapus data ini?')">Delete</button>
+                                    <a href="{{ route('event.index') }}" class="btn btn-dark ">Back</a>
                                 </form>
                             </td>
                         </tr>
@@ -51,6 +52,7 @@
             </div>
         </div>
     </div>
+    {{-- <a href="{{ route('event.index') }}" class="btn btn-dark mt-2">Back</a> --}}
     @endsection
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
