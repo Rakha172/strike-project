@@ -48,4 +48,5 @@
     </div>
     </body>
     </html>
+    <a href="{{ route('event.index') }}" class="btn btn-dark mt-2">Back</a>
     @endsection
