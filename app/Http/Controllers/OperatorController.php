@@ -69,11 +69,11 @@ class OperatorController extends Controller
 
     public function create(Event $event)
     {
-
         $title = Setting::firstOrFail();
-        $users = User::all();
-        $event_registration = $event->event_regist()->get();
+        $event_registration = $event->event_regist()->where('payment_status', 'attended')->get();
         $results = Result::where('event_id', $event->id)->get();
+
+        $users = User::whereIn('id', $event_registration->pluck('user_id'))->get();
 
         if (!$event) {
             return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
@@ -81,7 +81,6 @@ class OperatorController extends Controller
 
         return view('operator.create-result', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
-
 
     public function store(Request $request, Event $event)
     {
