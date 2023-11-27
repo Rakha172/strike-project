@@ -96,7 +96,7 @@
                 if (data.success) {
                     alert('Successfully registered for the event.');
                     // Optionally, you can update the UI to reflect the registration status
-                } else {    
+                } else {
                     alert('Failed to register for the event. ' + data.error);
                 }
             })

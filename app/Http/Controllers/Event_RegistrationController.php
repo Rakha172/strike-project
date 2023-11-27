@@ -35,40 +35,43 @@ class Event_RegistrationController extends Controller
     }
 
     public function storeEventRegistration(Request $request)
-    {
-        try {
-            $validated = $request->validate([
-                'event_id' => 'required',
-            ]);
+{
+    try {
+        $validated = $request->validate([
+            'event_id' => 'required',
+        ]);
 
-            $event = Event::findOrFail($validated['event_id']);
+        $event = Event::findOrFail($validated['event_id']);
 
-            // Check if the user is already registered for the event
-            $existingRegistration = Event_Registration::where('user_id', auth()->user()->id)
-                ->where('event_id', $event->id)
-                ->first();
+        // Check if the user is already registered for the event
+        $existingRegistration = Event_Registration::where('user_id', auth()->user()->id)
+            ->where('event_id', $event->id)
+            ->first();
 
-            if ($existingRegistration) {
-                return response()->json(['error' => 'You are already registered for this event.']);
-            }
-
-            // Perform additional validation or business logic if needed
-
-            // Create a new registration
-            $registration = new Event_Registration([
-                'user_id' => auth()->user()->id,
-                'event_id' => $event->id,
-                'payment_status' => 'waiting',
-                // Add other fields as needed
-            ]);
-
-            $registration->save();
-
-            return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to register for the event.']);
+        if ($existingRegistration) {
+            return response()->json(['error' => 'You are already registered for this event.']);
         }
+
+        // Perform additional validation or business logic if needed
+
+        // Create a new registration
+        $registration = new Event_Registration([
+            'user_id' => auth()->user()->id,
+            'event_id' => $event->id,
+            'payment_status' => 'waiting',
+            // Add other fields as needed
+        ]);
+
+        $registration->save();
+
+        // Berikan respons sesuai kebutuhan
+        return response()->json(['message' => 'Registrasi berhasil'], 200);
+    } catch (\Exception $e) {
+        // Tangani kesalahan jika terjadi
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
+
 
     public function update(Request $request, Event_Registration $event_registration)
     {
