@@ -17,6 +17,7 @@ class Result extends Model
         'event_id',
         'weight',
         'status',
+        'image_path'
     ];
 
 

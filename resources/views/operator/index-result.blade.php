@@ -33,6 +33,7 @@
                             <th>Participant</th>
                             <th>Berat Ikan</th>
                             <th>Status</th>
+                            <th>Pict</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -43,6 +44,13 @@
                             <td>{{ $result->user->name }}</td>
                             <td>{{ $result->weight }}</td>
                             <td>{{ $result->status }}</td>
+                            <td>
+                                @if($result->image_path)
+                                    <img src="{{ asset($result->image_path) }}" style="max-width: 100px; max-height: 100px;" alt="Result Image">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{ route('resultop.edit', ['event' => $event->id, 'result' => $result->id]) }}" class="btn btn-primary m-1">Edit</a>
                             </td>
