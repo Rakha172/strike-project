@@ -22,16 +22,16 @@ class Event_RegistrationController extends Controller
         $events = Event::all();
         $users = User::all();
 
-        $userName = null; // Inisialisasi $userName dengan null
-        $event = null; // Inisialisasi $event dengan null
+        $userName = null;
+        $event = null;
 
         if (auth()->check()) {
-            $user = auth()->user(); // Mengambil pengguna yang sudah login
+            $user = auth()->user();
             $userName = $user->name;
             $event = $user->event;
         }
 
-        return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
+        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
     public function store(Request $request)
@@ -43,48 +43,37 @@ class Event_RegistrationController extends Controller
 
         // Jika sudah ada event registration, beri pesan kesalahan
         if ($existingRegistrations->isNotEmpty()) {
-            return redirect()->route('landingevent')
-                ->with('error', 'Anda sudah terdaftar untuk acara ini.');
+            return redirect()->back()->with('error', 'Anda sudah terdaftar untuk acara ini.');
         }
 
-        // Cek apakah booth sudah digunakan dalam event yang sama
         $booth = $request->input('booth');
         $existingBoothRegistration = Event_Registration::where('event_id', $request->input('event_id'))
             ->where('booth', $booth)
             ->first();
 
         if ($existingBoothRegistration) {
-            return redirect()->route('landingevent')
-                ->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
+            return redirect()->back()->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
         }
 
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
-            'booth' => 'required',
-            'qualification' => 'required|in:weight,total,special', // Validate the qualification field
+            'booth' => 'nullable',
         ]);
 
         $validated['payment_status'] = 'waiting';
 
-        // Periksa jumlah pendaftar
         $event = Event::find($request->input('event_id'));
         $currentRegistrations = Event_Registration::where('event_id', $event->id)->count();
         $totalBooth = $event->total_booth;
 
         if ($currentRegistrations >= $totalBooth) {
-            return redirect()->route('landingevent')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
+            return redirect()->back()->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
         Event_Registration::create($validated);
 
-        $eventRegistration = Event_Registration::create($validated);
-
-    if ($request->ajax()) {
-        return response()->json(['success' => true, 'message' => 'Booking successful']);
-    }
-
-        return redirect('/landingevent')->with('success', 'Berhasil Dibuat.');
+        return redirect()->back()->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration)
@@ -92,9 +81,8 @@ class Event_RegistrationController extends Controller
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
-            'booth' => 'required',
+            'booth' => 'nullable',
             'payment_status' => 'required',
-            'qualification' => 'required|in:weight,total,special', // Validate the qualification field
 
         ]);
 

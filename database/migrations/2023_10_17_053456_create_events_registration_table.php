@@ -15,9 +15,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
-            $table->string('booth');
+            $table->string('booth')->nullable();
             $table->enum('payment_status', ['waiting', 'payed','attended', 'cancel'])->default('waiting');
-            $table->enum('qualification', ['weight', 'total', 'special']);
             $table->timestamps();
         });
     }

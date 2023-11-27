@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/landingevent.css') }}" />
     <title>Halaman Event</title>
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -42,43 +40,95 @@
         @endphp
 
         @foreach ($events as $item)
-            @if (!$item->members->contains(Auth::user()))
-                <div class="item-container">
-                    <div class="img-container">
-                        <img src="{{ $item['image'] }}" alt="Event Image">
-                    </div>
-                    <div class="body-container">
-                        <div class="overlay"></div>
+            @if ($item->members->contains(Auth::user()))
+                @php
+                    $registeredEvents[] = $item;
+                @endphp
+            @else
+                @php
+                    $unregisteredEvents[] = $item;
+                @endphp
+            @endif
+        @endforeach
 
-                        <div class="event-info">
-                            <p class="title">{{ $item['name'] }}</p>
-                            <div class="separator"></div>
-                            <p class="title">{{ $item['qualification'] }}</p>
-                            <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
-
-                            <div class="additional-info">
-                                <p class="info">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    {{ $item['location'] }}
-                                </p>
-                                <p class="info">
-                                    <i class="far fa-calendar-alt"></i>
-                                    {{ $item['event_date'] }}
-                                </p>
-
-                                <p class="info description">
-                                    {{ $item['description'] }}
-                                </p>
-                            </div>
-                        </div>
-                            <button class="action" onclick="bookEvent()" data-event-id="{{ $item->id }}" data-booth="{{ $item->booth }}">Book it</button>
-                    </div>
+        @foreach (array_merge($unregisteredEvents, $registeredEvents) as $item)
+            <div class="item-container">
+                <div class="img-container">
+                    <img src="{{ $item['image'] }}" alt="Event Image">
                 </div>
-    </div>
-    @endif
-    @endforeach
+                <div class="body-container">
+                    <div class="overlay"></div>
+
+                    <div class="event-info">
+                        <p class="title">{{ $item['name'] }}</p>
+                        <div class="separator"></div>
+                        <p class="title">{{ $item['qualification'] }}</p>
+                        <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
+
+                        <div class="additional-info">
+                            <p class="info">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ $item['location'] }}
+                            </p>
+                            <p class="info">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ $item['event_date'] }}
+                            </p>
+
+                            <p class="info description">
+                                {{ $item['description'] }}
+                            </p>
+                        </div>
+                    </div>
+
+                    @if ($item->members->contains(Auth::user()))
+                        <button class="action" disabled>Already Registered</button>
+                    @else
+                        <button class="action" onclick="daftarEvent('{{ $item['id'] }}')">Book it</button>
+                    @endif
+                </div>
+            </div>
+        @endforeach
     </div>
 
+    <script>
+        function daftarEvent(eventId) {
+            const isConfirmed = confirm("Apakah Anda yakin mengikuti event ini?");
+
+            if (isConfirmed) {
+                const urlRegistrasi = "{{ route('event_registration.store') }}";
+                const formulir = document.createElement('form');
+                formulir.action = urlRegistrasi;
+                formulir.method = 'post';
+
+                const inputTokenCSRF = document.createElement('input');
+                inputTokenCSRF.type = 'hidden';
+                inputTokenCSRF.name = '_token';
+                inputTokenCSRF.value = "{{ csrf_token() }}";
+                formulir.appendChild(inputTokenCSRF);
+
+                const inputEventId = document.createElement('input');
+                inputEventId.type = 'hidden';
+                inputEventId.name = 'event_id';
+                inputEventId.value = eventId;
+                formulir.appendChild(inputEventId);
+
+                const inputUserId = document.createElement('input');
+                inputUserId.type = 'hidden';
+                inputUserId.name = 'user_id';
+                inputUserId.value = "{{ auth()->user()->id }}";
+                formulir.appendChild(inputUserId);
+
+                const tombolOK = document.createElement('button');
+                tombolOK.type = 'submit';
+                tombolOK.textContent = 'OK';
+                formulir.appendChild(tombolOK);
+
+                document.body.appendChild(formulir);
+                formulir.submit();
+            }
+        }
+    </script>
 </body>
 
 </html>
