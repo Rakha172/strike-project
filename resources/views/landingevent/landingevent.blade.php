@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/landingevent.css') }}" />
     <title>Halaman Event</title>
-
 </head>
 
 <body>
@@ -85,15 +84,51 @@
                     @if ($item->members->contains(Auth::user()))
                         <button class="action" disabled>Already Registered</button>
                     @else
-                        <button class="action" onclick="window.location='{{ route('regisevent') }}';">Book it</button>
+                        <button class="action" onclick="daftarEvent('{{ $item['id'] }}')">Book it</button>
                     @endif
                 </div>
             </div>
         @endforeach
     </div>
 
+    <script>
+        function daftarEvent(eventId) {
+            const isConfirmed = confirm("Apakah Anda yakin mengikuti event ini?");
 
+            if (isConfirmed) {
+                const urlRegistrasi = "{{ route('event_registration.store') }}";
+                const formulir = document.createElement('form');
+                formulir.action = urlRegistrasi;
+                formulir.method = 'post';
 
+                const inputTokenCSRF = document.createElement('input');
+                inputTokenCSRF.type = 'hidden';
+                inputTokenCSRF.name = '_token';
+                inputTokenCSRF.value = "{{ csrf_token() }}";
+                formulir.appendChild(inputTokenCSRF);
+
+                const inputEventId = document.createElement('input');
+                inputEventId.type = 'hidden';
+                inputEventId.name = 'event_id';
+                inputEventId.value = eventId;
+                formulir.appendChild(inputEventId);
+
+                const inputUserId = document.createElement('input');
+                inputUserId.type = 'hidden';
+                inputUserId.name = 'user_id';
+                inputUserId.value = "{{ auth()->user()->id }}";
+                formulir.appendChild(inputUserId);
+
+                const tombolOK = document.createElement('button');
+                tombolOK.type = 'submit';
+                tombolOK.textContent = 'OK';
+                formulir.appendChild(tombolOK);
+
+                document.body.appendChild(formulir);
+                formulir.submit();
+            }
+        }
+    </script>
 </body>
 
 </html>
