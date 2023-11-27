@@ -36,9 +36,11 @@
                             @method("PUT")
                             <div class="mb-3">
                                 <label for="participant">Participant</label>
-                                <select name="participant" class="form-control" style="background-color:#cdecfa;">
+                                <select name="participant" class="form-control">
                                     @foreach($event_registration as $eventReg)
-                                        <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>{{ $eventReg->user->name }}</option>
+                                        <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>
+                                            {{ $eventReg->user->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -81,25 +83,22 @@
         }
 
         function capturePhoto() {
-    const video = document.getElementById('cameraFeed');
-    const canvas = document.getElementById('canvas');
-    const photo = document.getElementById('capturedImage');
-    const imageDataInput = document.getElementById('imageData');
+            const video = document.getElementById('cameraFeed');
+            const canvas = document.getElementById('canvas');
+            const photo = document.getElementById('capturedImage');
+            const imageDataInput = document.getElementById('imageData');
 
-    canvas.width = 400;
-    canvas.height = 300;
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.width = 400;
+            canvas.height = 300;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    const imageData = canvas.toDataURL('image/png');
-    photo.setAttribute('src', imageData);
-    photo.style.display = 'block';
+            const imageData = canvas.toDataURL('image/png');
+            photo.setAttribute('src', imageData);
+            photo.style.display = 'block';
 
-    // Set data gambar ke input hidden
-    imageDataInput.value = imageData;
-
-    // Panggil fungsi updateResult() untuk mengirimkan permintaan pembaruan
-    updateResult();
-}
+            // Set data gambar ke input hidden
+            imageDataInput.value = imageData;
+        }
 
         setupCamera();
     </script>

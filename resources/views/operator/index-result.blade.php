@@ -38,7 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($results as $result)
+                        @foreach($results->sortByDesc('created_at') as $result)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $result->user->name }}</td>

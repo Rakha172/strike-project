@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{$title->name}} | Add Result</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <title>{{ $title->name }} | Add Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
         body {
-            background-color: #c5e4f3; /* Warna latar belakang biru muda */
+            background-color: #c5e4f3;
         }
+
         .container {
-            background-color: #fff; /* Warna latar belakang putih untuk konten */
-            border-radius: 10px; /* Corner radius untuk container */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow efek pada container */
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-top: 20px;
         }
+
         .card-kamera {
-            background-color: #fff; /* Warna latar belakang putih untuk card kamera */
-            border-radius: 10px; /* Corner radius untuk card */
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Shadow efek pada card */
+            background-color: #c5e4f3;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
+
         .photo-section {
             padding: 20px;
         }
+
         .form-section {
             padding: 20px;
         }
+
         #capturedImage {
             max-width: 100%;
             display: none;
         }
     </style>
 </head>
+
 <body>
 
     <div class="container mt-5">
@@ -42,7 +49,6 @@
             <div class="card-body">
                 <h1 class="text-center fs-2 mt-4">Hasil Result Pemancingan</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
-
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card card-kamera">
@@ -58,21 +64,23 @@
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{{ route("resultop.store", ['event' => $event->id]) }}" method="POST">
+                                <form action="{{ route('resultop.store', ['event' => $event->id]) }}" method="POST">
                                     @csrf
-                                    @method("POST")
+                                    @method('POST')
                                     <div class="form-group">
                                         <label for="participant">Participant</label>
                                         <select name="participant" class="form-control">
-                                            @foreach($event_registration as $eventReg)
-                                                <option value="{{ $eventReg->user_id }}">{{ $eventReg->user->name }}</option>
+                                            @foreach ($event_registration as $eventReg)
+                                                <option value="{{ $eventReg->user_id }}">{{ $eventReg->user->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="form-label">Berat Ikan</label>
-                                        <input value="{{ old('weight')}}" name="weight" type="number" class="form-control @error('weight') is-invalid @enderror">
+                                        <input value="{{ old('weight') }}" name="weight" type="number"
+                                            class="form-control @error('weight') is-invalid @enderror">
                                         @error('weight')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -86,7 +94,8 @@
                                         </select>
                                     </div>
                                     <input type="hidden" name="image_data" id="imageData" value="">
-                                    <button onclick="capturePhoto()" class="btn btn-primary mt-3"> Simpan</button>
+                                    <button onclick="capturePhotoAndSave()" class="btn btn-primary mt-3"> Ambil Foto dan
+                                        Simpan</button>
                                 </form>
                             </div>
                         </div>
@@ -96,12 +105,17 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
 
     <script>
         async function setupCamera() {
             const constraints = {
-                video: { width: 400, height: 300 }
+                video: {
+                    width: 400,
+                    height: 300
+                }
             };
 
             const video = document.getElementById('cameraFeed');
@@ -113,7 +127,7 @@
             }
         }
 
-        function capturePhoto() {
+        function capturePhotoAndSave() {
             const video = document.getElementById('cameraFeed');
             const canvas = document.getElementById('canvas');
             const photo = document.getElementById('capturedImage');
@@ -128,10 +142,26 @@
             photo.style.display = 'block';
 
             imageDataInput.value = imageData;
-            document.querySelector('form').submit();
+
+            const formData = new FormData();
+            formData.append('imageData', imageData);
+
+            fetch('save_image.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    console.log('Data terkirim:', response);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            video.style.display = 'none';
         }
 
         setupCamera();
     </script>
 </body>
+
 </html>
