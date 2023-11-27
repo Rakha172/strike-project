@@ -30,12 +30,22 @@ body {
     margin-top: 0;
 }
 
+.navbar .logout{
+    background: linear-gradient(to right,#8ad2df, #1f79ff);
+    width: 85px;
+    border-radius: 10px;
+    height: 25px;
+}
+.logout:hover{
+    background: linear-gradient(to right,#1f79ff, #8ad2df) ;
+}
+
 .event-title {
     text-align: center;
     font-size: 2em;
     color: #18537a;
     position: absolute;
-    top: 70px;
+    top: 85px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -104,7 +114,6 @@ body {
     padding: 8px;
 }
 
-.title,
 .price {
     color: #18537a;
     font-size: 1.5em;
@@ -216,6 +225,3 @@ body {
     position: relative;
     z-index: 1;
 }
-
-
-

@@ -11,18 +11,17 @@
 </head>
 
 <body>
-    <ul class="side-menu">
-        <li>
-            <a href="{{ route('logout') }}" class="logout">
-                <i class='bx bx-log-out-circle'></i>
-                Logout
-            </a>
-        </li>
-    </ul>
-
     <div class="navbar">
         Event Ticket Booking
+        <br>
+        <button class="logout">
+            <a href="{{ route('logout') }}" style="color: black;text-decoration: none;">
+                Logout
+            </a>
+        </button>
+
     </div>
+    
     <h1 class="event-title">Events</h1>
 
     @if (Session::has('success'))

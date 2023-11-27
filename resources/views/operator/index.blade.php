@@ -19,12 +19,12 @@
 
 </head>
 
-{{-- JS Toastr Link --}}
+{{-- JS Toastr Link --}}    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
     integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<body>
+<body style="background: rgb(5, 151, 151);">
     <div class="container"><br>
         <div class="card" style="background: rgb(211, 233, 241);">
 

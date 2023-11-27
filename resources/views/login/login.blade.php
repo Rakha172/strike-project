@@ -80,7 +80,7 @@
             <a href="{{ route('password.request') }}">Forgot password?</a>
 
             <div class="form-group">
-                <input type="submit" value="Sign In" class="form-control btn btn-success rounded submit px-3">
+                <input type="submit" value="Sign In" class="form-control btn rounded submit px-3" style="background: linear-gradient(to right,#1f79ff, #8ad2df) ;">
             </div>
             <p class="text-wrapper-7">Tidak punya akun?<a href="{{ route('register') }}">Regist disini</a></p>
         </div>
