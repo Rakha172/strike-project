@@ -31,7 +31,7 @@ class Event_RegistrationController extends Controller
             $event = $user->event;
         }
 
-        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event', 'title'));
+        return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
     public function store(Request $request)
@@ -43,7 +43,7 @@ class Event_RegistrationController extends Controller
 
         // Jika sudah ada event registration, beri pesan kesalahan
         if ($existingRegistrations->isNotEmpty()) {
-            return redirect()->route('regisevent')
+            return redirect()->route('landingevent')
                 ->with('error', 'Anda sudah terdaftar untuk acara ini.');
         }
 
@@ -54,7 +54,7 @@ class Event_RegistrationController extends Controller
             ->first();
 
         if ($existingBoothRegistration) {
-            return redirect()->route('regisevent')
+            return redirect()->route('landingevent')
                 ->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
         }
 
@@ -73,12 +73,18 @@ class Event_RegistrationController extends Controller
         $totalBooth = $event->total_booth;
 
         if ($currentRegistrations >= $totalBooth) {
-            return redirect()->route('regisevent')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
+            return redirect()->route('landingevent')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
         Event_Registration::create($validated);
 
-        return redirect('/regisevent')->with('success', 'Berhasil Dibuat.');
+        $eventRegistration = Event_Registration::create($validated);
+
+    if ($request->ajax()) {
+        return response()->json(['success' => true, 'message' => 'Booking successful']);
+    }
+
+        return redirect('/landingevent')->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration)
