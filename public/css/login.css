@@ -51,7 +51,7 @@ body {
     outline: none;
     border: none;
     color: white;
-    background-color: #0d6efd;
+    background: linear-gradient(to right,#8ad2df, #1f79ff ) ;
     margin-bottom: 15px;
     transition: .5s;
 }
@@ -95,7 +95,7 @@ body {
 }
 
 .submit:hover {
-    background-color: #0d6efd;
+    background-color: rgb(3, 196, 196);
 }
 .submit1{
     width: 120px;
@@ -113,12 +113,12 @@ body {
 }
 .submit1:hover {
     background-color: white;
-    color:#0d6efd;
+    color:#cfd9e9;
 }
 a {
     display: block;
     font-size: small;
-    text-decoration: none;
+    text-decoration: none;  
     color: #0d6efd;
     margin-top: 10px;
 }
