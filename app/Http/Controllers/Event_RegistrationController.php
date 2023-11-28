@@ -36,25 +36,6 @@ class Event_RegistrationController extends Controller
 
     public function store(Request $request)
     {
-        // Ambil semua event registration yang sudah ada untuk pengguna dan event yang sedang diinputkan
-        $existingRegistrations = Event_Registration::where('user_id', auth()->user()->id)
-            ->where('event_id', $request->input('event_id'))
-            ->get();
-
-        // Jika sudah ada event registration, beri pesan kesalahan
-        if ($existingRegistrations->isNotEmpty()) {
-            return redirect()->back()->with('error', 'Anda sudah terdaftar untuk acara ini.');
-        }
-
-        $booth = $request->input('booth');
-        $existingBoothRegistration = Event_Registration::where('event_id', $request->input('event_id'))
-            ->where('booth', $booth)
-            ->first();
-
-        if ($existingBoothRegistration) {
-            return redirect()->back()->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
-        }
-
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
@@ -75,6 +56,8 @@ class Event_RegistrationController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil Dibuat.');
     }
+
+
 
     public function update(Request $request, Event_Registration $event_registration)
     {

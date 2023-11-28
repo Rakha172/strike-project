@@ -21,7 +21,7 @@
         </button>
 
     </div>
-    
+
     <h1 class="event-title">Events</h1>
 
     @if (Session::has('success'))
@@ -92,40 +92,31 @@
 
     <script>
         function daftarEvent(eventId) {
-            const isConfirmed = confirm("Apakah Anda yakin mengikuti event ini?");
+            const urlRegistrasi = "{{ route('event_registration.store') }}";
+            const formulir = document.createElement('form');
+            formulir.action = urlRegistrasi;
+            formulir.method = 'post';
 
-            if (isConfirmed) {
-                const urlRegistrasi = "{{ route('event_registration.store') }}";
-                const formulir = document.createElement('form');
-                formulir.action = urlRegistrasi;
-                formulir.method = 'post';
+            const inputTokenCSRF = document.createElement('input');
+            inputTokenCSRF.type = 'hidden';
+            inputTokenCSRF.name = '_token';
+            inputTokenCSRF.value = "{{ csrf_token() }}";
+            formulir.appendChild(inputTokenCSRF);
 
-                const inputTokenCSRF = document.createElement('input');
-                inputTokenCSRF.type = 'hidden';
-                inputTokenCSRF.name = '_token';
-                inputTokenCSRF.value = "{{ csrf_token() }}";
-                formulir.appendChild(inputTokenCSRF);
+            const inputEventId = document.createElement('input');
+            inputEventId.type = 'hidden';
+            inputEventId.name = 'event_id';
+            inputEventId.value = eventId;
+            formulir.appendChild(inputEventId);
 
-                const inputEventId = document.createElement('input');
-                inputEventId.type = 'hidden';
-                inputEventId.name = 'event_id';
-                inputEventId.value = eventId;
-                formulir.appendChild(inputEventId);
+            const inputUserId = document.createElement('input');
+            inputUserId.type = 'hidden';
+            inputUserId.name = 'user_id';
+            inputUserId.value = "{{ auth()->user()->id }}";
+            formulir.appendChild(inputUserId);
 
-                const inputUserId = document.createElement('input');
-                inputUserId.type = 'hidden';
-                inputUserId.name = 'user_id';
-                inputUserId.value = "{{ auth()->user()->id }}";
-                formulir.appendChild(inputUserId);
-
-                const tombolOK = document.createElement('button');
-                tombolOK.type = 'submit';
-                tombolOK.textContent = 'OK';
-                formulir.appendChild(tombolOK);
-
-                document.body.appendChild(formulir);
-                formulir.submit();
-            }
+            document.body.appendChild(formulir);
+            formulir.submit();
         }
     </script>
 </body>
