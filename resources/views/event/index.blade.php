@@ -45,7 +45,7 @@
               <tr>
                 <td>{{ $evnt->name }}</td>
                 <td>
-                    <a href="{{ asset($evnt->image) }}"><img src="{{ asset($evnt->image) }}" width="100"></a></td>
+                    <img src="{{ asset($evnt->image) }}" width="100"></td>
                 <td>Rp. {{ number_format($evnt->price, 0, '.', '.')}}</td>
                 <td>{{ $evnt->total_booth }}</td>
                 <td>{{ $evnt->event_date }}</td>

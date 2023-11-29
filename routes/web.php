@@ -194,7 +194,6 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     })->name('events');
 
     //spinner
-    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
     Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
 });
 
@@ -215,6 +214,8 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
+    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
+
 });
 
 //ROLE ADMIN-OPERATOR CHART//
