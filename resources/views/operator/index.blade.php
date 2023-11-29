@@ -28,11 +28,6 @@
     <div class="container"><br>
         <div class="card" style="background: rgb(211, 233, 241);">
 
-            <script>
-                @if (Session::has('success'))
-                    toastr.info("{{ Session::get('success') }}", "{{ Auth::user()->name }}", {});
-                @endif
-            </script>
 
             <form action="{{ route('logout') }}">
                 <button
