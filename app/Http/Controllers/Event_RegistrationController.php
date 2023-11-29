@@ -60,8 +60,8 @@ class Event_RegistrationController extends Controller
         if ($existingBoothRegistration) {
             return redirect()->back()->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
         }
-      
-      $request->validate([
+
+        $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
             'booth' => 'nullable',
