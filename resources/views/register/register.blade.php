@@ -25,6 +25,13 @@
           </div>
         @enderror
 
+        <input type="text" name="phone_number" class="phone_number" placeholder="Masukkan Nomor Telepon" required>
+        @error('phone_number')
+          <div class="invalid-feedback text-start">
+            {{ $message }}
+          </div>
+        @enderror
+
         <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
         @error('email')
           <div class="invalid-feedback text-start">
@@ -58,7 +65,7 @@
         @enderror
 
         <div class="form-group">
-          <input type="submit" value="Sign Up" class="form-control btn btn-success rounded submit px-3">
+          <input type="submit" value="Sign Up" style="background: linear-gradient(to right,#8ad2df, #1f79ff ) ;" class="form-control btn btn-success rounded submit px-3">
         </div>
       <p class="text-wrapper-7">Sudah punya akun?<a href="{{ route('login') }}">Login</a></p>
     </div>

@@ -7,6 +7,7 @@ use App\Models\Event_Registration;
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PaymentController extends Controller
 {
@@ -32,19 +33,37 @@ class PaymentController extends Controller
 
     public function update(Request $request, Event_Registration $event_registrationId)
     {
-        $event_registrationId->update([
-            'payment_status' => 'payed'
-        ]);
+        try {
+            $event_registrationId->update([
+                'payment_status' => 'payed'
+            ]);
 
-        return back()->with('success', 'Pesanan dengan ID ' . $event_registrationId->id . ' atas nama ' . $event_registrationId->user->name . ' berhasil dikonfirmasi');
-    }
+            // Kirim notifikasi WhatsApp kepada pengguna terkait
+            $user = $event_registrationId->user; // Sesuaikan dengan relasi yang ada pada model Event_Registration
+            $event = $event_registrationId->event; // Sesuaikan dengan relasi yang ada pada model Event
 
-    public function cancel(Request $request, Event_Registration $event_registrationId)
-    {
-        $event_registrationId->update([
-            'payment_status' => 'cancel'
-        ]);
+            $setting = Setting::first();
+            $apiKey = $setting->api_key;
+            $sender = $setting->sender;
+            $endpoint = $setting->endpoint;
 
-        return back()->with('success', 'Pesanan dengan ID ' . $event_registrationId->id . ' atas nama ' . $event_registrationId->user->name . ' berhasil dibatalkan');
+            $message = "Halo, {$user->name}! 🎉 Pembayaran untuk acara '{$event->name}' Anda telah dikonfirmasi oleh admin. Terima kasih banyak! 🙌";
+            $recipientNumber = $user->phone_number;
+
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $recipientNumber,
+                'message' => $message,
+            ]);
+
+            if ($response->successful()) {
+                return back()->with('success', 'Pesanan dengan ID ' . $event_registrationId->id . ' atas nama ' . $user->name . ' berhasil dikonfirmasi. Notifikasi WhatsApp berhasil dikirim.');
+            } else {
+                throw new \Exception('Failed to send WhatsApp notification');
+            }
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

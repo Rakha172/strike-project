@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="card">
+        <div class="card"><br>
             <div class="card-body" style="background-color:#c5e4f3;">
                 <h1 class="text-center fs-2 mt-4">DATA RESULTS</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>

@@ -39,15 +39,6 @@
                             <td>{{ $item->user->name }}</td>
                             <td>{{ $item->event->name }}</td>
                             <td>
-                                <?php
-                                $eventRegId = $item->id;
-                                $kode = $eventRegId . '/' . 'wayangriders/' . $item->event->password . '';
-                                require_once 'qrcode/qrlib.php';
-                                $filename = 'wayangriders' . $eventRegId . '.png';
-                                $path = public_path('up/qrcode_images/' . $filename);
-                                QRcode::png("$kode", $path, 2, 2);
-                                ?>
-                                <img src="{{ asset('up/qrcode_images/' . $filename) }}" alt="">
                             </td>
                             <td>{{ $item->booth }}</td>
                             <td>{{ $item->payment_status }}</td>

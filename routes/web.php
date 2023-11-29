@@ -10,6 +10,7 @@ use App\Http\Controllers\Event\EventChartResultTotalController;
 use App\Http\Controllers\Event_RegistrationController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResultController;
@@ -49,6 +50,10 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 // Logout
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+//Kode Otp
+Route::get('/login/otp', [OtpController::class, 'index'])->name('login.otp');
+Route::post('/login/otp', [OtpController::class, 'store'])->name('login.store');
 
 // forgot password
 Route::get('/forgot-password', function () {
@@ -189,7 +194,6 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     })->name('events');
 
     //spinner
-    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
     Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
 });
 
@@ -210,6 +214,8 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
+    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
+
 });
 
 //ROLE ADMIN-OPERATOR CHART//
