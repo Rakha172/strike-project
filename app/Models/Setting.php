@@ -19,5 +19,8 @@ class Setting extends Model
         'desc',
         'phone',
         'email',
+        'sender',
+        'endpoint',
+        'api_key',
     ];
 }
