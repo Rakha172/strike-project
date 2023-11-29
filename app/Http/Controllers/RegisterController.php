@@ -18,12 +18,14 @@ class RegisterController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:15',
             'password' => 'required|confirmed|min:8',
             'password_confirmation' => 'required',
             'email' => 'required|string|email|max:255',
 
         ], [
             'name.required' => 'Username wajib diisi',
+            'phone_number.required' => 'Nomor Telepon wajib diisi',
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Email berupa email.',
             'password.required' => 'Password wajib diisi',
@@ -35,6 +37,7 @@ class RegisterController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'phone_number' => $request->phone_number,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);

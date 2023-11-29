@@ -1,59 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spin</title>
-    <link href="{{ asset('css/spin.css') }}" rel="stylesheet">
-</head>
-
-<body>
-    @foreach ($events as $event)
-        <div class="event">
-            <h3>{{ $event->name }}</h3>
-
-            <button id="spin{{ $event->id }}" class="spin" data-event-id="{{ $event->id }}">Spin</button>
-                <div class="container" id="container{{ $event->id }}" data-event-id="{{ $event->id }}">
-            <div class="container" data-event-id="{{ $event->id }}">
-                @foreach ($numbers as $number)
-                    <div class="number" data-number="{{ $number }}">{{ $number }}</div>
-                @endforeach
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width" />
+        <!-- Required library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        <!-- Bootstrap theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="spin.css">
+        <title>gagachaan</title>
+      </head>
+      <body>
+        <div class="container">
+            <h4 align="center">Mendapatkan Nomor Lapak</h4>
+            <div class="row">
+                <div class="col-xs-12" align="center">
+                    <div id="wheel">
+                        <canvas id="canvas" width="260" height="260"></canvas>
+                    </div>
+                </div>
             </div>
-        </div>
-    @endforeach
 
-    <script>
-        // Menangani klik pada tombol spin
-        document.querySelectorAll('.spin').forEach(function(button) {
-            button.addEventListener('click', function() {
-                var eventId = this.getAttribute('data-event-id');
-                var container = document.querySelector('.container[data-event-id="' + eventId + '"]');
+            <div class="row">
+                <div class="col-xs-6" align="center">
+                    <button type="button" class="btn btn-success" onclick="spin()">Spin Now!</button>
+                </div>
+                <div class="col-xs-6" align="center">
+                    <button type="button" id="stop" class="btn btn-info" onclick="stops()">Stop Now!</button>
+                </div>
+            </div>
 
-                // Mendapatkan nomor yang sudah terpilih dalam div container terkait
-                var selectedNumber = container.querySelector('.number.selected');
+        <script src="js/spin.js">
 
-                if (selectedNumber) {
-                    // Menghapus nomor yang sudah terpilih dari tampilan
-                    selectedNumber.style.display = 'none';
-                    selectedNumber.classList.remove('selected');
-                }
 
-                // Memilih nomor secara acak
-                var numbers = container.querySelectorAll('.number:not(.selected)');
-                if (numbers.length > 0) {
-                    var randomIndex = Math.floor(Math.random() * numbers.length);
-                    var selected = numbers[randomIndex];
-
-                    // Menandai nomor sebagai terpilih
-                    selected.classList.add('selected');
-                } else {
-                    // Tambahkan logika atau tindakan lain jika semua nomor sudah terpilih
-                    console.log('Semua nomor sudah terpilih');
-                }
-            });
-        });
-    </script>
-</body>
-
+        </script>
+    </body>
 </html>

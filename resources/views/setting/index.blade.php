@@ -32,6 +32,9 @@
                             <th scope="col">Description</th>
                             <th scope="col">Phone</th>
                             <th scope="col">Email</th>
+                            <th scope="col">WhatsApp Sender</th>
+                            <th scope="col">WhatsApp End Point</th>
+                            <th scope="col">WhatsApp API</th>
                             <th scope="col">Option</th>
                         </tr>
                     </thead>
@@ -50,6 +53,9 @@
                                 <td>{{ $sett->desc }}</td>
                                 <td>{{ $sett->phone }}</td>
                                 <td>{{ $sett->email }}</td>
+                                <td>{{ $sett->sender }}</td>
+                                <td>{{ $sett->endpoint }}</td>
+                                <td>{{ $sett->api_key }}</td>
                                 <td>
                                     <a href="{{ url('setting/' . $sett->id . '/show') }}" class="btn btn-dark m-1">Read</a>
                                     <a href="{{ route('setting.edit', $sett->id) }}" class="btn btn-info m-1">Edit</a>

@@ -25,6 +25,7 @@
                 <tr>
                     <th scope="col">NO</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Phone Number</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th scope="col">Action</th>
@@ -35,6 +36,7 @@
                 <tr>
                     <th scope="row">{{ $key + 1}}</th>
                     <td>{{ $usr->name }}</td>
+                    <td>{{ $usr->phone_number }}</td>
                     <td>{{ $usr->email }}</td>
                     <td>{{ $usr->role }}</td>
                     <td>

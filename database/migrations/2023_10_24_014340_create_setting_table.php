@@ -20,6 +20,9 @@ return new class extends Migration {
             $table->text('desc');
             $table->string('phone');
             $table->text('email');
+            $table->string('sender')->nullable();
+            $table->string('endpoint')->nullable();
+            $table->string('api_key')->nullable();
             $table->timestamps();
         });
     }
