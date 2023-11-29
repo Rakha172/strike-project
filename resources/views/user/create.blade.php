@@ -21,6 +21,14 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input value="{{ old('phone_number')}}" name="phone_number" type="text" class="form-control @error('phone_number') is-invalid @enderror">
+                  @error('phone_number')
+                      <div class="invalid-feedback">{{ $message }}</div>
+                  @enderror
+              </div>
+
+            <div class="mb-3">
                 <label class="form-label">Email</label>
                 <input value="{{ old('email')}}" name="email" type="text" class="form-control @error('email') is-invalid @enderror">
                   @error('email')
