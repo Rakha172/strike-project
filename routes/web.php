@@ -209,6 +209,10 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('resultop/{result}/{event}', [OperatorController::class, 'edit'])->name('resultop.edit');
     Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 
+    //chart-result-operator
+
+    Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
+
     //scan
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');

@@ -275,6 +275,23 @@ class OperatorController extends Controller
             return back()->with('error', 'Terjadi kesalahan dalam pemindaian.');
         }
     }
+
+    public function __invoke(Request $request, Event $event)
+    {
+        $data = $event->members->map(function ($member) use ($event) {
+            return [
+                'label' => $member->name,
+                'data' => $event->results()->where('user_id', $member->id)->sum('weight'),
+            ];
+        });
+
+        $data = collect($data)->sortByDesc('data');
+
+        $labels = $data->pluck('label')->toArray();
+        $data = $data->pluck('data')->toArray();
+
+        return view('operator.chart-resultop', compact('data', 'labels', 'event'));
+    }
 }
 
 
