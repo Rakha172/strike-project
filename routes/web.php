@@ -210,6 +210,9 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
+    Route::get('/form', [SpinController::class, 'showForm']);
+    Route::post('/form', [SpinController::class, 'processForm']);
+    Route::post('/update-preview', [SpinController::class, 'updatePreview']);
 
 });
 
