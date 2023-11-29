@@ -25,6 +25,13 @@
           </div>
         @enderror
 
+        <input type="text" name="phone_number" class="phone_number" placeholder="Masukkan Nomor Telepon" required>
+        @error('phone_number')
+          <div class="invalid-feedback text-start">
+            {{ $message }}
+          </div>
+        @enderror
+
         <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
         @error('email')
           <div class="invalid-feedback text-start">

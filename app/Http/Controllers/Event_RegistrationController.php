@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\Event_Registration;
+use Illuminate\Support\Facades\Http;
 
 class Event_RegistrationController extends Controller
 {
@@ -36,7 +37,31 @@ class Event_RegistrationController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $setting = Setting::first();
+        $apiKey = $setting->api_key;
+        $sender = $setting->sender;
+
+        $user = auth()->user();
+        $event = Event::find($request->input('event_id'));
+
+        $existingRegistrations = Event_Registration::where('user_id', $user->id)
+            ->where('event_id', $event->id)
+            ->get();
+
+        if ($existingRegistrations->isNotEmpty()) {
+            return redirect()->back()->with('error', 'Anda sudah terdaftar untuk acara ini.');
+        }
+
+        $booth = $request->input('booth');
+        $existingBoothRegistration = Event_Registration::where('event_id', $event->id)
+            ->where('booth', $booth)
+            ->first();
+
+        if ($existingBoothRegistration) {
+            return redirect()->back()->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
+        }
+      
+      $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
             'booth' => 'nullable',
@@ -44,7 +69,6 @@ class Event_RegistrationController extends Controller
 
         $validated['payment_status'] = 'waiting';
 
-        $event = Event::find($request->input('event_id'));
         $currentRegistrations = Event_Registration::where('event_id', $event->id)->count();
         $totalBooth = $event->total_booth;
 
@@ -54,10 +78,29 @@ class Event_RegistrationController extends Controller
 
         Event_Registration::create($validated);
 
-        return redirect()->back()->with('success', 'Berhasil Dibuat.');
+        $message = "Halo, {$user->name}! 🌟 Selamat! Anda telah terdaftar untuk acara '{$event->name}' yang akan diselenggarakan pada 📅 {$event->event_date}. Registrasi Anda sedang dalam tahap verifikasi pembayaran. Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran. Terima kasih atas partisipasinya! 🎉";
+        $recipientNumber = $user->phone_number;
+        $apiKey = $setting->api_key;
+        $sender = $setting->sender;
+        $endpoint = $setting->endpoint;
+
+        try {
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $recipientNumber,
+                'message' => $message,
+            ]);
+
+            if ($response->successful()) {
+                return redirect()->back()->with('success', 'Berhasil Dibuat.');
+            } else {
+                throw new \Exception('Failed to send WhatsApp notification');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
-
-
 
     public function update(Request $request, Event_Registration $event_registration)
     {

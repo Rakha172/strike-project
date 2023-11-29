@@ -8,6 +8,7 @@ use App\Models\Event_Registration;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class EventController extends Controller
 {
@@ -64,6 +65,11 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
+        $setting = Setting::first();
+        $apiKey = $setting->api_key;
+        $sender = $setting->sender;
+
+        $user = auth()->user();
         $validated = $request->validate([
             'name' => 'required',
             'price' => 'required',
@@ -96,7 +102,31 @@ class EventController extends Controller
         $events->end = $request->end;
         $events->save();
 
-        return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil ditambahkan");
+        // Kirim pesan notifikasi WhatsApp setelah event berhasil dibuat
+        $message = "Congratulations, {$user->name}! You've successfully registered in for the thrilling '{$events->name}' event, scheduled for {$events->event_date}. Your participation is greatly appreciated, and we're delighted to have you with us. Enjoy the event, engage with fellow attendees, and gain insights from our exceptional speakers. Have a great journey!";
+        $recipientNumber = $user->phone_number;
+
+        try {
+            $setting = Setting::first();
+            $apiKey = $setting->api_key;
+            $sender = $setting->sender;
+            $endpoint = $setting->endpoint;
+
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $recipientNumber,
+                'message' => $message,
+            ]);
+
+            if ($response->successful()) {
+                return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan.');
+            } else {
+                throw new \Exception('Gagal mengirim notifikasi WhatsApp');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('event.index')->with('error', 'Gagal menambahkan event: ' . $e->getMessage());
+        }
     }
 
     public function edit(Event $events)

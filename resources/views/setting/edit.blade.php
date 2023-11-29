@@ -91,6 +91,30 @@
                     @enderror
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">WhatsApp Sender</label>
+                    <textarea name="sender" type="text" class="form-control @error('sender') is-invalid @enderror">{{ old('sender', $setting->sender) }}</textarea>
+                    @error('sender')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">WhatsApp End Point</label>
+                    <textarea name="endpoint" type="text" class="form-control @error('endpoint') is-invalid @enderror">{{ old('endpoint', $setting->endpoint) }}</textarea>
+                    @error('endpoint')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">WhatsApp API</label>
+                    <textarea name="api_key" type="text" class="form-control @error('api_key') is-invalid @enderror">{{ old('api_key', $setting->api_key) }}</textarea>
+                    @error('api_key')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <center>
                     <input value="Update Data" type="submit"
                           style="background-color: black;border-radius:10px

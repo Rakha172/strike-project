@@ -23,6 +23,7 @@
            {{ $pesan }}
         </div>
         @endif
+        <div class="table-responsive">
         <table class="table">
             <thead>
               <tr>

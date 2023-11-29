@@ -32,6 +32,9 @@
                         <textarea name="desc" cols="50" rows="4" style="border: none" readonly>{{ $setting->desc }}</textarea><br><br>
                         <h5 class="card-title">Phone : {{ $setting->phone }}</h5>
                         <h5 class="card-title">Email : {{ $setting->email }}</h5>
+                        <h5 class="card-title">WhatsApp Sender : {{ $setting->sender }}</h5>
+                        <h5 class="card-title">WhatsApp End Point : {{ $setting->endpoint }}</h5>
+                        <h5 class="card-title">WhatsApp API : {{ $setting->api_key }}</h5>
                         <a href="{{ route('setting.index') }}" class="btn btn-dark"
                             style="position: absolute; bottom: 2%; right: 2%;">Back</a>
                     </div>
