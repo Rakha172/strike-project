@@ -80,6 +80,9 @@ class SettingController extends Controller
             $id->desc = $request->input('desc');
             $id->phone = $request->input('phone');
             $id->email = $request->input('email');
+            $id->endpoint = $request->input('endpoint');
+            $id->sender = $request->input('sender');
+            $id->api_key = $request->input('api_key');
             $id->save();
 
             $newLogoPublicPath = public_path('logo/' . $newLogoName);
@@ -96,6 +99,9 @@ class SettingController extends Controller
             $id->desc = $request->input('desc');
             $id->phone = $request->input('phone');
             $id->email = $request->input('email');
+            $id->sender = $request->input('sender');
+            $id->endpoint = $request->input('endpoint');
+            $id->api_key = $request->input('api_key');
             $id->save();
         }
 
