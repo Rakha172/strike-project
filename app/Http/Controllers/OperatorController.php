@@ -13,6 +13,7 @@ use App\Models\Result;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Console\View\Components\Alert;
+use Illuminate\Support\Facades\Http;
 
 class OperatorController extends Controller
 {
@@ -107,7 +108,34 @@ class OperatorController extends Controller
 
         $result->save();
 
-        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan');
+        // Kirim notifikasi WhatsApp dengan rincian berat ikan dan statusnya
+        $setting = Setting::first();
+        $apiKey = $setting->api_key;
+        $sender = $setting->sender;
+        $endpoint = $setting->endpoint;
+
+        $weight = floatval($request->input('weight'));
+        $status = $request->input('status');
+
+        $message = "Halo, {$user->name}! 🎉 Terima kasih telah bergabung dalam event ini. Inilah hasil untuk acara '{$event->name}': Berat ikan: {$weight} kg dan Status Ikan: {$status}. 🐟🌟";
+        $recipientNumber = $user->phone_number;
+
+        try {
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $recipientNumber,
+                'message' => $message,
+            ]);
+
+            if ($response->successful()) {
+                return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan. Notifikasi WhatsApp terkirim.');
+            } else {
+                throw new \Exception('Failed to send WhatsApp notification');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('resultop.index', ['event' => $event->id])->with('error', 'Gagal mengirim notifikasi WhatsApp: ' . $e->getMessage());
+        }
     }
 
     private function saveImage($imageData)
@@ -210,7 +238,30 @@ class OperatorController extends Controller
                     $eventRegistration->update(['payment_status' => 'attended']);
                     Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
 
-                    return redirect()->route('eventsop.index')->with('success', 'Status pembayaran diubah menjadi attended.');
+                    // Kirim notifikasi WhatsApp ke pengguna terkait
+                    $user = $eventRegistration->user; // Sesuaikan dengan relasi yang ada pada model Event_Registration
+                    $event = $eventRegistration->event; // Sesuaikan dengan relasi yang ada pada model Event
+
+                    $setting = Setting::first();
+                    $apiKey = $setting->api_key;
+                    $sender = $setting->sender;
+                    $endpoint = $setting->endpoint;
+
+                    $message = "Halo, {$user->name}!🎉 Terima kasih telah menghadiri acara '{$event->name}'. Kami sangat mengapresiasi partisipasimu! Semoga acaranya menyenangkan dan bermanfaat untukmu🌟";
+                    $recipientNumber = $user->phone_number;
+
+                    $response = Http::post($endpoint, [
+                        'api_key' => $apiKey,
+                        'sender' => $sender,
+                        'number' => $recipientNumber,
+                        'message' => $message,
+                    ]);
+
+                    if ($response->successful()) {
+                        return redirect()->route('eventsop.index')->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
+                    } else {
+                        throw new \Exception('Failed to send WhatsApp notification');
+                    }
                 } else {
                     Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
                     return back()->with('warning', 'Status pembayaran tidak sesuai');
