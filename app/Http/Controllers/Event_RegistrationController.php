@@ -123,3 +123,4 @@ class Event_RegistrationController extends Controller
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil dihapus!");
     }
 }
+
