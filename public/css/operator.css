@@ -75,7 +75,6 @@
 }
 
 .nav>button>a {
-    color: white;
     font-size: 20px;
     font-family: 'Monaco', monospace;
     text-decoration: none;
@@ -89,6 +88,7 @@
   }
 
   .button1 {
+    color: white;
     width: 100px;
     border-radius: 10px;
     background: linear-gradient(to right, #265073, #2D9596);

@@ -12,14 +12,14 @@
     integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <body>
-    <div class="containerop">
+    <div class="containerop" style="background: white">
         <nav class="wrapperop">
             <div class="brandop">
                 <div class="firstname">Strike</div>
                 <div class="lastname">Project</div>
             </div>
             <center>
-                <h2 class="hlop">Halaman Operator</h2>
+                <h2 class="hlop">Halaman Chart  Result Operator</h2>
             </center>
             <ul class="nav">
                 <form action="{{ url('/eventsop') }}">
@@ -34,7 +34,6 @@
                 <div id="chart"></div>
             </div>
         </div>
-
         <!-- Tambahkan skrip Chart.js dan plugin datalabels -->
         {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>

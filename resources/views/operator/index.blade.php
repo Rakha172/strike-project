@@ -1,32 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title->name }} | Operator</title>
     <link rel="stylesheet" href="{{ asset('css/operator.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-   {{-- CSS Toastr Link --}}
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
-       integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
-       crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- CSS Toastr Link --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-   {{-- Cdn Jquery --}}
-   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-       integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    {{-- Cdn Jquery --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
     integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <body>
-    <script>
-        @if (Session::has('success'))
-            toastr.info("{{ Session::get('success') }}", "{{ Auth::user()->name }}", {});
-        @endif
-    </script>
     <div class="containerop">
+
+        <script>
+            @if (Session::has('success'))
+                toastr.info("{{ Session::get('success') }}", "{{ Auth::user()->name }}", {});
+            @endif
+        </script>
+
         <nav class="wrapperop">
             <div class="brandop">
                 <div class="firstname">Strike</div>
@@ -36,7 +41,10 @@
                 <h2 class="hlop">Halaman Operator</h2>
             </center>
             <ul class="nav">
-                <button class="button button1"><a href="{{ route('logout') }}" onclick="return confirm('Apakah anda yakin ingin keluar ?')">logout</a></button>
+                <a href="{{ route('logout') }}"
+                   onclick="return confirm('Apakah anda yakin ingin keluar ?')">
+                    <button class="button button1">Logout</button>
+                </a>
             </ul>
         </nav><br><br>
         <div class="table-responsive">
@@ -65,7 +73,10 @@
                         @if ($eventDate == $today)
                             <tr>
                                 <td>{{ $evnt->name }}</td>
-                                <td><img src="{{ asset($evnt->image) }}" width="100"></td>
+                                <td><a href="{{ asset($evnt->image) }}">
+                                        <img src="{{ asset($evnt->image) }}" width="100">
+                                    </a>
+                                </td>
                                 <td>Rp. {{ number_format($evnt->price, 0, '.', '.') }}</td>
                                 <td>{{ $evnt->total_booth }}</td>
                                 <td>{{ $evnt->event_date }}</td>
@@ -113,4 +124,5 @@
         </div>
     </div>
 </body>
+
 </html>
