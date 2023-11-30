@@ -19,7 +19,7 @@
 
 </head>
 
-{{-- JS Toastr Link --}}    
+{{-- JS Toastr Link --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
     integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -29,7 +29,7 @@
         <div class="card" style="background: rgb(211, 233, 241);">
 
 
-            <form action="{{ route('logout') }}">
+            <form action="{{ route('logout') }}" class="logout" onclick="return confirm('Apakah anda yakin ingin keluar ?')">
                 <button
                     style="width: 80px;margin-top:30px;margin-left:10px;
                                background:red;color:white;border-radius:10px">
