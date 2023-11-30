@@ -40,7 +40,6 @@ class Event_RegistrationController extends Controller
         $setting = Setting::first();
         $apiKey = $setting->api_key;
         $sender = $setting->sender;
-
         $user = auth()->user();
         $event = Event::find($request->input('event_id'));
 

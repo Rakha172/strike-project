@@ -258,7 +258,9 @@ class OperatorController extends Controller
                     ]);
 
                     if ($response->successful()) {
-                        return redirect()->route('eventsop.index')->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
+                        return redirect()->route('spin.spin')
+                            ->with('eventRegistration', $eventRegistration)
+                            ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
                     } else {
                         throw new \Exception('Failed to send WhatsApp notification');
                     }
