@@ -1,7 +1,7 @@
 @extends('componen.layout')
 
 @section('content')
-
+  
 <div style="display: flex; justify-content: flex-start;">
     <div style="flex: 1;">
         <canvas id="myChart"></canvas>
