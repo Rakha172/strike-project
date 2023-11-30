@@ -295,11 +295,3 @@ class OperatorController extends Controller
         return view('operator.chart-resultop', compact('data', 'labels', 'event'));
     }
 }
-
-
-
-
-
-
-
-
