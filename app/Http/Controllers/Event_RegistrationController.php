@@ -112,7 +112,6 @@ class Event_RegistrationController extends Controller
         ]);
 
         $event_registration->update($validated);
-
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil diubah");
     }
 
