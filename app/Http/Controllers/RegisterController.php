@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\NotificationController;
 
 class RegisterController extends Controller
 {
+    private function generateOTP()
+    {
+        $otpCode = rand(100000, 999999);
+        session(['otpCode' => $otpCode]);
+        return $otpCode;
+    }
+
     public function showRegistrationForm()
     {
         $title = Setting::firstOrFail();
@@ -35,16 +43,35 @@ class RegisterController extends Controller
 
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+        $otpCode = $this->generateOTP();
+        $recipientNumber = $request->phone_number;
+
+        session([
+            'user_register' => [
+                'name' => $request->name,
+                'phone_number' => $request->phone_number,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]
         ]);
 
-        // Sesuaikan dengan logika pengiriman email verifikasi jika diperlukan
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'phone_number' => $request->phone_number,
+        //     'email' => $request->email,
+        //     'password' => bcrypt($request->password),
+        // ]);
 
-        return redirect()->route('login')->with(['success' => $request->name . " Berhasil Registrasi"]);
+        // Pastikan Anda sudah mengatur logika pengiriman OTP melalui WhatsApp pada method sendOTPviaWhatsApp di dalam NotificationController
+
+        $notificationController = new NotificationController();
+        try {
+            $notificationController->sendOTPviaWhatsApp($recipientNumber, $otpCode);
+
+            return redirect()->route('login.otp')->with(['success' => $request->name . " Berhasil Registrasi"]);
+        } catch (\Exception $e) {
+            // Tindakan yang sesuai jika pengiriman OTP gagal
+            return redirect()->back()->with('error', 'Gagal mengirim OTP');
+        }
     }
 }
-
