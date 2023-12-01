@@ -15,7 +15,7 @@ class EventSeeder extends Seeder
             'name' => 'Galatama',
             'image' => 'logo/logo.png',
             'price' => '150000',
-            'total_booth' => '5',
+            'total_booth' => '10',
             'event_date' => '2023-12-01',
             'location' => 'Indonesia,Jawa Barat,Bandung',
             'description' => 'Galatama adalah istilah dalam kolam pemancingan atau khusus diperuntukan dalam perlombaan memancing. Istilah ini diambil dari Liga Sepakbola Utama semi profesional, sebelum diubah menjadi Liga Indonesia.',
@@ -23,6 +23,7 @@ class EventSeeder extends Seeder
             'end' => '17:00:00',
             'qualification' => 'weight',
         ]);
+      
         Event::create([
             'name' => 'Malam Megah Dago Pakar',
             'image' => 'logo/p1.jpeg',
@@ -47,6 +48,7 @@ class EventSeeder extends Seeder
             'end' => '17:00:00',
             'qualification' => 'combined',
         ]);
+      
         Event::create([
             'name' => 'Fishing Contest',
             'image' => 'logo/p3.jpeg',
