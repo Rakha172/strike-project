@@ -307,11 +307,3 @@ class OperatorController extends Controller
         return $randomBooth;
     }
 }
-
-
-
-
-
-
-
-
