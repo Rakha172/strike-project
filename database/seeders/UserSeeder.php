@@ -26,14 +26,6 @@ class UserSeeder extends Seeder
             'password' => 'password',
         ]);
 
-        // User::create([
-        //     'name' => 'Rahma Khairani Rangkuti',
-        //     'role' => 'member',
-        //     'phone_number' => '08872354643',
-        //     'email' => '1@gmail.com',
-        //     'password' => 'password',
-        // ]);
-
         User::create([
             'name' => 'operator',
             'role' => 'operator',
