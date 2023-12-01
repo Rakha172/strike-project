@@ -26,6 +26,7 @@ class LoginController extends Controller
         $setting = Setting::first();
         $apiKey = $setting->api_key;
         $sender = $setting->sender;
+        $endpoint = $setting->endpoint;
 
         $credentials = $request->validate([
             'email' => 'required|email|',
@@ -41,41 +42,46 @@ class LoginController extends Controller
 
         if (Auth::guard('web')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
+
             if (Auth::user()->role == 'admin') {
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'operator') {
                 return redirect('/eventsop')->with(['succes' => $request->name . "Berhasil Login"]);
             } else if (Auth::user()->role == 'member') {
-                return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
-            }
-            if (Auth::guard('web')->attempt($credentials)) {
                 $user = Auth::guard('web')->user();
 
-                if ($user->role === 'member') {
-                    $recipientNumber = $user->phone_number;
-                    $message = "🎣 Hai {$user->name}, selamat datang di Strike Maniac! Terima kasih sudah bergabung dalam kegemaran kita memancing. Jika kamu belum bergabung bersama kami, ini adalah waktu yang tepat untuk menjelajahi dunia memancing! Mari kita dapatkan pengalaman dan kenangan baru bersama di Strike Maniac. Selamat memancing!";
+                $recipientNumber = $user->phone_number;
+                $message = "🎣 Hai {$user->name}, selamat datang di Strike Maniac! Terima kasih sudah bergabung dalam kegemaran kita memancing. Jika kamu belum bergabung bersama kami, ini adalah waktu yang tepat untuk menjelajahi dunia memancing! Mari kita dapatkan pengalaman dan kenangan baru bersama di Strike Maniac. Selamat memancing!";
 
-                    $client = new Client();
+                // $otp = rand(100000, 999999);
 
-                    try {
-                        $response = $client->post($setting->endpoint, [
-                            'form_params' => [
-                                'api_key' => $apiKey,
-                                'sender' => $sender,
-                                'number' => $recipientNumber,
-                                'message' => $message,
-                            ],
-                        ]);
-                    } catch (\Exception $e) {
-                        Alert::error('No connection', 'Please try again to Login')->persistent(true);
-                        return redirect()->back();
-                    }
+                try {
+                    $response = Http::post($endpoint, [
+                        'api_key' => $apiKey,
+                        'sender' => $sender,
+                        'number' => $recipientNumber,
+                        'message' => $message,
+                    ]);
+
+                    // $response = Http::post($endpoint, [
+                    //     'api_key' => $apiKey,
+                    //     'sender' => $sender,
+                    //     'number' => $recipientNumber,
+                    //     'message' => 'kode opt kamu: ' . $otp,
+                    // ]);
+
+                } catch (\Exception $e) {
+                    dd($e);
+                    Alert::error('No connection', 'Please try again to Login')->persistent(true);
+
+                    Auth::logout();
+                    return redirect()->back();
                 }
 
-                return redirect()->route('dashboard');
-            } else {
-                return back()->withErrors(['otp' => 'The password you entered is incorrect.'])->withInput();
+                return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
             }
+        } else {
+            return back()->withErrors(['otp' => 'The password you entered is incorrect.'])->withInput();
         }
     }
 
@@ -85,4 +91,3 @@ class LoginController extends Controller
         return redirect('/login')->with('status', 'Anda berhasil logout.');
     }
 }
-

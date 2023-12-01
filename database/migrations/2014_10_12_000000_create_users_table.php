@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('otp_code', 6)->nullable();
+            $table->timestamp('otp_expiry_time')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
