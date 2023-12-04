@@ -104,7 +104,6 @@ class ResultController extends Controller
         return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 
-
     public function destroy(Result $result)
     {
         $event = $result->event;
