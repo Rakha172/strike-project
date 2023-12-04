@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/landingevent.css') }}" />
+    {{-- notification confirm logout --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <title>Halaman Event</title>
 </head>
 
@@ -14,12 +16,12 @@
     <div class="navbar">
         Event Ticket Booking
         <br>
-        <button class="logout">
-            <a href="{{ route('logout') }}" style="color: black;text-decoration: none;">
-                Logout
-            </a>
+        <button class ="prof">
+            <a href="">Profile</a>
         </button>
-
+        <button class="logout" onclick="confirmLogout()">
+                Logout
+        </button>
     </div>
 
     <h1 class="event-title">Events</h1>
@@ -160,8 +162,28 @@
         @endforeach
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-         function daftarEvent(eventId) {
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: 'Apakah Anda yakin ingin keluar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#18537a',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Logout!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('logout') }}";
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function daftarEvent(eventId) {
             const urlRegistrasi = "{{ route('event_registration.store') }}";
             const formulir = document.createElement('form');
             formulir.action = urlRegistrasi;
@@ -183,7 +205,7 @@
             formulir.appendChild(inputUserId);
             document.body.appendChild(formulir);
             formulir.submit();
-         }
+        }
     </script>
 </body>
 

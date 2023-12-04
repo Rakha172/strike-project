@@ -176,7 +176,7 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 //ROLE MEMBER//
 // table event registration
 Route::group(['middleware' => 'can:role,"member"'], function () {
-    Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
+    Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('landingevent');
     Route::post('event-registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
     Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
     Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
