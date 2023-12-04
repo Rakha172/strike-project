@@ -41,5 +41,46 @@ class UserSeeder extends Seeder
             'email' => 'operator@gmail.com',
             'password' => 'password',
         ]);
+
+        User::create([
+            'name' => 'User1',
+            'role' => 'member',
+            'phone_number' => '08123456789',
+            'email' => 'user1@gmail.com',
+            'password' => 'password',
+        ]);
+
+        User::create([
+            'name' => 'User2',
+            'role' => 'member',
+            'phone_number' => '08123456788',
+            'email' => 'user2@gmail.com',
+            'password' => 'password',
+        ]);
+
+        User::create([
+            'name' => 'User3',
+            'role' => 'member',
+            'phone_number' => '08123456787',
+            'email' => 'user3@gmail.com',
+            'password' => 'password',
+        ]);
+
+        User::create([
+            'name' => 'User4',
+            'role' => 'member',
+            'phone_number' => '08123456786',
+            'email' => 'user4@gmail.com',
+            'password' => 'password',
+        ]);
+
+        User::create([
+            'name' => 'User5',
+            'role' => 'member',
+            'phone_number' => '08123456785',
+            'email' => 'user5@gmail.com',
+            'password' => 'password',
+        ]);
+
     }
 }

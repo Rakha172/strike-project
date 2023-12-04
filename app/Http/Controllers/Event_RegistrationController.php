@@ -37,29 +37,6 @@ class Event_RegistrationController extends Controller
 
     public function store(Request $request)
     {
-        $setting = Setting::first();
-        $apiKey = $setting->api_key;
-        $sender = $setting->sender;
-        $user = auth()->user();
-        $event = Event::find($request->input('event_id'));
-
-        $existingRegistrations = Event_Registration::where('user_id', $user->id)
-            ->where('event_id', $event->id)
-            ->get();
-
-        if ($existingRegistrations->isNotEmpty()) {
-            return redirect()->back()->with('error', 'Anda sudah terdaftar untuk acara ini.');
-        }
-
-        $booth = $request->input('booth');
-        $existingBoothRegistration = Event_Registration::where('event_id', $event->id)
-            ->where('booth', $booth)
-            ->first();
-
-        if ($existingBoothRegistration) {
-            return redirect()->back()->with('error', 'Booth tersebut sudah digunakan. Silakan pilih booth lain.');
-        }
-
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
@@ -68,6 +45,7 @@ class Event_RegistrationController extends Controller
 
         $validated['payment_status'] = 'waiting';
 
+        $event = Event::find($request->input('event_id'));
         $currentRegistrations = Event_Registration::where('event_id', $event->id)->count();
         $totalBooth = $event->total_booth;
 
@@ -77,13 +55,16 @@ class Event_RegistrationController extends Controller
 
         Event_Registration::create($validated);
 
-        $message = "Halo, {$user->name}! 🌟 Selamat! Anda telah terdaftar untuk acara '{$event->name}' yang akan diselenggarakan pada 🗓️ {$event->event_date}. Registrasi Anda sedang dalam tahap verifikasi pembayaran. Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran. Terima kasih atas partisipasinya! 🎉";
-        $recipientNumber = $user->phone_number;
-        $apiKey = $setting->api_key;
-        $sender = $setting->sender;
-        $endpoint = $setting->endpoint;
-
+        // Pesan WhatsApp User
         try {
+            $setting = Setting::first();
+            $user = auth()->user();
+            $message = "Halo, {$user->name}! 🌟 Selamat! Anda telah terdaftar untuk acara '{$event->name}' yang akan diselenggarakan pada 🗓️ {$event->event_date}. Registrasi Anda sedang dalam tahap verifikasi pembayaran. Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran. Terima kasih atas partisipasinya! 🎉";
+            $recipientNumber = $user->phone_number;
+            $apiKey = $setting->api_key;
+            $sender = $setting->sender;
+            $endpoint = $setting->endpoint;
+
             $response = Http::post($endpoint, [
                 'api_key' => $apiKey,
                 'sender' => $sender,
@@ -91,14 +72,42 @@ class Event_RegistrationController extends Controller
                 'message' => $message,
             ]);
 
-            if ($response->successful()) {
-                return redirect()->back()->with('success', 'Berhasil Dibuat.');
-            } else {
-                throw new \Exception('Failed to send WhatsApp notification');
+            if (!$response->successful()) {
+                throw new \Exception('Failed to send WhatsApp notification to user');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke user: ' . $e->getMessage());
         }
+
+        // Pesan untuk admin
+        try {
+            $adminNumber = '08872354643'; // Nomor WhatsApp admin
+
+            $setting = Setting::first();
+            $event = Event::find($validated['event_id']);
+            $user = User::find($validated['user_id']);
+
+            $messageAdmin = "Halo Admin! 🌟\n\nMohon konfirmasi pembayaran untuk pengguna berikut yang akan mengikuti acara:\n\nNama Pengguna: {$user->name}\nAcara yang Diikuti: '{$event->name}'\n\nTerima kasih! 🎉";
+
+            $apiKey = $setting->api_key;
+            $sender = $setting->sender;
+            $endpoint = $setting->endpoint;
+
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $adminNumber, // Nomor WhatsApp admin
+                'message' => $messageAdmin,
+            ]);
+
+            if (!$response->successful()) {
+                throw new \Exception('Failed to send WhatsApp notification to admin');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration)
@@ -112,10 +121,8 @@ class Event_RegistrationController extends Controller
         ]);
 
         $event_registration->update($validated);
-
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil diubah");
     }
-
     public function destroy($id)
     {
         $event_registration = Event_Registration::find($id);

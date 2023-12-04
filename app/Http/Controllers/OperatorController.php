@@ -85,6 +85,7 @@ class OperatorController extends Controller
 
     public function store(Request $request, Event $event)
     {
+        // Validasi input
         $request->validate([
             'participant' => 'required',
             'weight' => 'required',
@@ -92,12 +93,14 @@ class OperatorController extends Controller
             'image_data' => 'required',
         ]);
 
+        // Temukan pengguna berdasarkan ID yang diberikan dalam request
         $user = User::find($request->input('participant'));
 
         if (!$user) {
             return redirect()->route('result.create', ['event' => $event->id])->with('error', 'User tidak ditemukan.');
         }
 
+        // Simpan hasil dari pengguna yang terlibat dalam acara
         $result = new Result([
             'user_id' => $user->id,
             'event_id' => $event->id,
@@ -108,17 +111,42 @@ class OperatorController extends Controller
 
         $result->save();
 
-        // Kirim notifikasi WhatsApp dengan rincian berat ikan dan statusnya
+        // Pesan untuk pengguna berdasarkan input mereka
+        $userMessage = "Halo, {$user->name}! 🎉\n\nTerima kasih telah bergabung dalam acara ini.\n\nBerikut adalah detail laporan ikan Anda:\nBerat Ikan: {$result->weight} kg\nStatus Ikan: {$result->status} 🐟🌟";
+        $userRecipientNumber = $user->phone_number;
+
+        // Mengirim pesan ke pengguna berdasarkan input mereka
+        $this->sendWhatsAppMessage($userMessage, $userRecipientNumber);
+
+        // Mengumpulkan informasi hasil dari semua partisipan dalam acara
+        $results = Result::where('event_id', $event->id)->get();
+
+        // Menyiapkan pesan untuk hasil dari semua partisipan
+        $eventMessage = "🎉 Inilah hasil untuk acara '{$event->name}':\n\n";
+
+        foreach ($results as $result) {
+            $participant = $result->user->name;
+            $weight = $result->weight;
+            $status = $result->status;
+
+            // Tambahkan informasi hasil untuk setiap partisipan ke pesan
+            $eventMessage .= "Participant: {$participant}\nBerat Ikan: {$weight} kg\nStatus Ikan: {$status} 🐟\n\n";
+        }
+
+        // Kirim pesan yang berisi hasil dari semua partisipan kepada pengguna
+        $this->sendWhatsAppMessage($eventMessage, $userRecipientNumber);
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan. Notifikasi WhatsApp terkirim.');
+    }
+
+    // Method untuk mengirim pesan WhatsApp
+    private function sendWhatsAppMessage($message, $recipientNumber)
+    {
         $setting = Setting::first();
         $apiKey = $setting->api_key;
         $sender = $setting->sender;
         $endpoint = $setting->endpoint;
-
-        $weight = floatval($request->input('weight'));
-        $status = $request->input('status');
-
-        $message = "Halo, {$user->name}! 🎉 Terima kasih telah bergabung dalam event ini. Inilah hasil untuk acara '{$event->name}': Berat ikan: {$weight} kg dan Status Ikan: {$status}. 🐟🌟";
-        $recipientNumber = $user->phone_number;
 
         try {
             $response = Http::post($endpoint, [
@@ -128,13 +156,12 @@ class OperatorController extends Controller
                 'message' => $message,
             ]);
 
-            if ($response->successful()) {
-                return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan. Notifikasi WhatsApp terkirim.');
-            } else {
+            if (!$response->successful()) {
                 throw new \Exception('Failed to send WhatsApp notification');
             }
         } catch (\Exception $e) {
-            return redirect()->route('resultop.index', ['event' => $event->id])->with('error', 'Gagal mengirim notifikasi WhatsApp: ' . $e->getMessage());
+            // Tangani jika gagal mengirim pesan WhatsApp
+            // Anda bisa melakukan redirect atau tindakan lain di sini
         }
     }
 
@@ -234,36 +261,15 @@ class OperatorController extends Controller
                 Log::info('Found event registration with ID: ' . $eventRegistrationId);
 
                 if ($eventRegistration->payment_status === 'payed') {
-                    // Ubah status pembayaran menjadi "attended"
                     $eventRegistration->update(['payment_status' => 'attended']);
                     Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
 
-                    // Kirim notifikasi WhatsApp ke pengguna terkait
-                    $user = $eventRegistration->user; // Sesuaikan dengan relasi yang ada pada model Event_Registration
-                    $event = $eventRegistration->event; // Sesuaikan dengan relasi yang ada pada model Event
+                    $boothNumber = $this->assignRandomBooth($eventRegistration->event_id);
+                    $eventRegistration->update(['booth' => $boothNumber]);
 
-                    $setting = Setting::first();
-                    $apiKey = $setting->api_key;
-                    $sender = $setting->sender;
-                    $endpoint = $setting->endpoint;
-
-                    $message = "Halo, {$user->name}!🎉 Terima kasih telah menghadiri acara '{$event->name}'. Kami sangat mengapresiasi partisipasimu! Semoga acaranya menyenangkan dan bermanfaat untukmu🌟";
-                    $recipientNumber = $user->phone_number;
-
-                    $response = Http::post($endpoint, [
-                        'api_key' => $apiKey,
-                        'sender' => $sender,
-                        'number' => $recipientNumber,
-                        'message' => $message,
-                    ]);
-
-                    if ($response->successful()) {
-                        return redirect()->route('spin.spin')
-                            ->with('eventRegistration', $eventRegistration)
-                            ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
-                    } else {
-                        throw new \Exception('Failed to send WhatsApp notification');
-                    }
+                    return redirect()->route('spin.spin')
+                        ->with('eventRegistration', $eventRegistration)
+                        ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
                 } else {
                     Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
                     return back()->with('warning', 'Status pembayaran tidak sesuai');
@@ -278,20 +284,26 @@ class OperatorController extends Controller
         }
     }
 
-    public function __invoke(Request $request, Event $event)
+    public function assignRandomBooth($eventId)
     {
-        $data = $event->members->map(function ($member) use ($event) {
-            return [
-                'label' => $member->name,
-                'data' => $event->results()->where('user_id', $member->id)->sum('weight'),
-            ];
-        });
+        $event = Event::find($eventId);
+        $totalBooth = $event->total_booth;
 
-        $data = collect($data)->sortByDesc('data');
+        // Ambil nomor-nomor booth yang belum terisi
+        $availableBooths = range(1, $totalBooth);
+        $occupiedBooths = Event_Registration::where('event_id', $eventId)
+            ->whereNotNull('booth')
+            ->pluck('booth')
+            ->toArray();
 
-        $labels = $data->pluck('label')->toArray();
-        $data = $data->pluck('data')->toArray();
+        $availableBooths = array_diff($availableBooths, $occupiedBooths);
 
-        return view('operator.chart-resultop', compact('data', 'labels', 'event'));
+        $randomBooth = null;
+        if (!empty($availableBooths)) {
+            $randomBoothIndex = array_rand($availableBooths);
+            $randomBooth = $availableBooths[$randomBoothIndex];
+        }
+
+        return $randomBooth;
     }
 }

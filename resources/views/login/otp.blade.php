@@ -17,14 +17,14 @@
                     <div class="card-body">
                         <h2 class="text-center">OTP CODE</h2>
                         <p class="text-center">Please enter your OTP code for registration</p>
-                        <form action="{{ route('login.store') }}" method="POST">
+                        <form action="{{ route('login.otp.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="otp_code" class="sr-only">OTP Code</label>
                                 <input type="text" class="form-control" name="otp_code" placeholder="Enter OTP Code">
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Verify OTP" class="btn btn-secondary btn-block">
+                                <button type="submit" class="btn btn-secondary btn-block">Verify OTP</a>
                             </div>
                             @error('otp_code')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -38,6 +38,7 @@
     </div>
 
     <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         function startCountdown(duration, display) {
@@ -64,5 +65,4 @@
         };
     </script>
 </body>
-
 </html>

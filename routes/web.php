@@ -1,33 +1,31 @@
 <?php
 
-use App\Http\Controllers\Event\EventChartResultAllController;
+use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
 use App\Http\Controllers\Event\EventChartResultAndSpecialController;
 use App\Http\Controllers\Event\EventChartResultAndTotalController;
-use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
-use App\Http\Controllers\Event\EventChartResultController;
 use App\Http\Controllers\Event\EventChartResultSpecialController;
 use App\Http\Controllers\Event\EventChartResultTotalController;
+use App\Http\Controllers\Event\EventChartResultAllController;
+use App\Http\Controllers\Event\EventChartResultController;
 use App\Http\Controllers\Event_RegistrationController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\OtpController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\ResultController;
-use App\Http\Controllers\SettingController;
+use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\OperatorController;
-use App\Models\Event;
-use App\Models\Setting;
-use App\Models\User;
-use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\Request;
+use App\Http\Controllers\OtpController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
-
+use App\Models\Setting;
+use App\Models\Event;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +50,11 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 //Kode Otp
+Route::post('/login', [LoginController::class, 'handleLogin'])->name('login.store');
+Route::get('/login', [LoginController::class, 'login'])->name('login');
+
+Route::post('/login/otp', [OtpController::class, 'store'])->name('login.otp.store');
 Route::get('/login/otp', [OtpController::class, 'index'])->name('login.otp');
-Route::post('/login/otp', [OtpController::class, 'store'])->name('login.store');
 
 // forgot password
 Route::get('/forgot-password', function () {
@@ -212,6 +213,7 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     //chart-result-operator
 
     Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
+    // Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
 
     //scan
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
