@@ -22,9 +22,8 @@ class Event extends Model
         'qualification',
         'start',
         'end',
-
-
     ];
+
     public function event_regist()
     {
         return $this->hasMany(Event_Registration::class, 'event_id', 'id');
