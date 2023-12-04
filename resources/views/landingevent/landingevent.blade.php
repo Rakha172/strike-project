@@ -19,7 +19,6 @@
                 Logout
             </a>
         </button>
-
     </div>
 
     <h1 class="event-title">Events</h1>
@@ -39,132 +38,80 @@
                 $isRegistered = $item->members->contains(Auth::user());
             @endphp
 
-            @if (!$isRegistered)
-                <div class="item-container">
-                    <div class="img-container">
-                        @if ($item->members->contains(Auth::user()))
-                            @if ($item->qr_code)
+            <div class="item-container">
+                <div class="img-container">
+                    @if ($isRegistered)
+                        <?php
+                        $eventRegistration = $events_registration->where('user_id', Auth::user()->id)
+                            ->where('event_id', $item->id)
+                            ->first();
+                        ?>
+
+                        @if ($eventRegistration)
+                            @if ($item->qr_code && $eventRegistration->payment_status === 'payed' && $eventRegistration->payment_status !== 'attended')
                                 <img src="data:image/png;base64,{{ $item->qr_code }}" alt="QR Code">
                             @else
                                 <?php
-                                $kode = $item->id . '/wayangriders/' . $item->password;
-                                $filename = 'wayangriders' . $item->id . '.png';
+                                $kode = $eventRegistration->id . '/wayangriders/' . $eventRegistration->password;
+                                $filename = 'wayangriders' . $eventRegistration->id . '.png';
                                 $path = public_path("qrcode_images/$filename");
                                 require_once 'qrcode/qrlib.php';
-                                QRcode::png($kode, $path, 2, 2);
-                                // Simpan $kode ke dalam model $item untuk penggunaan berikutnya
-                                $item->update(['qr_code' => base64_encode(file_get_contents($path))]);
+                                if (!$item->qr_code || $eventRegistration->payment_status === 'payed') {
+                                    QRcode::png($kode, $path, 2, 2);
+                                    $eventRegistration->update(['qr_code' => base64_encode(file_get_contents($path))]);
+                                }
                                 ?>
-                                <img src="{{ asset('qrcode_images/' . $filename) }}" alt="QR Code">
+
+                                @if ($eventRegistration->payment_status === 'payed')
+                                    <img src="{{ asset('qrcode_images/' . $filename) }}" alt="QR Code">
+                                @endif
                             @endif
-                        @else
-                            <img src="{{ $item['image'] }}" alt="Event Image">
                         @endif
-                    </div>
-                    <div class="body-container">
-                        <div class="overlay"></div>
-
-                        <div class="event-info">
-                            <p class="title">{{ $item['name'] }}</p>
-                            <div class="separator"></div>
-                            <p class="title">{{ $item['qualification'] }}</p>
-                            <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
-
-                            <div class="additional-info">
-                                <p class="info">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    {{ $item['location'] }}
-                                </p>
-                                <p class="info">
-                                    <i class="far fa-calendar-alt"></i>
-                                    {{ $item['event_date'] }}
-                                </p>
-
-                                <p class="info description">
-                                    {{ $item['description'] }}
-                                </p>
-                            </div>
-                        </div>
-
-                        @if ($isRegistered)
-                            <button class="action" disabled>Already Registered</button>
-                        @else
-                            <button class="action" onclick="daftarEvent('{{ $item['id'] }}')">Register</button>
-                        @endif
-                    </div>
+                    @else
+                        <img src="{{ $item['image'] }}" alt="Event Image">
+                    @endif
                 </div>
-            @endif
-        @endforeach
 
-        {{-- Menampilkan yang sudah terdaftar ke bagian bawah --}}
-        @foreach ($events as $item)
-            @php
-                $isRegistered = $item->members->contains(Auth::user());
-            @endphp
 
-            @if ($isRegistered)
-                <div class="item-container">
-                    <div class="img-container">
-                        @if ($item->members->contains(Auth::user()))
-                            @if ($item->qr_code)
-                                <img src="data:image/png;base64,{{ $item->qr_code }}" alt="QR Code">
-                            @else
-                                <?php
-                                $kode = $item->id . '/wayangriders/' . $item->password;
-                                $filename = 'wayangriders' . $item->id . '.png';
-                                $path = public_path("qrcode_images/$filename");
-                                require_once 'qrcode/qrlib.php';
-                                QRcode::png($kode, $path, 2, 2);
-                                // Simpan $kode ke dalam model $item untuk penggunaan berikutnya
-                                $item->update(['qr_code' => base64_encode(file_get_contents($path))]);
-                                ?>
-                                <img src="{{ asset('qrcode_images/' . $filename) }}" alt="QR Code">
-                            @endif
-                        @else
-                            <img src="{{ $item['image'] }}" alt="Event Image">
-                        @endif
-                    </div>
-                    <div class="body-container">
-                        <div class="overlay"></div>
 
-                        <div class="event-info">
-                            <p class="title">{{ $item['name'] }}</p>
-                            <div class="separator"></div>
-                            <p class="title">{{ $item['qualification'] }}</p>
-                            <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
+                <div class="body-container">
+                    <div class="overlay"></div>
 
-                            <div class="additional-info">
-                                <p class="info">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    {{ $item['location'] }}
-                                </p>
-                                <p class="info">
-                                    <i class="far fa-calendar-alt"></i>
-                                    {{ $item['event_date'] }}
-                                </p>
+                    <div class="event-info">
+                        <p class="title">{{ $item['name'] }}</p>
+                        <div class="separator"></div>
+                        <p class="title">{{ $item['qualification'] }}</p>
+                        <p class="price">Rp. {{ number_format($item['price'], 0, '.', '.') }}</p>
 
-                                <p class="info description">
-                                    {{ $item['description'] }}
-                                </p>
-                            </div>
+                        <div class="additional-info">
+                            <p class="info">
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{ $item['location'] }}
+                            </p>
+                            <p class="info">
+                                <i class="far fa-calendar-alt"></i>
+                                {{ $item['event_date'] }}
+                            </p>
+
+                            <p class="info description">
+                                {{ $item['description'] }}
+                            </p>
                         </div>
-
-                        @if ($isRegistered)
-                            <button class="action" disabled>Already Registered</button>
-                        @else
-                            <button class="action" onclick="daftarEvent('{{ $item['id'] }}')">Register</button>
-                        @endif
                     </div>
+
+                    @if ($isRegistered)
+                        <button class="action" disabled>Already Registered</button>
+                    @else
+                        <button class="action" onclick="daftarEvent('{{ $item['id'] }}')">Register</button>
+                    @endif
                 </div>
-            @endif
+            </div>
         @endforeach
     </div>
+
     <script>
         function daftarEvent(eventId) {
-            // Ask the user for confirmation
             const confirmation = confirm("Do you want to join this event?");
-
-            // If the user confirms, proceed with registration
             if (confirmation) {
                 const urlRegistrasi = "{{ route('event_registration.store') }}";
                 const formulir = document.createElement('form');
