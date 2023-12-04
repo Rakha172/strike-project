@@ -26,7 +26,6 @@ class PaymentController extends Controller
             ->where('payment_status', 'waiting')
             ->latest()
             ->paginate($page);
-        // dd($eventStatusPayed);
 
         return view('payment.payment-confirm-admin', compact('eventStatusPayed', 'title'));
     }
