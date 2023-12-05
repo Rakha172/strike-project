@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <title>Edit Result Operator</title>
 </head>
+
 <body>
     <div class="container mt-5">
         <div class="card">
@@ -31,14 +34,15 @@
                     </div>
                     <!-- Form untuk edit data hasil -->
                     <div class="col-md-6">
-                        <form action="{{ route("resultop.update", [ 'result' => $result->id]) }}" method="POST">
+                        <form action="{{ route('resultop.update', ['result' => $result->id]) }}" method="POST">
                             @csrf
-                            @method("PUT")
+                            @method('PUT')
                             <div class="mb-3">
                                 <label for="participant">Participant</label>
                                 <select name="participant" class="form-control">
-                                    @foreach($event_registration as $eventReg)
-                                        <option value="{{ $eventReg->user_id }}" @if($eventReg->user_id == $result->participant) selected @endif>
+                                    @foreach ($event_registration as $eventReg)
+                                        <option value="{{ $eventReg->user_id }}"
+                                            @if ($eventReg->user_id == $result->participant) selected @endif>
                                             {{ $eventReg->user->name }}
                                         </option>
                                     @endforeach
@@ -46,16 +50,21 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Berat Ikan</label>
-                                <input value="{{ $result->weight }}" name="weight" type="number" class="form-control @error('weight') is-invalid @enderror" style="background-color:#cdecfa;">
+                                <input value="{{ $result->weight }}" name="weight" type="number"
+                                    class="form-control @error('weight') is-invalid @enderror" min="0"
+                                    style="background-color:#cdecfa;">
                                 @error('weight')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Status</label>
-                                <select name="status" id="status" class="form-control" style="background-color:#cdecfa;">
-                                    <option value="special" @if($result->status == 'special') selected @endif>Special</option>
-                                    <option value="regular" @if($result->status == 'regular') selected @endif>Regular</option>
+                                <select name="status" id="status" class="form-control"
+                                    style="background-color:#cdecfa;">
+                                    <option value="special" @if ($result->status == 'special') selected @endif>Special
+                                    </option>
+                                    <option value="regular" @if ($result->status == 'regular') selected @endif>Regular
+                                    </option>
                                 </select>
                             </div>
                             <input type="hidden" name="image_data" id="imageData" value="{{ $result->image_path }}">
@@ -70,7 +79,10 @@
     <script>
         async function setupCamera() {
             const constraints = {
-                video: { width: 400, height: 300 }
+                video: {
+                    width: 400,
+                    height: 300
+                }
             };
 
             const video = document.getElementById('cameraFeed');
@@ -103,4 +115,5 @@
         setupCamera();
     </script>
 </body>
+
 </html>
