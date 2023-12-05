@@ -11,8 +11,8 @@ class SettingSeeder extends Seeder
 {
     public function run(): void
     {
-        $sourcePath = public_path('img/logo.png');
-        File::copy($sourcePath, public_path('logo/logo.png'));
+        $sourcePath = public_path('img/Logo.png');
+        File::copy($sourcePath, public_path('logo/Logo.png'));
 
         Setting::create([
             'name' => 'Strike',
