@@ -18,7 +18,7 @@ class SettingSeeder extends Seeder
             'name' => 'Strike',
             'location' => 'Indonesia,Jawa Barat,Bandung',
             'history' => 'Strike Maniac meluncurkan situs web dan aplikasi pertama mereka, memudahkan pelanggan untuk memesan tempat pemancingan secara online. Mereka juga memperkenalkan program loyalitas yang memberikan diskon dan manfaat eksklusif bagi pelanggan setia.',
-            'logo' => 'logo.png',
+            'logo' => 'Logo.png',
             'slogan' => 'Menyediakan Tempat Pemancingan Terbaik Untuk Anda.',
             'desc' => ' Untuk anda yang mempunyai hobi memancing, kami menyediakan kolam
             pemancingan luas yang berisikan berbagai jenis ikan seperti Ikan Mas (Karper),
@@ -31,3 +31,4 @@ class SettingSeeder extends Seeder
         ]);
     }
 }
+
