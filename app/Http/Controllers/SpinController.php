@@ -7,29 +7,29 @@ use Illuminate\Http\Request;
 
 class SpinController extends Controller
 {
-    public function showForm()
+    public function spin(Event $events)
     {
-        return view('spin.spin-rafly');
+        // Mendapatkan angka-angka dari controller (gantilah dengan logika atau data sebenarnya)
+        $numbers = range(1, 10);
+
+        // Dapatkan data acara dengan nilai "both" acak
+        $events = Event::inRandomOrder()->get();
+
+        // Kirimkan data acara dan angka-angka ke tampilan "spin"
+        return view('spin.spin', compact('events', 'numbers'));
     }
 
-    public function processForm(Request $request)
+    public function getTotalBooth($eventId)
     {
-        $validated = $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-        ]);
+        $event = Event::find($eventId);
 
-        // Tampilkan hasil
-        return view('spin.spin-rafly', ['result' => $validated]);
+        if (!$event) {
+            return response()->json(['error' => 'Event not found'], 404);
+        }
+
+        $totalBooth = $event->total_booth;
+
+        return response()->json(['total_booth' => $totalBooth]);
     }
 
-    public function updatePreview(Request $request)
-    {
-        $validated = $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-        ]);
-
-        return response()->json(['result' => $validated]);
-    }
 }

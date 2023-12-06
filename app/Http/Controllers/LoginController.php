@@ -81,7 +81,7 @@ class LoginController extends Controller
                 return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
             }
         } else {
-            return back()->withErrors(['otp' => 'The password you entered is incorrect.'])->withInput();
+            return redirect()->back()->withInput()->withErrors(['erorr' => 'Username atau Password Salah']);
         }
     }
 

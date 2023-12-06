@@ -41,10 +41,7 @@
                 <h2 class="hlop">Halaman Operator</h2>
             </center>
             <ul class="nav">
-                <a href="{{ route('logout') }}"
-                   onclick="return confirm('Apakah anda yakin ingin keluar ?')">
-                    <button class="button button1">Logout</button>
-                </a>
+                    <button class="button button1" onclick="confirmLogout()">Logout</button>
             </ul>
         </nav><br><br>
         <div class="table-responsive">
@@ -90,6 +87,10 @@
                                 <td>
                                     <a href="{{ route('resultop.index', $evnt->id) }}"
                                         class="btn btn-dark m-1">Result</a>
+
+                                    <a href="{{ route('spin.spin', $evnt->id) }}"
+                                        class="btn btn-dark m-1">Spin</a>
+
                                     @if ($evnt->qualification == 'weight')
                                         <a href="{{ route('events.chart-resultop', $evnt->id) }}"
                                             class="btn btn-primary m-1">Chart Result</a>
@@ -123,6 +124,25 @@
             </table>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: 'Apakah Anda yakin ingin keluar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#18537a',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Logout!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('logout') }}";
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

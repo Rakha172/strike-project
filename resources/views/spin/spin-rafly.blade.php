@@ -6,12 +6,6 @@
     <title>Formulir Input</title>
 </head>
 <body>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <center>
     <div id="preview-container">
     </div>

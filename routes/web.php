@@ -177,7 +177,7 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 //ROLE MEMBER//
 // table event registration
 Route::group(['middleware' => 'can:role,"member"'], function () {
-    Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('landingevent');
+    Route::get('regisevent', [Event_RegistrationController::class, 'create'])->name('regisevent');
     Route::post('event-registration', [Event_RegistrationController::class, 'store'])->name('event_registration.store');
     Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
     Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
@@ -211,8 +211,6 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 
     //chart-result-operator
-
-    Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
     // Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
 
     //scan
@@ -221,9 +219,7 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
-    Route::get('/form', [SpinController::class, 'showForm']);
-    Route::post('/form', [SpinController::class, 'processForm']);
-    Route::post('/update-preview', [SpinController::class, 'updatePreview']);
+    Route::get('/get-total-booth/{eventId}', [SpinController::class, 'getTotalBooth']);
 
 });
 
