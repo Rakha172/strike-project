@@ -59,9 +59,7 @@ class LoginController extends Controller
                         'number' => $recipientNumber,
                         'message' => $message,
                     ]);
-
                 } catch (\Exception $e) {
-                    dd($e);
                     Alert::error('No connection', 'Please try again to Login')->persistent(true);
 
                     Auth::logout();
@@ -71,7 +69,7 @@ class LoginController extends Controller
                 return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
             }
         } else {
-            return redirect()->back()->withInput()->withErrors(['erorr' => 'Username atau Password Salah']);
+            return back()->withErrors(['otp' => 'The password you entered is incorrect.'])->withInput();
         }
     }
 
