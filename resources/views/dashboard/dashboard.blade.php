@@ -40,7 +40,7 @@
         </ul>
         <ul class="side-menu">
             <li>
-                <a href="{{ route('logout') }}" class="logout" onclick="return confirm('Apakah anda yakin ingin keluar ?')">
+                <a class="logout" onclick="confirmLogout()" style="cursor: pointer">
                     <i class='bx bx-log-out-circle'></i>
                     Logout
                 </a>
@@ -209,6 +209,25 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Konfirmasi Logout',
+                text: 'Apakah Anda yakin ingin keluar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#18537a',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Logout!',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('logout') }}";
+                }
+            });
+        }
     </script>
 </body>
 
