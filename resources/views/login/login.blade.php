@@ -42,28 +42,10 @@
         <br>
 
         <div class="login area">
-
-            <script>
-                @if (Session::has('success'))
-                    toastr.info("{{ Session::get('success') }}", "", {
-                        positionClass: "toast-top-center"
-                    });
-                @endif
-            </script>
-
-
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script>
                 @if (session('status'))
-                    toastr.error("{{ session('status') }}", "", {
-                    });
-                @endif
-            </script>
-
-            <script>
-                @if ($errors->has('email'))
-                    toastr.error("{{ $errors->first('email') }}", "", {
-                        positionClass: "toast-top-center"
-                    });
+                    toastr.error("{{ session('status') }}", "", {});
                 @endif
             </script>
 
@@ -80,7 +62,15 @@
             <a href="{{ route('password.request') }}">Forgot password?</a>
 
             <div class="form-group">
-                <input type="submit" value="Sign In" class="form-control btn rounded submit px-3" style="background: linear-gradient(to right,#1f79ff, #8ad2df) ;">
+
+                <script>
+                    @if ($errors->has('erorr'))
+                        toastr.error("{{ $errors->first('erorr') }}");
+                    @endif
+                </script>
+
+                <input type="submit" value="Sign In" class="form-control btn rounded submit px-3"
+                    style="background: linear-gradient(to right,#1f79ff, #8ad2df) ;">
             </div>
             <p class="text-wrapper-7">Tidak punya akun?<a href="{{ route('register') }}">Regist disini</a></p>
         </div>

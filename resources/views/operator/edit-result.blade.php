@@ -17,7 +17,7 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-body">
-                <h1 class="text-center fs-2 mt-4" style="background-color:#cdecfa;">Edit Result Operator</h1>
+                <h1 class="text-center fs-2 mt-4" style="background-color:#2D9596;">Edit Result Operator</h1>
                 <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
                 <div class="row">
                     <!-- Bagian untuk kamera -->
