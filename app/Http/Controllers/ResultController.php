@@ -41,7 +41,7 @@ class ResultController extends Controller
 
         $request->validate([
             'participant' => 'required',
-            'weight' => 'required',
+            'weight' => 'required|numeric|min:-1',
             'status' => 'required|in:special,regular',
         ]);
 
@@ -65,10 +65,8 @@ class ResultController extends Controller
     public function edit(Result $result)
     {
 
-        // Get the associated event for this result
         $event = $result->event;
 
-        // Periksa apakah event ada atau tidak
         if (!$event) {
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
@@ -81,16 +79,14 @@ class ResultController extends Controller
 
     public function update(Request $request, Result $result)
     {
-        // Get the associated event for this result
         $event = $result->event;
 
-        // Periksa apakah event ada atau tidak
         if (!$event) {
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
 
         $validated = $request->validate([
-            'weight' => 'required|numeric',
+            'weight' => 'required|numeric|min:-1',
             'status' => 'required|in:special,regular',
             'participant' => 'required',
         ]);
@@ -103,7 +99,6 @@ class ResultController extends Controller
 
         return redirect()->route('result.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
-
 
     public function destroy(Result $result)
     {

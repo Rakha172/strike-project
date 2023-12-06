@@ -55,15 +55,6 @@ class RegisterController extends Controller
             ]
         ]);
 
-        // $user = User::create([
-        //     'name' => $request->name,
-        //     'phone_number' => $request->phone_number,
-        //     'email' => $request->email,
-        //     'password' => bcrypt($request->password),
-        // ]);
-
-        // Pastikan Anda sudah mengatur logika pengiriman OTP melalui WhatsApp pada method sendOTPviaWhatsApp di dalam NotificationController
-
         $notificationController = new NotificationController();
         try {
             $notificationController->sendOTPviaWhatsApp($recipientNumber, $otpCode);

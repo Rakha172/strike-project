@@ -56,7 +56,6 @@ class SettingController extends Controller
             'email' => 'required',
         ]);
 
-        // dd($request->name);
         if ($request->hasFile('logo')) {
             // Hapus gambar lama
             $oldLogoPath = public_path('logo/' . $id->logo);

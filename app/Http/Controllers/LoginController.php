@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,8 +52,6 @@ class LoginController extends Controller
                 $recipientNumber = $user->phone_number;
                 $message = "🎣 Hai {$user->name}, selamat datang di Strike Maniac! Terima kasih sudah bergabung dalam kegemaran kita memancing. Jika kamu belum bergabung bersama kami, ini adalah waktu yang tepat untuk menjelajahi dunia memancing! Mari kita dapatkan pengalaman dan kenangan baru bersama di Strike Maniac. Selamat memancing!";
 
-                // $otp = rand(100000, 999999);
-
                 try {
                     $response = Http::post($endpoint, [
                         'api_key' => $apiKey,
@@ -62,13 +59,6 @@ class LoginController extends Controller
                         'number' => $recipientNumber,
                         'message' => $message,
                     ]);
-
-                    // $response = Http::post($endpoint, [
-                    //     'api_key' => $apiKey,
-                    //     'sender' => $sender,
-                    //     'number' => $recipientNumber,
-                    //     'message' => 'kode opt kamu: ' . $otp,
-                    // ]);
 
                 } catch (\Exception $e) {
                     dd($e);

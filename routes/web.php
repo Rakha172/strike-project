@@ -15,6 +15,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
+use App\Models\Event_Registration;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
@@ -191,7 +192,8 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     //event untuk landingevent
     Route::get('/event', function () {
         $events = Event::all();
-        return view('landingevent.landingevent', compact('events'));
+        $events_registration = Event_Registration::all();
+        return view('landingevent.landingevent', compact('events', 'events_registration'));
     })->name('events');
 
     //spinner

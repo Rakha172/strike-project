@@ -264,12 +264,36 @@ class OperatorController extends Controller
                     $eventRegistration->update(['payment_status' => 'attended']);
                     Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
 
+                    // Fungsi untuk menentukan total booth
                     $boothNumber = $this->assignRandomBooth($eventRegistration->event_id);
                     $eventRegistration->update(['booth' => $boothNumber]);
 
-                    return redirect()->route('spin.spin')
-                        ->with('eventRegistration', $eventRegistration)
-                        ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
+                    // Kirim notifikasi WhatsApp ke pengguna terkait
+                    $user = $eventRegistration->user; // Sesuaikan dengan relasi yang ada pada model Event_Registration
+                    $event = $eventRegistration->event; // Sesuaikan dengan relasi yang ada pada model Event
+
+                    $setting = Setting::first();
+                    $apiKey = $setting->api_key;
+                    $sender = $setting->sender;
+                    $endpoint = $setting->endpoint;
+
+                    $message = "Halo, {$user->name}!🎉 Terima kasih telah menghadiri acara '{$event->name}'. Kami sangat mengapresiasi partisipasimu! Semoga acaranya menyenangkan dan bermanfaat untukmu🌟";
+                    $recipientNumber = $user->phone_number;
+
+                    $response = Http::post($endpoint, [
+                        'api_key' => $apiKey,
+                        'sender' => $sender,
+                        'number' => $recipientNumber,
+                        'message' => $message,
+                    ]);
+
+                    if ($response->successful()) {
+                        return redirect()->route('spin.spin')
+                            ->with('eventRegistration', $eventRegistration)
+                            ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
+                    } else {
+                        throw new \Exception('Failed to send WhatsApp notification');
+                    }
                 } else {
                     Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
                     return back()->with('warning', 'Status pembayaran tidak sesuai');
