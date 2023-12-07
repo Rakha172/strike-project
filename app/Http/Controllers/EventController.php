@@ -78,7 +78,7 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
-            'qualification' => 'required|in:weight,quantity,special,combined,weight special,weight quantity,quantity special',
+            'qualification' => 'required|in:weight,quantity,special,combined,weight_special,weight_quantity,quantity_special',
             'start' => 'nullable|date_format:H:i',
             'end' => 'nullable|date_format:H:i',
         ]);
@@ -145,7 +145,7 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:png,jpg|max:2040',
-            'qualification' => 'required|in:weight,quantity,special,combined,weight special,weight quantity,quantity special',
+            'qualification' => 'required|in:weight,quantity,special,combined,weight_special,weight_quantity,quantity_special',
             'start' => 'nullable|date_format:H:i',
             'end' => 'nullable|date_format:H:i',
         ]);

@@ -40,12 +40,12 @@
                                 </option>
                                 <option value="combined" {{ old('qualification') == 'combined' ? 'selected' : '' }}>Combined
                                 </option>
-                                <option value="weight special"
-                                    {{ old('qualification') == 'weight special' ? 'selected' : '' }}>Weight Special</option>
-                                <option value="weight quantity" {{ old('qualification') == 'weight quantity' ? 'selected' : '' }}>
+                                <option value="weight_special"
+                                    {{ old('qualification') == 'weight_special' ? 'selected' : '' }}>Weight Special</option>
+                                <option value="weight_quantity" {{ old('qualification') == 'weight_quantity' ? 'selected' : '' }}>
                                     Weight Quantity</option>
-                                <option value="quantity special"
-                                    {{ old('qualification') == 'quantity special' ? 'selected' : '' }}>Quantity Special</option>
+                                <option value="quantity_special"
+                                    {{ old('qualification') == 'quantity_special' ? 'selected' : '' }}>Quantity Special</option>
                             </select>
                             @error('qualification')
                                 <div class="invalid-feedback">{{ $message }}</div>

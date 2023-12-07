@@ -43,6 +43,14 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Fadilah Nurhasani',
+            'role' => 'member',
+            'phone_number' => '08872415689',
+            'email' => 'del@gmail.com',
+            'password' => 'password',
+        ]);
+
+        User::create([
             'name' => 'User1',
             'role' => 'member',
             'phone_number' => '08123456789',

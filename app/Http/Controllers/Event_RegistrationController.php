@@ -9,16 +9,13 @@ use Illuminate\Http\Request;
 use App\Models\Event_Registration;
 use Illuminate\Support\Facades\Http;
 
-class Event_RegistrationController extends Controller
-{
-    public function index()
-    {
+class Event_RegistrationController extends Controller {
+    public function index() {
         $title = Setting::firstOrFail();
         $event_registration = Event_Registration::all();
         return view('event_registration.index', compact('event_registration', 'title'));
     }
-    public function create()
-    {
+    public function create() {
         $title = Setting::firstOrFail();
         $events = Event::all();
         $users = User::all();
@@ -26,7 +23,7 @@ class Event_RegistrationController extends Controller
         $userName = null;
         $event = null;
 
-        if (auth()->check()) {
+        if(auth()->check()) {
             $user = auth()->user();
             $userName = $user->name;
             $event = $user->event;
@@ -35,8 +32,7 @@ class Event_RegistrationController extends Controller
         return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
@@ -49,7 +45,7 @@ class Event_RegistrationController extends Controller
         $currentRegistrations = Event_Registration::where('event_id', $event->id)->count();
         $totalBooth = $event->total_booth;
 
-        if ($currentRegistrations >= $totalBooth) {
+        if($currentRegistrations >= $totalBooth) {
             return redirect()->back()->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
@@ -59,7 +55,15 @@ class Event_RegistrationController extends Controller
         try {
             $setting = Setting::first();
             $user = auth()->user();
-            $message = "Halo, {$user->name}! 🌟 Selamat! Anda telah terdaftar untuk acara '{$event->name}' yang akan diselenggarakan pada 🗓️ {$event->event_date}. Registrasi Anda sedang dalam tahap verifikasi pembayaran. Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran. Terima kasih atas partisipasinya! 🎉";
+            $message = "Halo, {$user->name}!🌟\n\n";
+            $message .= "Selamat! Anda telah terdaftar untuk acara '{$event->name}' yang akan diselenggarakan pada 🗓️ {$event->event_date}\n\n";
+            $message .= "Total biaya pendaftaran : Rp ".number_format($event->price, 0, '.', '.')."\n\n";
+            $message .= "Silakan lakukan pembayaran ke rekening bank kami :\n\n";
+            $message .= "🏛️ Bank : BRI\n";
+            $message .= "Nomor Rekening : 1234-56-789012-34-5 \n";
+            $message .= "Atas Nama : Elina\n\n";
+            $message .= "Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran\n";
+            $message .= "Terima kasih atas partisipasinya! 🎉";
             $recipientNumber = $user->phone_number;
             $apiKey = $setting->api_key;
             $sender = $setting->sender;
@@ -72,11 +76,11 @@ class Event_RegistrationController extends Controller
                 'message' => $message,
             ]);
 
-            if (!$response->successful()) {
+            if(!$response->successful()) {
                 throw new \Exception('Failed to send WhatsApp notification to user');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke user: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke user: '.$e->getMessage());
         }
 
         // Pesan untuk admin
@@ -87,7 +91,11 @@ class Event_RegistrationController extends Controller
             $event = Event::find($validated['event_id']);
             $user = User::find($validated['user_id']);
 
-            $messageAdmin = "Halo Admin! 🌟\n\nMohon konfirmasi pembayaran untuk pengguna berikut yang akan mengikuti acara:\n\nNama Pengguna: {$user->name}\nAcara yang Diikuti: '{$event->name}'\n\nTerima kasih! 🎉";
+            $messageAdmin = "Halo Admin! 🌟\n\n";
+            $messageAdmin .= "Mohon konfirmasi pembayaran untuk pengguna berikut yang akan mengikuti acara :\n\n";
+            $messageAdmin .= "Nama Pengguna : {$user->name}\n";
+            $messageAdmin .= "Acara yang Diikuti : '{$event->name}'\n\n";
+            $messageAdmin .= "Terima kasih! 🎉";
 
             $apiKey = $setting->api_key;
             $sender = $setting->sender;
@@ -100,18 +108,17 @@ class Event_RegistrationController extends Controller
                 'message' => $messageAdmin,
             ]);
 
-            if (!$response->successful()) {
+            if(!$response->successful()) {
                 throw new \Exception('Failed to send WhatsApp notification to admin');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: '.$e->getMessage());
         }
 
         return redirect()->back()->with('success', 'Berhasil Dibuat.');
     }
 
-    public function update(Request $request, Event_Registration $event_registration)
-    {
+    public function update(Request $request, Event_Registration $event_registration) {
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
@@ -123,8 +130,7 @@ class Event_RegistrationController extends Controller
         $event_registration->update($validated);
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil diubah");
     }
-    public function destroy($id)
-    {
+    public function destroy($id) {
         $event_registration = Event_Registration::find($id);
         $event_registration->delete();
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil dihapus!");
