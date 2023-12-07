@@ -25,9 +25,9 @@ return new class extends Migration {
                 'quantity',
                 'special',
                 'combined',
-                'weight special',
-                'weight quantity',
-                'quantity special'
+                'weight_special',
+                'weight_quantity',
+                'quantity_special'
             ]);
             $table->time('start');
             $table->time('end');
