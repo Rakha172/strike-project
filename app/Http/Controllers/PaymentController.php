@@ -46,7 +46,9 @@ class PaymentController extends Controller
             $sender = $setting->sender;
             $endpoint = $setting->endpoint;
 
-            $message = "Halo, {$user->name}! 🎉 Pembayaran untuk acara '{$event->name}' Anda telah dikonfirmasi oleh admin. Terima kasih banyak! 🙌";
+            $message = "Halo, {$user->name}!\n\n";
+            $message .= "Pembayaran untuk acara '{$event->name}' Anda telah dikonfirmasi oleh admin\n\n";
+            $message .= "Terima kasih banyak! 🙌";
             $recipientNumber = $user->phone_number;
 
             $response = Http::post($endpoint, [
