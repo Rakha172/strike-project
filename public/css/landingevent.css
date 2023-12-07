@@ -15,6 +15,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .navbar {
     background-color: #18537a;
     color: #fff;
@@ -30,14 +31,30 @@ body {
     margin-top: 0;
 }
 
-.navbar .logout{
-    background: linear-gradient(to right,#8ad2df, #1f79ff);
+.logout {
+    position: absolute;
+    top: 20px;
+    width: 85px;
+    height: 30px;
+    border-radius: 10px;
+    right: 10px;
+    color: white;
+    background: linear-gradient(to right, #8ad2df, #1f79ff);
+}
+.logout:hover {
+    background: linear-gradient(to right, #1f79ff, #8ad2df);
+}
+
+.navbar .prof {
+    background: #1f79ff;
     width: 85px;
     border-radius: 10px;
     height: 25px;
 }
-.logout:hover{
-    background: linear-gradient(to right,#1f79ff, #8ad2df) ;
+
+.prof>a {
+    color: white;
+    text-decoration: none;
 }
 
 .event-title {
@@ -189,9 +206,11 @@ body {
     0% {
         opacity: 1;
     }
+
     50% {
         opacity: 1;
     }
+
     100% {
         opacity: 0;
         display: none;
@@ -205,7 +224,8 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
-    animation: fadeOut 3s forwards; /* Ubah waktu sesuai keinginan Anda */
+    animation: fadeOut 3s forwards;
+    /* Ubah waktu sesuai keinginan Anda */
 }
 
 .blurry-background {

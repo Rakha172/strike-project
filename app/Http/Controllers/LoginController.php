@@ -63,9 +63,7 @@ class LoginController extends Controller
                         'number' => $recipientNumber,
                         'message' => $message,
                     ]);
-
                 } catch (\Exception $e) {
-                    dd($e);
                     Alert::error('No connection', 'Please try again to Login')->persistent(true);
 
                     Auth::logout();

@@ -9,7 +9,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
         body {
-            background-color: #bde2fa;
+            background-color: #2D9596;
             color: #fff;
 
             .container {
@@ -21,7 +21,7 @@
             }
 
             .card {
-                background-color: #bde2fa;
+                background-color: #2D9596;
                 color: #fff;
             }
 

@@ -1,0 +1,98 @@
+*,html, body{
+    margin: 0;
+    padding: 0;
+}
+
+.containerop{
+    width: 100%;
+    height: 100vh;
+    background-color: #2D9596;
+    resize: none;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.table {
+    color: #222;
+    background-color: lightblue;
+    flex-direction: row;
+    margin: auto;
+}
+
+.table tbody {
+    display: block;
+    overflow-y: auto;
+    max-height: 70vh;
+}
+
+.table thead, .table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* Menetapkan lebar kolom sesuai layout tabel */
+}
+
+
+.wrapperop{
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    padding: 15px;
+    width: 100%;
+    height: 70px;
+    background-color: #265073;
+}
+
+.brandop{
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    padding: 0px 10px;
+    text-transform: capitalize;
+}
+
+.firstname{
+    color: white;
+    font-weight: 700;
+}
+
+.lastname{
+    color: rgb(97, 205, 248);
+    font-weight: 600;
+    padding-left: 4px;
+}
+
+.hlop{
+    padding: 0px;
+    color: white;
+    font-weight: 300;
+}
+
+.nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav>button>a {
+    font-size: 20px;
+    font-family: 'Monaco', monospace;
+    text-decoration: none;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.button {
+    padding: 5px 0px;
+    display: inline-block;
+  }
+
+  .button1 {
+    color: white;
+    width: 100px;
+    border-radius: 10px;
+    background: linear-gradient(to right, #265073, #2D9596);
+  }
+
+  .button1:hover {
+    background: linear-gradient(to right, #2D9596, #265073 );
+  }

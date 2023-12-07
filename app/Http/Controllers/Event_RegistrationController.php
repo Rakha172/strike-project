@@ -29,7 +29,7 @@ class Event_RegistrationController extends Controller {
             $event = $user->event;
         }
 
-        return view('landingevent.regisevent', compact('events', 'users', 'userName', 'event', 'title'));
+        return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
     public function store(Request $request) {

@@ -9,7 +9,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <style>
         body {
-            background-color: #c5e4f3;
+            background-color: #2D9596;
         }
 
         .container {
@@ -21,7 +21,7 @@
         }
 
         .card-kamera {
-            background-color: #c5e4f3;
+            background-color: #2D9596;
             border-radius: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -80,7 +80,7 @@
                                     <div class="form-group">
                                         <label class="form-label">Berat Ikan</label>
                                         <input value="{{ old('weight') }}" name="weight" type="number"
-                                            class="form-control @error('weight') is-invalid @enderror">
+                                            class="form-control @error('weight') is-invalid @enderror" min="0">
                                         @error('weight')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
