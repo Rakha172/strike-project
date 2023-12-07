@@ -50,7 +50,11 @@ class LoginController extends Controller
                 $user = Auth::guard('web')->user();
 
                 $recipientNumber = $user->phone_number;
-                $message = "🎣 Hai {$user->name}, selamat datang di Strike Maniac! Terima kasih sudah bergabung dalam kegemaran kita memancing. Jika kamu belum bergabung bersama kami, ini adalah waktu yang tepat untuk menjelajahi dunia memancing! Mari kita dapatkan pengalaman dan kenangan baru bersama di Strike Maniac. Selamat memancing!";
+                $message = "Hai {$user->name} 🎣 \n\n";
+                $message .= "Selamat datang di Strike Maniac!\n";
+                $message .= "Terima kasih sudah bergabung dalam kegemaran kita memancing,";
+                $message .= " mari kita dapatkan pengalaman dan kenangan baru bersama di Strike Maniac.\n\n";
+                $message .= "Selamat memancing!";
 
                 try {
                     $response = Http::post($endpoint, [
