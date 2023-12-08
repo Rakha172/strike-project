@@ -15,22 +15,25 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Log; // Pastikan ini di atas kelas Controller
 
-class OperatorController extends Controller {
-    public function index() {
+class OperatorController extends Controller
+{
+    public function index()
+    {
         $title = Setting::firstOrFail();
         $events = Event::all();
-        foreach($events as $event) {
+        foreach ($events as $event) {
             $event->random_both = $event->random_both;
         }
         return view('operator.index', compact('title', 'events'));
     }
 
-    public function show($eventId) {
+    public function show($eventId)
+    {
         $title = Setting::firstOrFail();
         // Cari event berdasarkan ID
         $event = Event::find($eventId);
 
-        if(!$event) {
+        if (!$event) {
             return redirect()->route('operator-event')->with('error', 'Event tidak ditemukan.');
         }
 
@@ -41,10 +44,11 @@ class OperatorController extends Controller {
         return view('operator.show', compact('event', 'users', 'title'));
     }
 
-    public function reduceBoth(Request $request, $eventId) {
+    public function reduceBoth(Request $request, $eventId)
+    {
         $event = Event::find($eventId);
 
-        if(!$event) {
+        if (!$event) {
             return response()->json(['message' => 'Event not found'], 404);
         }
 
@@ -56,28 +60,31 @@ class OperatorController extends Controller {
         return response()->json(['message' => 'Both reduced successfully']);
     }
 
-    public function indexop(Event $event) {
+    public function indexop(Event $event)
+    {
         $title = Setting::firstOrFail();
         $results = Result::all();
 
         return view('operator.index-result', compact('results', 'event', 'title'));
     }
 
-    public function create(Event $event) {
+    public function create(Event $event)
+    {
         $title = Setting::firstOrFail();
         $event_registration = $event->event_regist()->where('payment_status', 'attended')->get();
         $results = Result::where('event_id', $event->id)->get();
 
         $users = User::whereIn('id', $event_registration->pluck('user_id'))->get();
 
-        if(!$event) {
+        if (!$event) {
             return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
         return view('operator.create-result', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
-    public function store(Request $request, Event $event) {
+    public function store(Request $request, Event $event)
+    {
         // Validasi input
         $request->validate([
             'participant' => 'required',
@@ -89,7 +96,7 @@ class OperatorController extends Controller {
         // Temukan pengguna berdasarkan ID yang diberikan dalam request
         $user = User::find($request->input('participant'));
 
-        if(!$user) {
+        if (!$user) {
             return redirect()->route('result.create', ['event' => $event->id])->with('error', 'User tidak ditemukan.');
         }
 
@@ -108,7 +115,7 @@ class OperatorController extends Controller {
         // $qualification = $event->qualification; // Pastikan attribute sesuai dengan struktur tabel
         $qualification = $event->qualification; // Pastikan attribute sesuai dengan struktur tabel
 
-        if($qualification == 'weight') {
+        if ($qualification == 'weight') {
             $topResults = Result::where('event_id', $event->id)
                 ->select(DB::raw('SUM(weight) as total_weight, user_id'))
                 ->groupBy('user_id')
@@ -117,7 +124,7 @@ class OperatorController extends Controller {
                 ->get();
 
             $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalWeight) {
+            foreach ($topResults as $key => $totalWeight) {
                 $participant = User::find($totalWeight->user_id);
                 $weight = $totalWeight->total_weight;
                 $position = $key + 1;
@@ -126,7 +133,7 @@ class OperatorController extends Controller {
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
-        } elseif($qualification == 'special') {
+        } elseif ($qualification == 'special') {
             $topResults = Result::where('event_id', $event->id)
                 ->select(DB::raw('COUNT(*) as total_special, user_id'))
                 ->groupBy('user_id')
@@ -135,7 +142,7 @@ class OperatorController extends Controller {
                 ->get();
 
             $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalSpecial) {
+            foreach ($topResults as $key => $totalSpecial) {
                 $participant = User::find($totalSpecial->user_id);
                 $special = $totalSpecial->total_special;
                 $position = $key + 1;
@@ -144,7 +151,7 @@ class OperatorController extends Controller {
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
-        } elseif($qualification == 'quantity') {
+        } elseif ($qualification == 'quantity') {
             $topResults = Result::where('event_id', $event->id)
                 ->select(DB::raw('COUNT(*) as total_quantity, user_id'))
                 ->groupBy('user_id')
@@ -153,7 +160,7 @@ class OperatorController extends Controller {
                 ->get();
 
             $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalQuantity) {
+            foreach ($topResults as $key => $totalQuantity) {
                 $participant = User::find($totalQuantity->user_id);
                 $quantity = $totalQuantity->total_quantity;
                 $position = $key + 1;
@@ -162,103 +169,216 @@ class OperatorController extends Controller {
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
-        } elseif($qualification == 'combined') {
+        } elseif ($qualification == 'combined') {
             $topResults = Result::where('event_id', $event->id)
                 ->select(DB::raw('SUM(weight) as total_weight,
                     SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
                     COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
                     user_id'))
                 ->groupBy('user_id')
-                ->orderByDesc(DB::raw('total_weight + total_quantity + total_special')) // Urutkan berdasarkan gabungan
+                ->orderByDesc(DB::raw('total_weight')) // Urutkan berdasarkan total berat ikan
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalCombined) {
+            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan* \n";
+            foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
-                $quantity = $totalCombined->total_quantity; // Pastikan ini telah dihitung dengan benar
+                $position = $key + 1;
+
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan total berat ikan : {$weight} gram\n";
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
+
+            // Kategori berdasarkan ikan special
+            $topResultsSpecial = Result::where('event_id', $event->id)
+                ->select(DB::raw('SUM(weight) as total_weight,
+                SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
+                COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
+                user_id'))
+                ->groupBy('user_id')
+                ->orderByDesc(DB::raw('total_special')) // Urutkan berdasarkan jumlah ikan spesial
+                ->take(3)
+                ->get();
+
+            $topThreeMessage .= "\n*Tiga Terbesar Berdasarkan Ikan Special* \n";
+            foreach ($topResultsSpecial as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
                 $special = $totalCombined->total_special;
                 $position = $key + 1;
 
-                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan :\n\n";
-                $topThreeMessage .= "total berat ikan : {$weight} gram\n";
-                $topThreeMessage .= "jumlah ikan : {$quantity}\n";
-                $topThreeMessage .= "ikan special : {$special}\n\n";
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
-            $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
 
-        } elseif($qualification == 'weight_special') {
-            $topResults = Result::where('event_id', $event->id)
+            // Kategori berdasarkan jumlah ikan
+            $topResultsSpecial = Result::where('event_id', $event->id)
                 ->select(DB::raw('SUM(weight) as total_weight,
-                    SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
-                    user_id'))
+             SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
+             COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
+             user_id'))
                 ->groupBy('user_id')
-                ->orderByDesc(DB::raw('total_weight + total_special'))
+                ->orderByDesc(DB::raw('total_quantity')) // Urutkan berdasarkan jumlah ikan
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalWeightSpecial) {
-                $participant = User::find($totalWeightSpecial->user_id);
-                $weight = $totalWeightSpecial->total_weight;
-                $special = $totalWeightSpecial->total_special;
+            $topThreeMessage .= "\n*Tiga Terbesar Berdasarkan Jumlah Ikan* \n";
+            foreach ($topResultsSpecial as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $quantity = $totalCombined->total_quantity;
                 $position = $key + 1;
 
-                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan :\n\n";
-                $topThreeMessage .= "total berat ikan : {$weight} gram\n";
-                $topThreeMessage .= "ikan special : {$special}\n\n";
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
+                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResults as $topResult) {
+                $participant = User::find($topResult->user_id);
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
-        } elseif($qualification == 'weight_quantity') {
+        } elseif ($qualification == 'weight_special') {
             $topResults = Result::where('event_id', $event->id)
                 ->select(DB::raw('SUM(weight) as total_weight,
                 SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
                 COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
                 user_id'))
                 ->groupBy('user_id')
-                ->orderByDesc(DB::raw('total_weight + total_quantity'))
+                ->orderByDesc(DB::raw('total_weight')) // Urutkan berdasarkan total berat ikan
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalWeightQuantity) {
-                $participant = User::find($totalWeightQuantity->user_id);
-                $weight = $totalWeightQuantity->total_weight;
-                $quantity = $totalWeightQuantity->total_quantity;
+            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan* \n";
+            foreach ($topResults as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $weight = $totalCombined->total_weight;
                 $position = $key + 1;
 
-                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan :\n\n";
-                $topThreeMessage .= "total berat ikan : {$weight} gram\n";
-                $topThreeMessage .= "jumlah ikan : {$quantity}\n\n";
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan total berat ikan : {$weight} gram\n";
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
+
+            // Kategori berdasarkan ikan special
+            $topResultsSpecial = Result::where('event_id', $event->id)
+                ->select(DB::raw('SUM(weight) as total_weight,
+                SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
+                COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
+                user_id'))
+                ->groupBy('user_id')
+                ->orderByDesc(DB::raw('total_special')) // Urutkan berdasarkan jumlah ikan spesial
+                ->take(3)
+                ->get();
+
+            $topThreeMessage .= "\n*Tiga Terbesar Berdasarkan Ikan Special* \n";
+            foreach ($topResultsSpecial as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $special = $totalCombined->total_special;
+                $position = $key + 1;
+
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
+                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResults as $topResult) {
+                $participant = User::find($topResult->user_id);
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
-        } elseif($qualification == 'quantity_special') {
+        } elseif ($qualification == 'weight_quantity') {
             $topResults = Result::where('event_id', $event->id)
+                ->select(DB::raw('SUM(weight) as total_weight,
+                SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
+                COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
+                user_id'))
+                ->groupBy('user_id')
+                ->orderByDesc(DB::raw('total_weight')) // Urutkan berdasarkan total berat ikan
+                ->take(3)
+                ->get();
+
+            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan* \n";
+            foreach ($topResults as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $weight = $totalCombined->total_weight;
+                $position = $key + 1;
+
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan total berat ikan : {$weight} gram\n";
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
+
+            // Kategori berdasarkan jumlah ikan
+            $topResultsSpecial = Result::where('event_id', $event->id)
+                ->select(DB::raw('SUM(weight) as total_weight,
+                SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
+                COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
+                user_id'))
+                ->groupBy('user_id')
+                ->orderByDesc(DB::raw('total_quantity')) // Urutkan berdasarkan jumlah ikan
+                ->take(3)
+                ->get();
+
+            $topThreeMessage .= "\n*Tiga Terbesar Berdasarkan Jumlah Ikan* \n";
+            foreach ($topResultsSpecial as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $quantity = $totalCombined->total_quantity;
+                $position = $key + 1;
+
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
+                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResults as $topResult) {
+                $participant = User::find($topResult->user_id);
+            }
+
+            $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+        } elseif ($qualification == 'quantity_special') {
+            $topResultsQuantity = Result::where('event_id', $event->id)
                 ->select(DB::raw('SUM(weight) as total_weight,
                     SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
                     COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
                     user_id'))
                 ->groupBy('user_id')
-                ->orderByDesc(DB::raw('(total_quantity + total_special)'))
+                ->orderByDesc(DB::raw('total_quantity'))
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
-            foreach($topResults as $key => $totalQuantitySpecial) {
-                $participant = User::find($totalQuantitySpecial->user_id);
-                $quantity = $totalQuantitySpecial->total_quantity;
-                $special = $totalQuantitySpecial->total_special;
+            $topThreeMessage = "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            foreach ($topResultsQuantity as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $quantity = $totalCombined->total_quantity;
                 $position = $key + 1;
 
-                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan :\n\n";
-                $topThreeMessage .= "jumlah ikan : {$quantity}\n";
-                $topThreeMessage .= "ikan special : {$special}\n\n";
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
             }
 
-            $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            // Kategori berdasarkan ikan special
+            $topResultsSpecial = Result::where('event_id', $event->id)
+                ->select(DB::raw('SUM(weight) as total_weight,
+                    SUM(CASE WHEN status = "special" THEN 1 ELSE 0 END) as total_special,
+                    COUNT(CASE WHEN status = "regular" THEN 1 ELSE 0 END) as total_quantity,
+                    user_id'))
+                ->groupBy('user_id')
+                ->orderByDesc(DB::raw('total_special'))
+                ->take(3)
+                ->get();
+
+            $topThreeMessage .= "\n*Tiga Terbesar Berdasarkan Ikan Special*\n";
+            foreach ($topResultsSpecial as $key => $totalCombined) {
+                $participant = User::find($totalCombined->user_id);
+                $special = $totalCombined->total_special;
+                $position = $key + 1;
+
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
+            }
+
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResultsQuantity as $topResult) {
+                $participant = User::find($topResult->user_id);
+                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+            }
         }
 
         // Pesan untuk pengguna berdasarkan input mereka
@@ -276,7 +396,8 @@ class OperatorController extends Controller {
     }
 
     // Method untuk mengirim pesan WhatsApp
-    private function sendWhatsAppMessage($message, $recipientNumber) {
+    private function sendWhatsAppMessage($message, $recipientNumber)
+    {
         $setting = Setting::first();
         $apiKey = $setting->api_key;
         $sender = $setting->sender;
@@ -290,7 +411,7 @@ class OperatorController extends Controller {
                 'message' => $message,
             ]);
 
-            if(!$response->successful()) {
+            if (!$response->successful()) {
                 throw new \Exception('Failed to send WhatsApp notification');
             }
         } catch (\Exception $e) {
@@ -299,26 +420,28 @@ class OperatorController extends Controller {
         }
     }
 
-    private function saveImage($imageData) {
+    private function saveImage($imageData)
+    {
         $folderPath = 'images/results/';
-        if(!file_exists($folderPath)) {
+        if (!file_exists($folderPath)) {
             mkdir($folderPath, 0777, true);
         }
 
         $image = str_replace('data:image/png;base64,', '', $imageData);
         $image = str_replace(' ', '+', $image);
-        $imageName = 'result_'.time().'.png';
-        $filePath = $folderPath.$imageName;
+        $imageName = 'result_' . time() . '.png';
+        $filePath = $folderPath . $imageName;
         file_put_contents($filePath, base64_decode($image));
 
         return $filePath;
     }
 
-    public function edit(Result $result) {
+    public function edit(Result $result)
+    {
 
         $event = $result->event;
 
-        if(!$event) {
+        if (!$event) {
             return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
@@ -328,9 +451,10 @@ class OperatorController extends Controller {
         return view('operator.edit-result', compact('results', 'event_registration', 'event', 'result'));
     }
 
-    public function update(Request $request, Result $result) {
+    public function update(Request $request, Result $result)
+    {
         $event = $result->event;
-        if(!$event) {
+        if (!$event) {
             return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
         }
 
@@ -342,7 +466,7 @@ class OperatorController extends Controller {
         ]);
 
         // Jika ada data gambar baru, simpan gambar dan perbarui path di database
-        if($request->has('image_data')) {
+        if ($request->has('image_data')) {
             $imagePath = $this->saveImage($validated['image_data']);
         } else {
             // Jika tidak ada data gambar baru, gunakan path yang sudah ada di database
@@ -360,37 +484,40 @@ class OperatorController extends Controller {
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil diperbarui');
     }
 
-    private function save($imageData) {
+    private function save($imageData)
+    {
         $folderPath = 'images/results/';
-        if(!file_exists($folderPath)) {
+        if (!file_exists($folderPath)) {
             mkdir($folderPath, 0777, true);
         }
 
         $image = str_replace('data:image/png;base64,', '', $imageData);
         $image = str_replace(' ', '+', $image);
-        $imageName = 'result_'.time().'.png';
-        $filePath = $folderPath.$imageName;
+        $imageName = 'result_' . time() . '.png';
+        $filePath = $folderPath . $imageName;
         file_put_contents($filePath, base64_decode($image));
 
         return $filePath;
     }
 
-    public function showAttendedPage() {
+    public function showAttendedPage()
+    {
         return view('operator.attended');
     }
-    public function scan(Request $request) {
+    public function scan(Request $request)
+    {
         try {
             $eventRegistrationId = $request->input('event_registration_id');
-            Log::info('Received scanned event registration ID: '.$eventRegistrationId);
+            Log::info('Received scanned event registration ID: ' . $eventRegistrationId);
 
             $eventRegistration = Event_Registration::find($eventRegistrationId);
 
-            if($eventRegistration) {
-                Log::info('Found event registration with ID: '.$eventRegistrationId);
+            if ($eventRegistration) {
+                Log::info('Found event registration with ID: ' . $eventRegistrationId);
 
-                if($eventRegistration->payment_status === 'payed') {
+                if ($eventRegistration->payment_status === 'payed') {
                     $eventRegistration->update(['payment_status' => 'attended']);
-                    Log::info('Payment status updated to "attended" for event registration ID: '.$eventRegistrationId);
+                    Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
 
                     // Fungsi untuk menentukan total booth
                     $boothNumber = $this->assignRandomBooth($eventRegistration->event_id);
@@ -417,7 +544,7 @@ class OperatorController extends Controller {
                         'message' => $message,
                     ]);
 
-                    if($response->successful()) {
+                    if ($response->successful()) {
                         return redirect()->route('spin.spin')
                             ->with('eventRegistration', $eventRegistration)
                             ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
@@ -425,20 +552,21 @@ class OperatorController extends Controller {
                         throw new \Exception('Failed to send WhatsApp notification');
                     }
                 } else {
-                    Log::warning('Payment status is not "payed" for event registration ID: '.$eventRegistrationId);
+                    Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
                     return back()->with('warning', 'Status pembayaran tidak sesuai');
                 }
             } else {
-                Log::warning('Event Registration not found for ID: '.$eventRegistrationId);
+                Log::warning('Event Registration not found for ID: ' . $eventRegistrationId);
                 return redirect()->back()->with('failed', 'Data registrasi acara tidak ditemukan');
             }
         } catch (\Exception $e) {
-            Log::error('Error in scan method: '.$e->getMessage());
+            Log::error('Error in scan method: ' . $e->getMessage());
             return back()->with('error', 'Terjadi kesalahan dalam pemindaian.');
         }
     }
 
-    public function assignRandomBooth($eventId) {
+    public function assignRandomBooth($eventId)
+    {
         $event = Event::find($eventId);
         $totalBooth = $event->total_booth;
 
@@ -452,7 +580,7 @@ class OperatorController extends Controller {
         $availableBooths = array_diff($availableBooths, $occupiedBooths);
 
         $randomBooth = null;
-        if(!empty($availableBooths)) {
+        if (!empty($availableBooths)) {
             $randomBoothIndex = array_rand($availableBooths);
             $randomBooth = $availableBooths[$randomBoothIndex];
         }
