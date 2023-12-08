@@ -41,7 +41,7 @@ class ResultController extends Controller
 
         $request->validate([
             'participant' => 'required',
-            'weight' => 'required|numeric|min:-1',
+            'weight' => 'required|numeric|min:-0',
             'status' => 'required|in:special,regular',
         ]);
 
