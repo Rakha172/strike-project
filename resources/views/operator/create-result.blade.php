@@ -76,11 +76,10 @@
                                             @endforeach
                                         </select>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="form-label">Berat Ikan</label>
                                         <input value="{{ old('weight') }}" name="weight" type="number"
-                                            class="form-control @error('weight') is-invalid @enderror" min="0">
+                                            class="form-control @error('weight') is-invalid @enderror" min="-0">
                                         @error('weight')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
