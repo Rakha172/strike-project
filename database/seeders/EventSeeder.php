@@ -7,8 +7,10 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 
-class EventSeeder extends Seeder {
-    public function run(): void {
+class EventSeeder extends Seeder
+{
+    public function run(): void
+    {
         Event::create([
             'name' => 'Galatama',
             'image' => 'logo/logo.png',
