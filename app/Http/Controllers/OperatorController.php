@@ -123,13 +123,27 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalWeight) {
                 $participant = User::find($totalWeight->user_id);
                 $weight = $totalWeight->total_weight;
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} dengan total berat ikan {$weight} gram\n";
+            }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
+
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResults as $topResult) {
+                $participant = User::find($topResult->user_id);
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
@@ -141,13 +155,27 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalSpecial) {
                 $participant = User::find($totalSpecial->user_id);
                 $special = $totalSpecial->total_special;
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} dengan total Ikan Special : {$special}";
+            }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
+
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResults as $topResult) {
+                $participant = User::find($topResult->user_id);
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
@@ -159,13 +187,27 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalQuantity) {
                 $participant = User::find($totalQuantity->user_id);
                 $quantity = $totalQuantity->total_quantity;
                 $position = $key + 1;
 
-                $topThreeMessage .= "Posisi {$position}. {$participant->name} dengan Jumlah Ikan : {$quantity}";
+                $topThreeMessage .= "Posisi {$position}. {$participant->name} dengan Jumlah Ikan : {$quantity}\n";
+            }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
+
+            // Mengirim pesan ke nomor WhatsApp masing-masing peserta
+            foreach ($topResults as $topResult) {
+                $participant = User::find($topResult->user_id);
             }
 
             $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
@@ -180,15 +222,15 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan* \n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan total berat ikan : {$weight} gram\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Kategori berdasarkan ikan special
@@ -209,7 +251,6 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Kategori berdasarkan jumlah ikan
@@ -230,8 +271,16 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
-                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
+
             // Mengirim pesan ke nomor WhatsApp masing-masing peserta
             foreach ($topResults as $topResult) {
                 $participant = User::find($topResult->user_id);
@@ -249,15 +298,15 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan* \n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan total berat ikan : {$weight} gram\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Kategori berdasarkan ikan special
@@ -278,8 +327,16 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
-                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
+
             // Mengirim pesan ke nomor WhatsApp masing-masing peserta
             foreach ($topResults as $topResult) {
                 $participant = User::find($topResult->user_id);
@@ -297,15 +354,15 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "Selamat kepada peserta-peserta berikut :\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan* \n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan total berat ikan : {$weight} gram\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Kategori berdasarkan jumlah ikan
@@ -326,8 +383,16 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
-                $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
+                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
+
             // Mengirim pesan ke nomor WhatsApp masing-masing peserta
             foreach ($topResults as $topResult) {
                 $participant = User::find($topResult->user_id);
@@ -345,13 +410,24 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
+            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResultsQuantity as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $quantity = $totalCombined->total_quantity;
                 $position = $key + 1;
 
+                // $topThreeMessage .= "Event {$event->name}";
+                // $topThreeMessage .= "Pada Tanggal {$event->event_date}";
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
+
+                // // Mendapatkan informasi waktu dari pengguna
+                // $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+                // $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+                // $topThreeMessage .= "  - Waktu pembuatan: {$userCreatedAt}\n";
+                // $topThreeMessage .= "  - Waktu perubahan terakhir: {$userUpdatedAt}\n";
             }
 
             // Kategori berdasarkan ikan special
@@ -371,8 +447,16 @@ class OperatorController extends Controller
                 $special = $totalCombined->total_special;
                 $position = $key + 1;
 
+
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
             }
+
+            // Mendapatkan informasi waktu dari pengguna
+            $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+            $topThreeMessage .= "\nWaktu pembuatan: {$userCreatedAt}\n";
+            $topThreeMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}\n";
 
             // Mengirim pesan ke nomor WhatsApp masing-masing peserta
             foreach ($topResultsQuantity as $topResult) {
@@ -381,11 +465,24 @@ class OperatorController extends Controller
             }
         }
 
+        $userTotalCatch = Result::where([
+            'user_id' => $user->id,
+            'event_id' => $event->id,
+        ])->count();
+
         // Pesan untuk pengguna berdasarkan input mereka
         $userMessage = "Halo, {$user->name}! 🎉\n\n";
-        $userMessage .= "Berikut adalah detail laporan ikan Anda :\n\n";
+        $userMessage .= "Berikut adalah detail laporan ikan ke-{$userTotalCatch} Anda :\n\n";
         $userMessage .= "Berat Ikan : {$result->weight} gram\n";
         $userMessage .= "Status Ikan : {$result->status} 🐟🌟";
+
+        // Mendapatkan informasi waktu dari pengguna
+        $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
+        $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
+
+        $userMessage .= "\n\nWaktu pembuatan: {$userCreatedAt}\n";
+        $userMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}";
+
         $userRecipientNumber = $user->phone_number;
 
         // Mengirim pesan hanya kepada pengguna yang baru terdaftar
@@ -393,8 +490,8 @@ class OperatorController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan. Notifikasi WhatsApp terkirim.');
-    }
 
+    }
     // Method untuk mengirim pesan WhatsApp
     private function sendWhatsAppMessage($message, $recipientNumber)
     {
