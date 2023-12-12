@@ -34,21 +34,21 @@ class UserSeeder extends Seeder
             'password' => 'password',
         ]);
 
-        User::create([
-            'name' => 'Rahma Khairani Rangkuti',
-            'role' => 'member',
-            'phone_number' => '08872354643',
-            'email' => 'rhmakhrani@gmail.com',
-            'password' => 'password',
-        ]);
+        // User::create([
+        //     'name' => 'Rahma Khairani Rangkuti',
+        //     'role' => 'member',
+        //     'phone_number' => '08872354643',
+        //     'email' => 'rhmakhrani@gmail.com',
+        //     'password' => 'password',
+        // ]);
 
-        User::create([
-            'name' => 'Fadilah Nurhasani',
-            'role' => 'member',
-            'phone_number' => '08872415689',
-            'email' => 'del@gmail.com',
-            'password' => 'password',
-        ]);
+        // User::create([
+        //     'name' => 'Fadilah Nurhasani',
+        //     'role' => 'member',
+        //     'phone_number' => '08872415689',
+        //     'email' => 'del@gmail.com',
+        //     'password' => 'password',
+        // ]);
 
         User::create([
             'name' => 'User1',
