@@ -123,9 +123,9 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan*\n";
             foreach ($topResults as $key => $totalWeight) {
                 $participant = User::find($totalWeight->user_id);
                 $weight = $totalWeight->total_weight;
@@ -155,9 +155,9 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Ikan Special*\n";
             foreach ($topResults as $key => $totalSpecial) {
                 $participant = User::find($totalSpecial->user_id);
                 $special = $totalSpecial->total_special;
@@ -187,8 +187,8 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
             $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResults as $key => $totalQuantity) {
                 $participant = User::find($totalQuantity->user_id);
@@ -222,9 +222,9 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan*\n";
             foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
@@ -271,7 +271,6 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Mendapatkan informasi waktu dari pengguna
@@ -298,9 +297,9 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan*\n";
             foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
@@ -327,7 +326,6 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan special : {$special}\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Mendapatkan informasi waktu dari pengguna
@@ -354,9 +352,9 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
-            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
+            $topThreeMessage .= "*Tiga Terbesar Berdasarkan Berat Ikan*\n";
             foreach ($topResults as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $weight = $totalCombined->total_weight;
@@ -383,7 +381,6 @@ class OperatorController extends Controller
                 $position = $key + 1;
 
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
-                // $this->sendWhatsAppMessage($topThreeMessage, $participant->phone_number);
             }
 
             // Mendapatkan informasi waktu dari pengguna
@@ -410,24 +407,15 @@ class OperatorController extends Controller
                 ->take(3)
                 ->get();
 
-            $topThreeMessage = str_pad('', 50, ' ') . "{$event->name}\n";
-            $topThreeMessage .= str_pad('', 50, ' ') . "{$event->event_date}\n\n";
+            $topThreeMessage = "*{$event->name}*\n";
+            $topThreeMessage .= "*{$event->event_date}*\n\n";
             $topThreeMessage .= "*Tiga Terbesar Berdasarkan Jumlah Ikan*\n";
             foreach ($topResultsQuantity as $key => $totalCombined) {
                 $participant = User::find($totalCombined->user_id);
                 $quantity = $totalCombined->total_quantity;
                 $position = $key + 1;
 
-                // $topThreeMessage .= "Event {$event->name}";
-                // $topThreeMessage .= "Pada Tanggal {$event->event_date}";
                 $topThreeMessage .= "Posisi {$position}. {$participant->name} berhasil dengan jumlah ikan : {$quantity}\n";
-
-                // // Mendapatkan informasi waktu dari pengguna
-                // $userCreatedAt = $participant->created_at->format('Y-m-d H:i:s');
-                // $userUpdatedAt = $participant->updated_at->format('Y-m-d H:i:s');
-
-                // $topThreeMessage .= "  - Waktu pembuatan: {$userCreatedAt}\n";
-                // $topThreeMessage .= "  - Waktu perubahan terakhir: {$userUpdatedAt}\n";
             }
 
             // Kategori berdasarkan ikan special
