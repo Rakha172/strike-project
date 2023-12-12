@@ -472,38 +472,56 @@ class OperatorController extends Controller
         $userMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}";
 
         $userRecipientNumber = $user->phone_number;
+        $mediaUrl = asset($result->image_path);
 
-        // Mengirim pesan hanya kepada pengguna yang baru terdaftar
-        $this->sendWhatsAppMessage($userMessage, $userRecipientNumber);
+        $this->sendWhatsAppMessage($userMessage, $userRecipientNumber, $mediaUrl);
 
-        // Redirect dengan pesan sukses
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan. Notifikasi WhatsApp terkirim.');
 
     }
     // Method untuk mengirim pesan WhatsApp
-    private function sendWhatsAppMessage($message, $recipientNumber)
+    private function sendWhatsAppMessage($message, $recipientNumber, $mediaUrl = null, $mediaCaption = null)
     {
         $setting = Setting::first();
         $apiKey = $setting->api_key;
         $sender = $setting->sender;
-        $endpoint = $setting->endpoint;
+        $textEndpoint = $setting->endpoint;
+        $mediaEndpoint = $setting->media_endpoint; // Kolom baru untuk endpoint media
 
         try {
-            $response = Http::post($endpoint, [
+            // Kirim pesan teks
+            $responseText = Http::post($textEndpoint, [
                 'api_key' => $apiKey,
                 'sender' => $sender,
                 'number' => $recipientNumber,
                 'message' => $message,
             ]);
 
-            if (!$response->successful()) {
-                throw new \Exception('Failed to send WhatsApp notification');
+            if (!$responseText->successful()) {
+                throw new \Exception('Failed to send WhatsApp text message');
+            }
+
+            // Kirim media (jika ada)
+            if ($mediaUrl) {
+                $responseMedia = Http::post($mediaEndpoint, [
+                    'api_key' => $apiKey,
+                    'sender' => $sender,
+                    'number' => $recipientNumber,
+                    'media_type' => 'image',
+                    'url' => $mediaUrl,
+                    'caption' => $mediaCaption,
+                ]);
+
+                if (!$responseMedia->successful()) {
+                    throw new \Exception('Failed to send WhatsApp media message');
+                }
             }
         } catch (\Exception $e) {
             // Tangani jika gagal mengirim pesan WhatsApp
             // Anda bisa melakukan redirect atau tindakan lain di sini
         }
     }
+
 
     private function saveImage($imageData)
     {

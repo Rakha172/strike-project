@@ -80,6 +80,7 @@ class SettingController extends Controller
             $id->phone = $request->input('phone');
             $id->email = $request->input('email');
             $id->endpoint = $request->input('endpoint');
+            $id->media_endpoint = $request->input('media_endpoint');
             $id->sender = $request->input('sender');
             $id->api_key = $request->input('api_key');
             $id->save();
@@ -100,6 +101,7 @@ class SettingController extends Controller
             $id->email = $request->input('email');
             $id->sender = $request->input('sender');
             $id->endpoint = $request->input('endpoint');
+            $id->media_endpoint = $request->input('media_endpoint');
             $id->api_key = $request->input('api_key');
             $id->save();
         }
