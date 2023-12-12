@@ -21,6 +21,7 @@ class Setting extends Model
         'email',
         'sender',
         'endpoint',
+        'media_endpoint',
         'api_key',
     ];
 }

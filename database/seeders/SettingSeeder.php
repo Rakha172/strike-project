@@ -27,6 +27,7 @@ class SettingSeeder extends Seeder
             'email' => 'strike@gmail.com',
             'sender' => '6282128078893',
             'endpoint' => 'http://wag.cigs.web.id/send-message',
+            'media_endpoint' => 'http://wag.cigs.web.id/send-media',
             'api_key' => 'ZMNgdCuH1Vi0OCQ6Recg8ZB9UPy68B',
         ]);
     }
