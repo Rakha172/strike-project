@@ -20,17 +20,20 @@ class ResultController extends Controller
         return view('result.index', compact('results', 'event', 'title'));
     }
 
-    public function create(Event $event)
+    public function create($eventId)
     {
-
-        $title = Setting::firstOrFail();
-        $users = User::all();
-        $event_registration = $event->event_regist()->get();
-        $results = Result::where('event_id', $event->id)->get();
+        $event = Event::find($eventId);
 
         if (!$event) {
             return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
+
+        $title = Setting::firstOrFail();
+        $users = User::all();
+        $event_registration = $event->event_regist()->get();
+
+        // Filter hasil berdasarkan event yang dipilih
+        $results = Result::where('event_id', $eventId)->get();
 
         return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
     }

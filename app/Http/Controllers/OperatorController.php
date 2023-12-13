@@ -63,25 +63,29 @@ class OperatorController extends Controller
     public function indexop(Event $event)
     {
         $title = Setting::firstOrFail();
-        $results = Result::all();
+
+        // Misalkan Anda ingin menampilkan hasil berdasarkan event yang disediakan dalam parameter $event
+        $results = Result::where('event_id', $event->id)->get();
 
         return view('operator.index-result', compact('results', 'event', 'title'));
     }
 
-    public function create(Event $event)
+    public function create($eventId)
     {
-        $title = Setting::firstOrFail();
-        $event_registration = $event->event_regist()->where('payment_status', 'attended')->get();
-        $results = Result::where('event_id', $event->id)->get();
-
-        $users = User::whereIn('id', $event_registration->pluck('user_id'))->get();
+        $event = Event::find($eventId);
 
         if (!$event) {
-            return redirect()->route('eventsop.index')->with('error', 'Event tidak ditemukan.');
+            return redirect()->route('event.index')->with('error', 'Event tidak ditemukan.');
         }
+
+        $title = Setting::firstOrFail();
+        $users = User::all();
+        $event_registration = $event->event_regist()->get();
+        $results = Result::where('event_id', $eventId)->get(); // Mengambil hasil berdasarkan event yang dipilih
 
         return view('operator.create-result', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
+
 
     public function store(Request $request, Event $event)
     {
