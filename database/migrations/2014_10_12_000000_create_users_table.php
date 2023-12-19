@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('otp_code', 6)->nullable();
             $table->timestamp('otp_expiry_time')->nullable();
+            $table->string('password_reset_token', 60)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
