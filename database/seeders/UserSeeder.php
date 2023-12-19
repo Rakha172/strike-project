@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'name' => 'member',
             'role' => 'member',
             'phone_number' => '08872415689',
-            'email' => 'laladiila537@gmail.com',
+            'email' => 'member@gmail.com',
             'password' => 'password',
         ]);
 
@@ -30,16 +30,9 @@ class UserSeeder extends Seeder
             'name' => 'operator',
             'role' => 'operator',
             'phone_number' => '08872415689',
-            'email' => 'asansapta@gmail.com',
+            'email' => 'operator@gmail.com',
             'password' => 'password',
         ]);
 
-        User::create([
-            'name' => 'Rahma Khairani Rangkuti',
-            'role' => 'member',
-            'phone_number' => '08872354643',
-            'email' => 'rhmakhrani@gmail.com',
-            'password' => 'password',
-        ]);
     }
 }

@@ -1,76 +1,47 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <title>Forgot Password</title>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    {{-- font awesome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
-
-    {{-- CSS Toastr Link --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
-        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    {{-- Cdn Jquery --}}
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
-    {{-- JS Toastr Link --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
-    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 <body>
     <div class="overlay"></div>
     <form action="{{ route('password.email') }}" method="POST" class="box">
         @csrf
         <div class="header">
-            <h4>Forgot your Password?</h4>
-            <p>Masukan email terlebih dahulu</p>
+            <h4>Forgot Your Password?</h4>
+            <p>Please enter your email or WhatsApp number to request a password reset.</p>
         </div>
         <div class="login area">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script>
-                @if (Session::has('success'))
-                    toastr.info("{{ Session::get('success') }}", "", {
-                        positionClass: "toast-top-center"
-                    });
-                @elseif (Session::has('failed'))
-                    toastr.error("{{ Session::get('error') }}", "Oops!", {
-                    });
+                @if (session('status'))
+                    toastr.error("{{ session('status') }}", "", {});
                 @endif
             </script>
-            <input type="email" name="email"  class="email @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Masukkan Email" required>
-            @error('email')
-                <div class="invalid-feedback text-start">
-                    {{ $message }}
-                </div>
-            @enderror
-            <div class="form-group">
-                <input type="submit" value="Send Email" class="submit1" style="background: linear-gradient(to right,#1f79ff, #8ad2df ) ;">
-            </div>
-            <a href="{{ route('login') }}">Back to login</a>
+            <form action="{{ route('password.email') }}" method="post" id="form">
+                @csrf
+            <label for="email_or_whatsapp" style="color: #1f79ff;">Email or WhatsApp Number</label>
+            <input type="text" name="email_or_whatsapp" id="email_or_whatsapp" value="{{ old('email_or_whatsapp') }}" class="form-control" style="border-color: #1f79ff;">
+            <input type="submit" value="Request Password Reset" class="btn btn-primary" style="background: linear-gradient(to right, #1f79ff, #8ad2df); margin-top: 10px;">
+        </div>
+        <div class="text-center mt-1">
+            <p class="text-wrapper-7 mb-5"><a href="{{ route('login') }}">Back To Login</a></p>
+        </div>
     </form>
 
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function showHidePassword() {
             let passCheck = document.getElementById("password");
@@ -90,5 +61,4 @@
         }
     </script>
 </body>
-
 </html>
