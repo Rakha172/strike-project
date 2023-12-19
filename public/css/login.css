@@ -51,7 +51,7 @@ body {
     outline: none;
     border: none;
     color: white;
-    background: linear-gradient(to right,#8ad2df, #1f79ff );
+    background: linear-gradient(to right, #8ad2df, #1f79ff);
     margin-bottom: 15px;
     transition: .5s;
 }
@@ -116,7 +116,7 @@ body {
 
 .submit1:hover {
     background-color: white;
-    color:#cfd9e9;
+    color: #cfd9e9;
 }
 
 a {
