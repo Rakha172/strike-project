@@ -32,6 +32,7 @@
                 <div class="row justify-content-between">
                     <div class="col-auto">
                         <a href="{{ route('resultop.create', ['event' => $event->id] ) }}" class="btn btn-dark m-1">Tambah</a>
+                        <a href="{{ route('operator.winner', ['eventId' => $event->id]) }}" class="btn btn-success m-1">Winner</a>
                     </div>
                     </div>
                 <table class="table">
