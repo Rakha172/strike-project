@@ -27,8 +27,8 @@
                 <div class="card space icon-relative">
                     <label class="label">Payment Total</label>
                     {{-- @foreach ($event_regist as $event) --}}
-                        <input type="text" class="input" value="{{ $event_regist?->event->price }}" readonly>
-                        <i class="fas fa-dollar-sign"></i>
+                    <input type="text" class="input" value="{{ $event_regist?->event->price }}" readonly>
+                    <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="card space icon-relative">
                     <label class="label">Payment Method</label>
@@ -38,22 +38,30 @@
 
                         <!-- Daftar dropdown -->
                         <div class="dropdown-content">
-                            <input type="text" name="payment_method" id="" value="{{$event_regist?->payment_types_id}}" readonly>
+                            <form action="{{ route('updatePayment', $event_regist->id) }}" method="post">
+                                @csrf
+                                @method('put')
+                                <select name="payment_types_id"
+                                    class="form-select @error('payment_types_id') is-invalid @enderror">
+                                    <option value=""></option>
+                                    @foreach ($paymentTypes as $paymentType)
+                                        <option value="{{ $paymentType->id }}">{{ $paymentType->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('payment_types_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <!-- Tombol submit di sini -->
+                                <input type="submit" value="PAY" class="btn">
+                            </form>
                         </div>
+                        </center>
                     </div>
-                    {{-- @endforeach --}}
                 </div>
-
-                </div>
-                <center>
-                    <input type="submit" value="PAY" class="btn">
-                </center>
             </div>
-        </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
 </body>
 

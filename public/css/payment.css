@@ -144,6 +144,7 @@ body{
     width: 290px;
     padding: 10px;
     background-color: #3498db;
+    border-radius: 10px;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -152,6 +153,7 @@ body{
 /* Style untuk daftar dropdown */
 .dropdown-content {
     width: 290px;
+    border-radius: 10px;
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -161,19 +163,26 @@ body{
 }
 
 /* Style untuk setiap opsi dalam dropdown */
-.dropdown-content input {
+.dropdown-content select {
+    background-color: #b2cde2;
     color: black;
     width: 290px;
     padding: 10px;
     text-decoration: none;
     display: block;
+    border-radius: 10px;
     text-align: center;
     cursor: pointer;
 }
 
+.dropdown-content option{
+    background-color: #b2cde2;
+}
+
 /* Style untuk opsi saat dihover */
-.dropdown-content input:hover {
+.dropdown-content select:hover {
     border: none;
+    border-radius: 10px;
     background-color: lightgrey;
 }
 

@@ -1,10 +1,5 @@
 <?php
 
-use App\Models\User;
-use App\Models\Event;
-use App\Models\Setting;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
 use App\Http\Controllers\Event\EventChartResultAndSpecialController;
 use App\Http\Controllers\Event\EventChartResultAndTotalController;
@@ -23,28 +18,18 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
 use App\Models\Event_Registration;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OtpController;
+use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\LoginController;
-use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Controllers\ResultController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\OperatorController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PaymentTypeController;
-use App\Http\Controllers\Event_RegistrationController;
-use App\Http\Controllers\Event\EventChartResultController;
-use App\Http\Controllers\Event\EventChartResultAllController;
-use App\Http\Controllers\Event\EventChartResultTotalController;
-use App\Http\Controllers\Event\EventChartResultSpecialController;
-use App\Http\Controllers\Event\EventChartResultAndTotalController;
-use App\Http\Controllers\Event\EventChartResultAndSpecialController;
-use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Setting;
+use App\Models\Event;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -208,6 +193,7 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 });
 
 Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
+Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePayment'])->name('updatePayment');
 
 //ROLE OPERATOR//
 Route::group(['middleware' => 'can:role,"operator"'], function () {

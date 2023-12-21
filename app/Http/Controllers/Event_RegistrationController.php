@@ -134,4 +134,6 @@ class Event_RegistrationController extends Controller {
         $event_registration->delete();
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil dihapus!");
     }
+
+    
 }

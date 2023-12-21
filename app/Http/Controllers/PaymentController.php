@@ -71,7 +71,7 @@ class PaymentController extends Controller
         }
     }
 
-    
+
     public function member(Request $Request, $event_register_id)
     {
         $title = Setting::firstOrFail();
@@ -79,13 +79,20 @@ class PaymentController extends Controller
         $event_regist = Event_Registration::findOrFail($event_register_id);
         $users = User::all();
 
-        if(auth()->check()) {
+        if (auth()->check()) {
             $user = auth()->user();
             $userName = $user->name;
-            // $event_regist = $user->event_regist->price;
             $event_regist = Event_Registration::findOrFail($event_register_id);
+            $paymentTypes = PaymentTypes::all();
         }
+        return view('payment.payment-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes'));
+    }
+    public function updatePayment(Request $request, Event_Registration $event_register_id) {
+        $validated = $request->validate([
+            'payment_types_id' => 'required',
+        ]);
 
-        return view('payment.payment-member', compact('event_regist', 'users', 'userName', 'title'));
+        $event_register_id->update($validated);
+        return redirect()->route('payment',$event_register_id->id)->with('berhasil', "Berhasil diubah");
     }
 }

@@ -12,7 +12,7 @@
 <body>
     <div class="container mt-5">
         <form action="{{ route('paytypeupdate', $paymenttypes->id) }}" method="POST">
-            @csrf   
+            @csrf
             @method('put')
             <div class="mb-3">
                 <label class="form-label">Name</label>
