@@ -35,6 +35,9 @@
             <li class="{{ request()->is('payment*') ? 'active' : '' }}">
                 <a href="{{ route('payment.index') }}"><i class='bx bx-dollar'></i>Payment-Confirm</a>
             </li>
+            <li class="{{ request()->is('payment*') ? 'active' : '' }}">
+                <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
+            </li>
         </ul>
 
         <ul class="side-menu">

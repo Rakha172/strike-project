@@ -43,24 +43,11 @@ class UserController extends Controller
 
         return redirect()->route('user.index')->with('berhasil', "$request->name Berhasil ditambahkan");
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return view('user.show', compact('user'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         $title = Setting::firstOrFail();
         return view('user.edit', compact('user', 'title'));
     }
-
     /**
      * Update the specified resource in storage.
      */
@@ -86,5 +73,18 @@ class UserController extends Controller
     {
         $user->delete();
         return redirect()->route('user.index')->with('berhasil', "$user->name Berhasil dihapus");
+    }
+
+    public function updateprofile(Request $request, User $user)
+    {
+
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'phone_number' => 'required',
+        ]);
+
+        $user->update($validated);
+
+        return redirect()->route('events')->with('success', "Berhasil diubah");
     }
 }

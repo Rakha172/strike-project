@@ -19,7 +19,6 @@ class Event_RegistrationController extends Controller {
         $title = Setting::firstOrFail();
         $events = Event::all();
         $users = User::all();
-
         $userName = null;
         $event = null;
 
@@ -38,7 +37,6 @@ class Event_RegistrationController extends Controller {
             'event_id' => 'required',
             'booth' => 'nullable',
         ]);
-
         $validated['payment_status'] = 'waiting';
 
         $event = Event::find($request->input('event_id'));
@@ -46,10 +44,11 @@ class Event_RegistrationController extends Controller {
         $totalBooth = $event->total_booth;
 
         if($currentRegistrations >= $totalBooth) {
-            return redirect()->back()->with('error', 'Pendaftaran sudah penuh untuk event ini.');
+            return redirect()->route('payment')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
-        Event_Registration::create($validated);
+        // Event_Registration::create($validated);
+        $addEventRegist = Event_Registration::create($validated);
 
         // Pesan WhatsApp User
         try {
@@ -80,7 +79,7 @@ class Event_RegistrationController extends Controller {
                 throw new \Exception('Failed to send WhatsApp notification to user');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke user: '.$e->getMessage());
+            return redirect()->route('payment' , $addEventRegist->id)->with('error', 'Gagal mengirim notifikasi WhatsApp ke user: '.$e->getMessage());
         }
 
         // Pesan untuk admin
@@ -112,10 +111,10 @@ class Event_RegistrationController extends Controller {
                 throw new \Exception('Failed to send WhatsApp notification to admin');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: '.$e->getMessage());
+            return redirect()->route('events')->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: '.$e->getMessage());
         }
 
-        return redirect()->back()->with('success', 'Berhasil Dibuat.');
+        return redirect()->route('payment', $addEventRegist->id)->with('success', 'Berhasil Dibuat.');
     }
 
     public function update(Request $request, Event_Registration $event_registration) {

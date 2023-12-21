@@ -118,6 +118,7 @@ class EventController extends Controller
                 'number' => $recipientNumber,
                 'message' => $message,
             ]);
+            
 
             if ($response->successful()) {
                 return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan.');
