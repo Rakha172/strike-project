@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Event_Registration;
+use App\Models\User;
+use App\Models\Event;
 use App\Models\Setting;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\PaymentTypes;
 use Illuminate\Http\Request;
+use App\Models\Event_Registration;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\Eloquent\Builder;
 
 class PaymentController extends Controller
 {
@@ -66,5 +69,30 @@ class PaymentController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+
+    public function member(Request $Request, $event_register_id)
+    {
+        $title = Setting::firstOrFail();
+        // $event_regist = Event_Registration::all();
+        $event_regist = Event_Registration::findOrFail($event_register_id);
+        $users = User::all();
+
+        if (auth()->check()) {
+            $user = auth()->user();
+            $userName = $user->name;
+            $event_regist = Event_Registration::findOrFail($event_register_id);
+            $paymentTypes = PaymentTypes::all();
+        }
+        return view('payment.payment-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes'));
+    }
+    public function updatePayment(Request $request, Event_Registration $event_register_id) {
+        $validated = $request->validate([
+            'payment_types_id' => 'required',
+        ]);
+
+        $event_register_id->update($validated);
+        return redirect()->route('payment',$event_register_id->id)->with('berhasil', "Berhasil diubah");
     }
 }

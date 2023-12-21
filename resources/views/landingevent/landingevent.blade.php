@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/landingevent.css') }}" />
-    {{-- notification confirm logout --}}
+    {{-- notification confirm logout --}}           
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <title>Halaman Event</title>
 </head>
@@ -16,16 +16,34 @@
     <div class="navbar">
         Event Ticket Booking
         <br>
-        <button class ="prof">
-            <a href="">Profile</a>
-        </button>
+
+        {{-- Modal --}}
+        <button onclick="openModal()" class="prof">Profile</button>
+        <div id="myModal" class="modal">
+            <!-- Content For Modal -->
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <form action="{{ route('updateprofile', $user->id) }}" method="POST">
+                    @csrf
+                    @method('put')
+
+                    <p>Username <input type="text" value="{{ $user->name }}" name="name" title="klik untuk edit"
+                            required></p>
+                    <p>Nomor Telepon <input type="number" value="{{ $user->phone_number }}" name="phone_number"
+                            title="klik untuk edit" required></p>
+                    <p>Email <input type="text" readonly value="{{ $user->email }}" title="klik untuk edit"></p>
+
+                    <input value="Save" type="submit" id="submit" onclick="saveChanges()">
+                </form>
+            </div>
+        </div>
+
         <button class="logout" onclick="confirmLogout()">
-                Logout
+            Logout
         </button>
     </div>
 
     <h1 class="event-title">Events</h1>
-
     @if (Session::has('success'))
         <div class="alert custom-alert-success">
             <div class="blurry-background"></div>
@@ -45,13 +63,17 @@
                 <div class="img-container">
                     @if ($isRegistered)
                         <?php
-                        $eventRegistration = $events_registration->where('user_id', Auth::user()->id)
+                        $eventRegistration = $events_registration
+                            ->where('user_id', Auth::user()->id)
                             ->where('event_id', $item->id)
                             ->first();
                         ?>
 
                         @if ($eventRegistration)
-                            @if ($item->qr_code && $eventRegistration->payment_status === 'payed' && $eventRegistration->payment_status !== 'attended')
+                            @if (
+                                $item->qr_code &&
+                                    $eventRegistration->payment_status === 'payed' &&
+                                    $eventRegistration->payment_status !== 'attended')
                                 <img src="data:image/png;base64,{{ $item->qr_code }}" alt="QR Code">
                             @else
                                 <?php
@@ -74,8 +96,6 @@
                         <img src="{{ $item['image'] }}" alt="Event Image">
                     @endif
                 </div>
-
-
 
                 <div class="body-container">
                     <div class="overlay"></div>
@@ -132,6 +152,27 @@
         }
     </script>
 
+    {{-- profile --}}
+    <script>
+        // Fungsi untuk membuka modal
+        function openModal() {
+            document.getElementById('myModal').style.display = 'block';
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        // Menutup modal jika area luar modal diklik
+        window.onclick = function(event) {
+            var modal = document.getElementById('myModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+
     <script>
         function daftarEvent(eventId) {
             const confirmation = confirm("Do you want to join this event?");
@@ -140,26 +181,32 @@
                 const formulir = document.createElement('form');
                 formulir.action = urlRegistrasi;
                 formulir.method = 'post';
+
                 const inputTokenCSRF = document.createElement('input');
                 inputTokenCSRF.type = 'hidden';
                 inputTokenCSRF.name = '_token';
                 inputTokenCSRF.value = "{{ csrf_token() }}";
                 formulir.appendChild(inputTokenCSRF);
+
                 const inputEventId = document.createElement('input');
                 inputEventId.type = 'hidden';
                 inputEventId.name = 'event_id';
                 inputEventId.value = eventId;
                 formulir.appendChild(inputEventId);
+
                 const inputUserId = document.createElement('input');
                 inputUserId.type = 'hidden';
                 inputUserId.name = 'user_id';
                 inputUserId.value = "{{ auth()->user()->id }}";
                 formulir.appendChild(inputUserId);
+
                 document.body.appendChild(formulir);
+
                 formulir.submit();
             }
         }
     </script>
+
 
 </body>
 

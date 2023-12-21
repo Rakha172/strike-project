@@ -47,14 +47,10 @@ body {
 
 .navbar .prof {
     background: #1f79ff;
+    color: white;
     width: 85px;
     border-radius: 10px;
     height: 25px;
-}
-
-.prof>a {
-    color: white;
-    text-decoration: none;
 }
 
 .event-title {
@@ -245,3 +241,96 @@ body {
     position: relative;
     z-index: 1;
 }
+
+
+@keyframes fadeIn {
+    100% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    0% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+/* Gaya modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1s forwards;
+}
+
+/* Gaya konten modal */
+.modal-content {
+    background: white;
+    color: black;
+    text-align: center;
+    margin: 15% auto;
+    padding: 15px;
+    border: 3px solid black;
+    width: 50%;
+    height: auto; /* Ganti tinggi modal menjadi otomatis */
+    display: flex;
+    flex-direction: column; /* Mengatur konten modal menjadi tata letak kolom */
+    justify-content: space-between; /* Menempatkan konten di antara atas dan bawah modal */
+}
+
+/* Gaya input dalam tag <p> */
+.modal-content p input {
+    font-size: 20px;
+    width: 100%; /* Menyesuaikan lebar input dengan lebar modal */
+    padding: 10px; /* Menambahkan padding agar tata letak terlihat lebih baik */
+    margin-bottom: 10px; /* Menambahkan margin antar input */
+}
+
+/* Gaya tombol "Save" */
+#submit {
+    padding: 0px 0px;
+    width: 85px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    align-self: flex-end; /* Menempatkan tombol "Save" di ujung bawah modal */
+}
+
+.modal-content>p>button{
+    margin-top: 6px;
+    font-size: 20px;
+    width: 200px;
+    border: none;
+    cursor: pointer;
+    background-color: #71a5f3;
+    border-radius: 10px;
+}
+
+/* Gaya tombol penutup modal */
+.close {
+    color: #f1eaea;
+    position: absolute;
+    top: 10px; /* Atur jarak dari atas */
+    right: 10px; /* Atur jarak dari kanan */
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    cursor: pointer;
+}
+

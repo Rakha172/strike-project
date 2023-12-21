@@ -16,6 +16,7 @@ class Event_Registration extends Model
         'user_id',
         'event_id',
         'payment_status',
+        'payment_types_id',
         'booth',
     ];
 
@@ -26,6 +27,10 @@ class Event_Registration extends Model
     public function event()
     {
         return $this->belongsTo(Event::class, 'event_id');
+    }
+    public function paymentTypes()
+    {
+        return $this->belongsTo(PaymentTypes::class, 'id');
     }
     public function result()
     {

@@ -22,6 +22,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PaymentTypeController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -146,6 +147,18 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 
     //Halaman RegisEvent
     Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
+
+    //crud payment types
+    Route::get('paymentypes', [PaymentTypeController::class, 'paymenttypesIndex'])->name('paymenttypesIndex');
+    Route::get('paymentypes/create', [PaymentTypeController::class, 'create'])->name('paytype.create');
+    Route::post('paymentypes', [PaymentTypeController::class, 'store'])->name('paytype.store');
+    Route::get('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'edit'])->name('paytype.edit');
+    Route::put('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'paytypeupdate'])->name('paytypeupdate');
+    Route::delete('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'destroy'])->name('paytype.destroy');
+
+    //payment-member
+    Route::put('payment-confirm-member/{event_registrationId}', [PaymentController::class, 'paymentMemberUpdate'])->name('payment-member.update');
+    Route::put('/payment/cancel-member/{event_registrationId}', [PaymentController::class, 'paymentMemberCancel'])->name('payment-member.cancel');
 });
 
 //ROLE MEMBER//
@@ -166,12 +179,21 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     Route::get('/event', function () {
         $events = Event::all();
         $events_registration = Event_Registration::all();
-        return view('landingevent.landingevent', compact('events', 'events_registration'));
+        $user = Auth::user();
+        return view('landingevent.landingevent', compact('events', 'events_registration','user'));
     })->name('events');
+
+    //updateprofileuser
+    Route::put('landingevent/{user}', [UserController::class, 'updateprofile'])->name('updateprofile');
 
     //spinner
     Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
+
+
 });
+
+Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
+Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePayment'])->name('updatePayment');
 
 //ROLE OPERATOR//
 Route::group(['middleware' => 'can:role,"operator"'], function () {
