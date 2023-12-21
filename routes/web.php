@@ -12,6 +12,7 @@ use App\Http\Controllers\ForgotController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\RundownController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ResultController;
@@ -210,16 +211,11 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     //chart-result-operator
     // Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
 
-    //scan
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
-    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
-    Route::get('/get-total-booth/{eventId}', [SpinController::class, 'getTotalBooth']);
-
-    //winner
-    Route::get('/operator/winner/{eventId}', [OperatorController::class, 'sendWinnerMessage'])->name('operator.winner');
+    Route::get('/operator/rundown/{eventId}/{eventRegistrationId}', [RundownController::class, 'index'])->name('operator.rundown');
 });
 
 //ROLE ADMIN-OPERATOR CHART//
