@@ -86,7 +86,7 @@
                                     {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
                                 </td>
                                 <td>
-                                
+
                                         <a href="{{ route('resultop.index', $evnt->id) }}"
                                         class="btn btn-dark m-1">Result</a>
 

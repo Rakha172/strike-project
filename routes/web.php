@@ -5,6 +5,23 @@ use App\Models\Event;
 use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndTotalController;
+use App\Http\Controllers\Event\EventChartResultSpecialController;
+use App\Http\Controllers\Event\EventChartResultTotalController;
+use App\Http\Controllers\Event\EventChartResultAllController;
+use App\Http\Controllers\Event\EventChartResultController;
+use App\Http\Controllers\Event_RegistrationController;
+use App\Http\Controllers\ForgotController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LoginController;
 use App\Models\Event_Registration;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -58,52 +75,23 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login/otp', [OtpController::class, 'store'])->name('login.otp.store');
 Route::get('/login/otp', [OtpController::class, 'index'])->name('login.otp');
 
-// forgot password
+Route::post('/send-reset-password-whatsapp', [ForgotController::class, 'sendResetPasswordWhatsApp'])
+    ->name('send.reset.password.whatsapp');
+
+// reset password
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password');
 })->middleware('guest')->name('password.request');
 
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
-
-    $status = Password::sendResetLink(
-        $request->only('email')
-    );
-
-    return $status === Password::RESET_LINK_SENT
-        ? back()->with(['status' => __($status)])
-        : back()->withErrors(['email' => __($status)]);
-})->middleware('guest')->name('password.email');
-
-// reset password
-// Route::get('/reset-password/{token', [AuthenticateController::class])->name('password.reset');
+Route::post('/forgot-password', [NotificationController::class, 'forgotPassword'])->name('password.email');
 Route::get('/reset-password/{token}', function ($token) {
     return view('auth.reset-password', ['token' => $token]);
 })->middleware('guest')->name('password.reset');
-Route::post('/reset-password', function (Request $request) {
-    $request->validate([
-        'token' => 'required',
-        'email' => 'required|email',
-        'password' => 'required|min:8|confirmed',
-    ]);
 
-    $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
-        function (User $user, string $password) {
-            $user->forceFill([
-                'password' => Hash::make($password)
-            ])->setRememberToken(Str::random(60));
-
-            $user->save();
-
-            event(new PasswordReset($user));
-        }
-    );
-
-    return $status === Password::PASSWORD_RESET
-        ? redirect()->route('login')->with('status', __($status))
-        : back()->withErrors(['email' => [__($status)]]);
-})->middleware('guest')->name('password.update');
+Route::post('/reset-password', [NotificationController::class, 'processResetPassword'])->name('password.update');
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
 
 //LandingPage
 Route::get('/', function () {
@@ -244,6 +232,8 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
     Route::get('/get-total-booth/{eventId}', [SpinController::class, 'getTotalBooth']);
 
+    //winner
+    Route::get('/operator/winner/{eventId}', [OperatorController::class, 'sendWinnerMessage'])->name('operator.winner');
 });
 
 //ROLE ADMIN-OPERATOR CHART//
