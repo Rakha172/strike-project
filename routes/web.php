@@ -235,3 +235,4 @@ Route::group(['middleware' => 'can:role,"operator", "admin"'], function () {
     Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
     Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
 });
+
