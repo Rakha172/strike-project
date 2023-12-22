@@ -1,5 +1,11 @@
 <?php
 
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Setting;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
 use App\Http\Controllers\Event\EventChartResultAndSpecialController;
 use App\Http\Controllers\Event\EventChartResultAndTotalController;
@@ -19,18 +25,13 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
 use App\Models\Event_Registration;
-use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Controllers\SpinController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\OtpController;
-use App\Http\Controllers\PaymentTypeController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Setting;
-use App\Models\Event;
-use App\Models\User;
+use App\Http\Controllers\OtpController;
+use App\Http\Controllers\SpinController;
+use App\Http\Controllers\UserController;
+use Illuminate\Auth\Events\PasswordReset;
+use App\Http\Controllers\PaymentTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -181,7 +182,7 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
         $events = Event::all();
         $events_registration = Event_Registration::all();
         $user = Auth::user();
-        return view('landingevent.landingevent', compact('events', 'events_registration','user'));
+        return view('landingevent.landingevent', compact('events', 'events_registration', 'user'));
     })->name('events');
 
     //updateprofileuser
@@ -195,6 +196,11 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 
 Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
 Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePayment'])->name('updatePayment');
+Route::get('/payment-confirm/{event_register_id}', [PaymentController::class, 'paymentConfirm'])->name('paymentConfirm');
+Route::get('/countdown/{id}', function ($id) {
+});
+
+Route::put('expired-order/{orderManifestId}', [PaymentController::class, 'expiredOrder'])->name('order.expiredOrder');
 
 //ROLE OPERATOR//
 Route::group(['middleware' => 'can:role,"operator"'], function () {
@@ -229,3 +235,4 @@ Route::group(['middleware' => 'can:role,"operator", "admin"'], function () {
     Route::get('events/{event}/chart-result-and-total', EventChartResultAndTotalController::class)->name('events.chart-result-and-total');
     Route::get('events/{event}/chart-result-and-total-special', EventChartResultAndTotalSpecialController::class)->name('events.chart-result-and-total-special');
 });
+

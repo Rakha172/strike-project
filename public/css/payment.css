@@ -120,7 +120,6 @@ body{
   font-size: 58px;
 }
 
-
 @media screen and (max-width: 420px){
   .card-grp{
     flex-direction: column;

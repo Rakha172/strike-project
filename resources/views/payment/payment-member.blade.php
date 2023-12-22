@@ -27,7 +27,7 @@
                 <div class="card space icon-relative">
                     <label class="label">Payment Total</label>
                     {{-- @foreach ($event_regist as $event) --}}
-                    <input type="text" class="input" value="{{ $event_regist?->event->price }}" readonly>
+                    <input type="text" class="input" value="{{ number_format($event_regist?->event->price, 0, '.', '.') }}" readonly>
                     <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="card space icon-relative">
@@ -45,14 +45,17 @@
                                     class="form-select @error('payment_types_id') is-invalid @enderror">
                                     <option value=""></option>
                                     @foreach ($paymentTypes as $paymentType)
+                                    @if ($paymentType === 0)
+                                    @else
                                         <option value="{{ $paymentType->id }}">{{ $paymentType->name }}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                                 @error('payment_types_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                                 <!-- Tombol submit di sini -->
-                                <input type="submit" value="PAY" class="btn">
+                                <input type="submit" value="Lanjut" class="btn">
                             </form>
                         </div>
                         </center>
@@ -64,5 +67,4 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
 
 </body>
-
 </html>

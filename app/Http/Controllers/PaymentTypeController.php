@@ -68,3 +68,4 @@ class PaymentTypeController extends Controller
         return redirect()->route('paymenttypesIndex')->with('berhasil', "$paymenttypes->name Berhasil dihapus");
     }
 }
+
