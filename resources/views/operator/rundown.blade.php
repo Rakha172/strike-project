@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,7 +48,7 @@
             box-shadow: 0 1rem 4rem 0 rgba(0, 0, 0, 0.1);
         }
 
-        .container > * {
+        .container>* {
             margin-bottom: 2rem;
         }
 
@@ -145,36 +146,97 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h3>Random Number Generator</h3>
         </div>
         <div class="result">
-            <h1>Result</h1>
+            <h1 class="active">{{ $eventRegistration->booth ?? 'Result' }}</h1>
         </div>
+
         <div class="button-group">
             <button id="instantly">
                 <span class="material-symbols-outlined"> autorenew </span>
                 Generate
             </button>
+            <button id="start-stop">
+                <span class="material-symbols-outlined"> timer </span>
+                Start Generating
+            </button>
         </div>
+
         <h3>
-            Tersedia: {{ implode( ', ', $boothAvailable) }}
+            Tersedia: {{ implode(', ', $boothAvailable) }}
         </h3>
     </div>
     <script>
-        const boothAvailable = {{ json_encode($boothAvailable) }}
+        // Bagian JavaScript yang ada di dalam <script> tag pada halaman HTML Anda
+
+        let intervalId;
+        let scannedNumber = null;
+        const boothAvailable = <?php echo json_encode($boothAvailable); ?>;
         const instBtn = document.querySelector('#instantly');
+        const startStopBtn = document.querySelector('#start-stop');
         const result = document.querySelector('.result h1');
 
+        result.innerHTML = '0';
+
         instBtn.addEventListener('click', () => {
+            if (scannedNumber !== null) {
+                result.innerHTML = scannedNumber;
+            } else {
+                alert('Anda belum melakukan penghasilan angka!');
+            }
+        });
 
-            const random = getRandomNumber(0, boothAvailable.length) - 1;
+        startStopBtn.addEventListener('click', () => {
+            if (startStopBtn.textContent === 'Start Generating') {
+                intervalId = setInterval(() => {
+                    const random = getRandomNumber(0, boothAvailable.length - 1);
+                    scannedNumber = boothAvailable[random];
+                    if (scannedNumber !== undefined) {
+                        result.innerHTML = scannedNumber;
+                    } else {
+                        scannedNumber = boothAvailable[0];
+                        result.innerHTML = scannedNumber;
+                    }
+                }, 100);
+                startStopBtn.textContent = 'Stop Generating';
+            } else {
+                clearInterval(intervalId);
+                startStopBtn.textContent = 'Start Generating';
 
-            result.innerHTML = boothAvailable[random];
+                // Permintaan POST ke route baru
+                if (scannedNumber !== null) {
+                    fetch('/store-number', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                number: scannedNumber
+                            })
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                alert('Angka ' + scannedNumber + ' berhasil dimasukkan ke dalam database.');
+                            } else {
+                                alert('Gagal memasukkan angka ke dalam database.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                } else {
+                    alert('Tidak ada angka yang dihasilkan.');
+                }
+            }
         });
 
         function getRandomNumber(min, max) {
@@ -182,4 +244,5 @@
         }
     </script>
 </body>
+
 </html>
