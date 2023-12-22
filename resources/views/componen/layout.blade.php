@@ -210,5 +210,4 @@ toggler.addEventListener('change', function () {
 </script>
 
 </body>
-
 </html>
