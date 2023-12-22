@@ -1,35 +1,36 @@
 <?php
 
-use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
-use App\Http\Controllers\Event\EventChartResultAndSpecialController;
-use App\Http\Controllers\Event\EventChartResultAndTotalController;
-use App\Http\Controllers\Event\EventChartResultSpecialController;
-use App\Http\Controllers\Event\EventChartResultTotalController;
-use App\Http\Controllers\Event\EventChartResultAllController;
-use App\Http\Controllers\Event\EventChartResultController;
-use App\Http\Controllers\Event_RegistrationController;
-use App\Http\Controllers\ForgotController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\OperatorController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ResultController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\LoginController;
+use App\Models\User;
+use App\Models\Event;
+use App\Models\Setting;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Models\Event_Registration;
-use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Controllers\SpinController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\OtpController;
-use App\Http\Controllers\PaymentTypeController;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Setting;
-use App\Models\Event;
-use App\Models\User;
+use App\Http\Controllers\OtpController;
+use App\Http\Controllers\SpinController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LoginController;
+use Illuminate\Auth\Events\PasswordReset;
+use App\Http\Controllers\ForgotController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\PaymentTypeController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Event_RegistrationController;
+use App\Http\Controllers\Event\EventChartResultController;
+use App\Http\Controllers\Event\EventChartResultAllController;
+use App\Http\Controllers\Event\EventChartResultTotalController;
+use App\Http\Controllers\Event\EventChartResultSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndTotalController;
+use App\Http\Controllers\Event\EventChartResultAndSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,7 +181,7 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
         $events = Event::all();
         $events_registration = Event_Registration::all();
         $user = Auth::user();
-        return view('landingevent.landingevent', compact('events', 'events_registration','user'));
+        return view('landingevent.landingevent', compact('events', 'events_registration', 'user'));
     })->name('events');
 
     //updateprofileuser
@@ -194,6 +195,11 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 
 Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
 Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePayment'])->name('updatePayment');
+Route::get('/payment-confirm/{event_register_id}', [PaymentController::class, 'paymentConfirm'])->name('paymentConfirm');
+Route::get('/countdown/{id}', function ($id) {
+});
+
+Route::put('expired-order/{orderManifestId}', [PaymentController::class, 'expiredOrder'])->name('order.expiredOrder');
 
 //ROLE OPERATOR//
 Route::group(['middleware' => 'can:role,"operator"'], function () {

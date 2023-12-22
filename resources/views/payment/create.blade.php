@@ -51,8 +51,8 @@
             <div class="mb-3">
                 <label class="form-label">Status</label>
                 <select name="status" class="form-select @error('status') is-invalid @enderror">
+                    <option value="0">Tidak Aktif</option>
                     <option value="1">Aktif</option>
-                    <option value="2">Tidak Aktif</option>
                 </select>
                 @error('status')
                     <div class="invalid-feedback">{{ $message }}</div>

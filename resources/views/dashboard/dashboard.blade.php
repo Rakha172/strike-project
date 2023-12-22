@@ -29,7 +29,7 @@
         <a href="#" class="logo">
             <img style="width:60px; height:60px;" src="{{ asset('img/Logo.png') }}">
             <div class="logo-name"><span>Project</span>Strike</div>
-        </a>
+        </a>    
         <ul class="side-menu">
             <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Event</a></li>
