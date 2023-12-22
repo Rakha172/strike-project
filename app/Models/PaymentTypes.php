@@ -22,3 +22,4 @@ class PaymentTypes extends Model
         return $this->hasMany(Event_Registration::class, 'payment_types_id', 'id');
     }
 }
+
