@@ -90,8 +90,8 @@
                                         <a href="{{ route('resultop.index', $evnt->id) }}"
                                         class="btn btn-dark m-1">Result</a>
 
-					                              <a href="{{ route('spin.spin', $evnt->id) }}"
-                                        class="btn btn-dark m-1">Spin</a>
+					                              {{-- <a href="{{ route('operator.rundown', $evnt->id) }}"
+                                        class="btn btn-dark m-1">Spin</a> --}}
 
                                         @if ($evnt->qualification == 'weight')
                                             <a href="{{ route('events.chart-result', $evnt->id) }}"

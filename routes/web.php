@@ -6,31 +6,32 @@ use App\Models\Setting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndSpecialController;
+use App\Http\Controllers\Event\EventChartResultAndTotalController;
+use App\Http\Controllers\Event\EventChartResultSpecialController;
+use App\Http\Controllers\Event\EventChartResultTotalController;
+use App\Http\Controllers\Event\EventChartResultAllController;
+use App\Http\Controllers\Event\EventChartResultController;
+use App\Http\Controllers\Event_RegistrationController;
+use App\Http\Controllers\ForgotController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\OperatorController;
+use App\Http\Controllers\RundownController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ResultController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LoginController;
 use App\Models\Event_Registration;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\SpinController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\LoginController;
 use Illuminate\Auth\Events\PasswordReset;
-use App\Http\Controllers\ForgotController;
-use App\Http\Controllers\ResultController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\OperatorController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PaymentTypeController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\Event_RegistrationController;
-use App\Http\Controllers\Event\EventChartResultController;
-use App\Http\Controllers\Event\EventChartResultAllController;
-use App\Http\Controllers\Event\EventChartResultTotalController;
-use App\Http\Controllers\Event\EventChartResultSpecialController;
-use App\Http\Controllers\Event\EventChartResultAndTotalController;
-use App\Http\Controllers\Event\EventChartResultAndSpecialController;
-use App\Http\Controllers\Event\EventChartResultAndTotalSpecialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -216,16 +217,11 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     //chart-result-operator
     // Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
 
-    //scan
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
-    Route::get('/spin', [SpinController::class, 'spin'])->name('spin.spin');
-    Route::get('/get-total-booth/{eventId}', [SpinController::class, 'getTotalBooth']);
-
-    //winner
-    Route::get('/operator/winner/{eventId}', [OperatorController::class, 'sendWinnerMessage'])->name('operator.winner');
+    Route::get('/operator/rundown/{eventId}/{eventRegistrationId}', [RundownController::class, 'index'])->name('operator.rundown');
 });
 
 //ROLE ADMIN-OPERATOR CHART//
