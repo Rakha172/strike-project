@@ -43,7 +43,7 @@
                                 @method('put')
                                 <select name="payment_types_id"
                                     class="form-select @error('payment_types_id') is-invalid @enderror">
-                                    <option value=""></option>
+                                    <option></option>
                                     @foreach ($paymentTypes as $paymentType)
                                     @if ($paymentType === 0)
                                     @else
