@@ -222,6 +222,7 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/rundown/{eventId}/{eventRegistrationId}', [RundownController::class, 'index'])->name('operator.rundown');
+    Route::post('/operator/rundown/{eventId}/{eventRegistrationId}/store-number', [RundownController::class, 'storeNumber'])->name('operator.storeNumber');
 });
 
 //ROLE ADMIN-OPERATOR CHART//
