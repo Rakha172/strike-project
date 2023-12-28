@@ -175,8 +175,6 @@
         </h3>
     </div>
     <script>
-        // Bagian JavaScript yang ada di dalam <script> tag pada halaman HTML Anda
-
         let intervalId;
         let scannedNumber = null;
         const boothAvailable = <?php echo json_encode($boothAvailable); ?>;
@@ -199,40 +197,16 @@
                 intervalId = setInterval(() => {
                     const random = getRandomNumber(0, boothAvailable.length - 1);
                     scannedNumber = boothAvailable[random];
-                    if (scannedNumber !== undefined) {
-                        result.innerHTML = scannedNumber;
-                    } else {
-                        scannedNumber = boothAvailable[0];
-                        result.innerHTML = scannedNumber;
-                    }
+                    result.innerHTML = scannedNumber;
                 }, 100);
                 startStopBtn.textContent = 'Stop Generating';
             } else {
                 clearInterval(intervalId);
                 startStopBtn.textContent = 'Start Generating';
 
-                // Permintaan POST ke route baru
                 if (scannedNumber !== null) {
-                    fetch('/store-number', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                            body: JSON.stringify({
-                                number: scannedNumber
-                            })
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                alert('Angka ' + scannedNumber + ' berhasil dimasukkan ke dalam database.');
-                            } else {
-                                alert('Gagal memasukkan angka ke dalam database.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                    // Kirim angka ke server untuk disimpan
+                    saveNumberToDatabase(scannedNumber);
                 } else {
                     alert('Tidak ada angka yang dihasilkan.');
                 }
@@ -241,6 +215,29 @@
 
         function getRandomNumber(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function saveNumberToDatabase(number) {
+            fetch('/operator/rundown/{{ $event->id }}/{{ $eventRegistration->id }}/store-number', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+                body: JSON.stringify({ number: number }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Angka ' + scannedNumber + ' berhasil dimasukkan ke dalam database.');
+                } else {
+                    alert('Gagal menyimpan angka ke dalam database.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan dalam menyimpan angka ke dalam database.');
+            });
         }
     </script>
 </body>
