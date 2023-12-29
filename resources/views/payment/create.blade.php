@@ -48,7 +48,7 @@
                 @enderror
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3">  
                 <label class="form-label">Status</label>
                 <select name="status" class="form-select @error('status') is-invalid @enderror">
                     <option value="0">Tidak Aktif</option>
