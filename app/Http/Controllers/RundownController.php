@@ -17,10 +17,10 @@ class RundownController extends Controller
             // Jika booth belum terisi, maka generate nomor booth acak
             if (!$eventRegistration->booth) {
                 $boothAvailable = $this->getAvailableBooths($event);
-                $randomBooth = $this->generateRandomBooth($boothAvailable);
+                // $randomBooth = $this->generateRandomBooth($boothAvailable);
 
                 // Update booth pada event registration
-                $eventRegistration->update(['booth' => $randomBooth]);
+                // $eventRegistration->update(['booth' => $randomBooth]);
             }
 
             // Menambahkan $boothAvailable ke dalam array data yang dikirimkan ke view
@@ -51,11 +51,25 @@ class RundownController extends Controller
         return $boothAvailable;
     }
 
-    // Fungsi untuk menghasilkan nomor booth acak
-    private function generateRandomBooth(array $boothAvailable)
+    public function storeNumber(Request $request, $eventId, $eventRegistrationId)
     {
-        $randomIndex = array_rand($boothAvailable);
+        try {
+            $eventRegistration = Event::findOrFail($eventId)->event_regist()->findOrFail($eventRegistrationId);
 
-        return $boothAvailable[$randomIndex];
+            // Periksa apakah booth sudah diisi sebelum menyimpan angka ke dalam database
+            if (!$eventRegistration->booth) {
+                $number = $request->input('number');
+
+                // Simpan angka ke dalam database
+                $eventRegistration->update(['booth' => $number]);
+
+                return response()->json(['success' => true, 'message' => 'Angka berhasil disimpan.']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Booth sudah diisi sebelumnya.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan.']);
+        }
     }
+
 }
