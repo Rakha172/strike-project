@@ -30,7 +30,7 @@ class Event_Registration extends Model
     }
     public function paymentTypes()
     {
-        return $this->belongsTo(PaymentTypes::class, 'id');
+        return $this->belongsTo(PaymentTypes::class, 'payment_types_id');
     }
     public function result()
     {

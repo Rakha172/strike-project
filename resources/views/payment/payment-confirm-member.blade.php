@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <title>Payment Checkout Form</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
@@ -21,22 +22,22 @@
             </div>
 
             <h2>Payment Confirm Page</h2>
-            <div class="form">
-                <div class="card space icon-relative">
-                    <label class="label">Username</label>
-                    <input type="text" class="input" value="{{ Auth::user()->name }}" readonly>
-                    <i class="fas fa-user"></i>
-                </div>
+            <p id="countdown"
+                style="font-family: 'Arial', sans-serif; font-size: 18px; color: #333; text-align: center; margin-top: 20px;">
+                Selesaikan Pembayaran Dalam <br> {{ $countdown['minutes'] }} menit {{ $countdown['seconds'] }} detik
+            </p>
+            
                 <div class="card space icon-relative">
                     <label class="label">Payment Total</label>
-                    <input type="text" class="input" value="{{ number_format($event_regist?->event->price, 0, '.', '.') }}" readonly>
+                    <input type="text" class="input"
+                        value="{{ number_format($event_regist?->event->price, 0, '.', '.') }}" readonly>
                     <i class="fas fa-dollar-sign"></i>
                 </div>
                 <div class="card space icon-relative">
                     @foreach ($paymentTypes as $item)
                         @if ($item->id == $event_regist->payment_types_id)
                             <div class="accordion accordion-flush" id="accordionFlushExample">
-                    <label class="label">the payment method you use :</label>
+                                <label class="label">the payment method you use :</label>
                                 <div class="accordion-item">
                                     <h5 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button"
@@ -46,7 +47,7 @@
                                         </button>
                                     </h5>
                                 </div>
-                                 <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                <div id="flush-collapseOne" class="accordion-collapse collapse"
                                     data-bs-parent="#accordionFlushExample">
                                     <div class="accordion-body">
                                         {{ $item->account_number }}
@@ -61,10 +62,54 @@
             </div>
         </div>
 
+        <script>
+            function updateCountdown(minutes, seconds) {
+                var countdownElement = document.getElementById('countdown');
+
+                if (countdownElement) {
+                    countdownElement.innerHTML = 'Selesaikan Pembayaran Dalam  <br> ' + minutes + ' menit ' + seconds +
+                    ' detik';
+                }
+
+                // Jika waktu sudah habis maka user akan di arahkan ke halaman awal
+                if (minutes == 0 && seconds == 0) {
+                    // Redirect ke route "events"
+                    window.location.href = "{{ route('events') }}";
+                }
+            }
+
+            // Fungsi mengurangi waktu setiap detik
+            function countdownTimer(minutes, seconds) {
+                var totalSeconds = minutes * 60 + seconds;
+
+                var interval = setInterval(function() {
+                    var currentMinutes = Math.floor(totalSeconds / 60);
+                    var currentSeconds = totalSeconds % 60;
+
+                    updateCountdown(currentMinutes, currentSeconds);
+
+                    totalSeconds--;
+
+                    if (totalSeconds < 0) {
+                        clearInterval(interval);
+                    }
+                }, 1000);
+            }
+
+            // Panggil countdownTimer saat dokumen siap
+            document.addEventListener('DOMContentLoaded', function() {
+                var minutes = {{ $countdown['minutes'] }};
+                var seconds = {{ $countdown['seconds'] }};
+                countdownTimer(minutes, seconds);
+            });
+        </script>
 
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        </script>
 
 </body>
+
 </html>

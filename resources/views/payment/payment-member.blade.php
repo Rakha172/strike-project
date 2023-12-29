@@ -18,12 +18,7 @@
             </div>
 
             <h2>Payment Page</h2>
-            <div class="form">
-                <div class="card space icon-relative">
-                    <label class="label">Username</label>
-                    <input type="text" class="input" value="{{ Auth::user()->name }}" readonly>
-                    <i class="fas fa-user"></i>
-                </div>
+            
                 <div class="card space icon-relative">
                     <label class="label">Payment Total</label>
                     {{-- @foreach ($event_regist as $event) --}}
