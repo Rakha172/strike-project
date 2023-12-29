@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Setting;
 use App\Models\PaymentTypes;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Models\Event_Registration;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -72,7 +73,6 @@ class PaymentController extends Controller
         }
     }
 
-
     public function member(Request $Request, $event_register_id)
     {
         $title = Setting::firstOrFail();
@@ -95,23 +95,113 @@ class PaymentController extends Controller
         ]);
 
         $event_register_id->update($validated);
+
         return redirect()->route('paymentConfirm', $event_register_id->id)->with('berhasil', "Berhasil diubah");
     }
 
-    public function paymentConfirm(Request $Request, $event_register_id)
+    public function paymentConfirm(Request $request, $event_register_id)
     {
         $title = Setting::firstOrFail();
-        // $event_regist = Event_Registration::all();
         $users = User::all();
 
         if (auth()->check()) {
             $user = auth()->user();
             $userName = $user->name;
-            $event_regist = Event_Registration::findOrFail($event_register_id);
             $paymentTypes = PaymentTypes::all();
+            $event_regist = Event_Registration::find($event_register_id);
         }
-        return view('payment.payment-confirm-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes'));
+
+        // Waktu target (30 menit dari waktu updated_at)
+        $targetTime = $event_regist->updated_at->addMinutes(10);
+
+        // Waktu sekarang
+        $now = Carbon::now();
+        // Hitung selisih waktu dalam menit dan detik
+        $diff = $now->diff($targetTime);
+        $countdown = [
+            'minutes' => $diff->format('%i'),
+            'seconds' => $diff->format('%s'),
+        ];
+
+        // Jika countdown sudah habis, perbarui status menjadi "cancel"
+        if ($diff->invert == 1) {
+            // Countdown sudah habis
+            $event_regist->payment_status = 'cancel';
+            $event_regist->save();
+        }
+
+        $event_name = $event_regist->event->name;
+        $price = $event_regist->event->price;
+        $date = $event_regist->event->event_date;
+        $name = $event_regist->paymentTypes->name;
+        $account = $event_regist->paymentTypes->account_number;
+        $owner = $event_regist->paymentTypes->owner;
+
+
+        try {
+            $setting = Setting::first();
+            $message = "Halo, {$userName}!🌟\n\n";
+            $message .= "Selamat! Anda telah terdaftar untuk acara '{$event_name}'
+                         yang akan diselenggarakan pada 🗓️ {$date}\n\n";
+            $message .= "Total biaya pendaftaran : Rp " . number_format($price, 0, '.', '.') . "\n\n";
+            $message .= "Silakan lakukan pembayaran ke {$name} kami :\n\n";
+            $message .= "Nomor {$name} : {$account} \n";
+            $message .= "Atas Nama : {$owner}\n\n";
+            $message .= "Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran\n";
+            $message .= "Terima kasih atas partisipasinya! 🎉";
+            $recipientNumber = $user->phone_number;
+            $apiKey = $setting->api_key;
+            $sender = $setting->sender;
+            $endpoint = $setting->endpoint;
+
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $recipientNumber,
+                'message' => $message,
+            ]);
+
+            if (!$response->successful()) {
+                throw new \Exception('Failed to send WhatsApp notification to user');
+            }
+        } catch (\Exception $e) {
+            if (!$event_regist) {
+                return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
+            }
+        }
+
+        // Pesan untuk admin
+        try {
+            $adminNumber = '08872354643'; // Nomor WhatsApp admin
+
+            $setting = Setting::first();
+            $messageAdmin = "Halo Admin! 🌟\n\n";
+            $messageAdmin .= "Mohon konfirmasi pembayaran untuk pengguna berikut yang akan mengikuti acara :\n\n";
+            $messageAdmin .= "Nama Pengguna : {$userName}\n";
+            $messageAdmin .= "Acara yang Diikuti : '{$event_regist->event->name}'\n\n";
+            $messageAdmin .= "Terima kasih! 🎉";
+
+            $apiKey = $setting->api_key;
+            $sender = $setting->sender;
+            $endpoint = $setting->endpoint;
+
+            $response = Http::post($endpoint, [
+                'api_key' => $apiKey,
+                'sender' => $sender,
+                'number' => $adminNumber, // Nomor WhatsApp admin
+                'message' => $messageAdmin,
+            ]);
+
+            if (!$response->successful()) {
+                throw new \Exception('Failed to send WhatsApp notification to admin');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('payment')->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: ' . $e->getMessage());
+        }
+
+        return view('payment.payment-confirm-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes', 'countdown'));
     }
+
 
     // public function expiredOrder(Request $request, $event_regist_id)
     // {
@@ -123,41 +213,31 @@ class PaymentController extends Controller
 
     //     return redirect()->route('payment-confirm', $event_regist_id);
     // }
-
-
-
     // Contoh di Controller
-    public function showEventRegistration($id)
+
+    public function processData(Request $request)
     {
-        $eventRegistration = Event_Registration::find($id);
+        try {
+            // Terima semua data dari Moota
+            $mootaData = $request->all();
 
-        // Akses countdown
-        $countdown = $eventRegistration->countdown;
+            // Langsung proses semua data
+            foreach ($mootaData as $data) {
+                $price = intval($data['amount']);
 
-        return view('event_registration.show', compact('eventRegistration', 'countdown'));
-    }
+                Event_Registration::where([
+                    'event_id' => function ($query) use ($price) {
+                        $query->select('id')->from('events')->where('price', $price);
+                    },
+                    'payment_status' => 'waiting',
+                ])->update(['payment_status' => 'payed']);
+            }
 
-    public function paymentConfirmTransaction(Request $request)
-    {
-            // Periksa apakah pengguna yang terautentikasi sesuai dengan pemilik event_registration
-            $mutasiData = $request->all();
-            $isPaymentReceived = $mutasiData[0]['amount'];
-
-            // Tetapkan nilai event_id yang valid, pastikan event_id tersebut ada di tabel events
-            $mutasiData['id'] = 1;
-            $mutasiData['user_id'] = 1;
-            $mutasiData['event_id'] = 1;
-
-            // Tambahkan field 'booth' ke dalam $mutasiData
-            $mutasiData['booth'] = $isPaymentReceived;
-            $mutasiData['payment_status'] = 'waiting';
-            $mutasiData['payment_types_id'] = 1;
-
-            // Pastikan bahwa kolom 'booth' ada dalam fillable di model Event_Registration
-            $eventRegistration = new Event_Registration($mutasiData);
-            $eventRegistration->save();
-
-            Log::info($eventRegistration);
+            return response()->json(['message' => 'Data processed successfully'], 200);
+        } catch (\Exception $e) {
+            // Tangkap dan log kesalahan jika terjadi
+            return response()->json(['error' => 'Error during data processing: ' . $e->getMessage()], 500);
+        }
     }
 
 }

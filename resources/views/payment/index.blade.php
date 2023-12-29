@@ -54,7 +54,7 @@
                         <form action="{{ route('paytype.destroy', $item->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-dark">Delete</button>
+                            <button type="submit" class="btn btn-dark" onclick="return confirm('yakin mau di hapus?')">Delete</button>
                         </form>
                     </td>
                 </tr>

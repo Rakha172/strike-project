@@ -159,8 +159,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::delete('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'destroy'])->name('paytype.destroy');
 
     //payment-member
-    Route::put('payment-confirm-member/{event_registrationId}', [PaymentController::class, 'paymentMemberUpdate'])->name('payment-member.update');
-    Route::put('/payment/cancel-member/{event_registrationId}', [PaymentController::class, 'paymentMemberCancel'])->name('payment-member.cancel');
 });
 
 //ROLE MEMBER//
