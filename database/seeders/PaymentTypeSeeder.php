@@ -18,7 +18,7 @@ class PaymentTypeSeeder extends Seeder
             'owner' => 'Rafly',
             'account_number' => '087835231949',
             'username' => 'Rafly',
-            'status' => 'Aktif'
+            'status' => '1'
         ]);
     }
 }
