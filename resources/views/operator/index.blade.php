@@ -42,7 +42,7 @@
                 <h2 class="hlop">Halaman Operator</h2>
             </center>
             <ul class="nav">
-                    <button class="button button1" onclick="confirmLogout()">Logout</button>
+                <button class="button button1" onclick="confirmLogout()">Logout</button>
             </ul>
         </nav><br><br>
         <div class="table-responsive">
@@ -87,36 +87,36 @@
                                 </td>
                                 <td>
 
-                                        <a href="{{ route('resultop.index', $evnt->id) }}"
-                                        class="btn btn-dark m-1">Result</a>
+                                    <a href="{{ route('resultop.index', $evnt->id) }}"
+                                        class="btn btn-success m-1">Result</a>
 
-					                              {{-- <a href="{{ route('operator.rundown', $evnt->id) }}"
+                                    {{-- <a href="{{ route('operator.rundown', $evnt->id) }}"
                                         class="btn btn-dark m-1">Spin</a> --}}
 
-                                        @if ($evnt->qualification == 'weight')
-                                            <a href="{{ route('events.chart-result', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @elseif ($evnt->qualification == 'quantity')
-                                            <a href="{{ route('events.chart-total', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @elseif ($evnt->qualification == 'special')
-                                            <a href="{{ route('events.chart-special', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @elseif ($evnt->qualification == 'weight_special')
-                                            <a href="{{ route('events.chart-result-and-special', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @elseif ($evnt->qualification == 'weight_quantity')
-                                            <a href="{{ route('events.chart-result-and-total', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @elseif ($evnt->qualification == 'quantity_special')
-                                            <a href="{{ route('events.chart-result-and-total-special', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @else
-                                            <a href="{{ route('events.chart-combined', $evnt->id) }}"
-                                                class="btn btn-primary m-1">Chart Result</a>
-                                        @endif
-                                        <a href="{{ route('operator.attended', $evnt->id) }}"
-                                            class="btn btn-warning m-1">Attended</a>
+                                    @if ($evnt->qualification == 'weight')
+                                        <a href="{{ route('events.chart-result', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @elseif ($evnt->qualification == 'quantity')
+                                        <a href="{{ route('events.chart-total', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @elseif ($evnt->qualification == 'special')
+                                        <a href="{{ route('events.chart-special', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @elseif ($evnt->qualification == 'weight_special')
+                                        <a href="{{ route('events.chart-result-and-special', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @elseif ($evnt->qualification == 'weight_quantity')
+                                        <a href="{{ route('events.chart-result-and-total', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @elseif ($evnt->qualification == 'quantity_special')
+                                        <a href="{{ route('events.chart-result-and-total-special', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @else
+                                        <a href="{{ route('events.chart-combined', $evnt->id) }}"
+                                            class="btn btn-primary m-1">Chart Result</a>
+                                    @endif
+                                    <a href="{{ route('operator.attended', $evnt->id) }}"
+                                        class="btn btn-warning m-1">Attended</a>
 
                                 </td>
                             </tr>
@@ -148,4 +148,3 @@
 </body>
 
 </html>
-
