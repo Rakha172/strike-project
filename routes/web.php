@@ -157,8 +157,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
     Route::get('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'edit'])->name('paytype.edit');
     Route::put('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'paytypeupdate'])->name('paytypeupdate');
     Route::delete('paymentypes/{paymenttypes}', [PaymentTypeController::class, 'destroy'])->name('paytype.destroy');
-
-    //payment-member
 });
 
 //ROLE MEMBER//
@@ -188,8 +186,6 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 
     //spinner
     Route::post('/reduce-both/{eventId}', 'EventController@reduceBoth');
-
-
 });
 
 Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
@@ -212,15 +208,14 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('resultop/{result}/{event}', [OperatorController::class, 'edit'])->name('resultop.edit');
     Route::put('resultop/{result}', [OperatorController::class, 'update'])->name('resultop.update');
 
-    //chart-result-operator
-    // Route::get('events/{event}/chart-resultop', OperatorController::class)->name('events.chart-resultop');
-
+    //table operator
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/attended', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/attended', [OperatorController::class, 'showAttendedPage'])->name('operator.attended');
     Route::post('/operator/scan', [OperatorController::class, 'scan'])->name('operator.scan');
     Route::get('/operator/rundown/{eventId}/{eventRegistrationId}', [RundownController::class, 'index'])->name('operator.rundown');
     Route::post('/operator/rundown/{eventId}/{eventRegistrationId}/store-number', [RundownController::class, 'storeNumber'])->name('operator.storeNumber');
+    Route::get('/operator/winner/{eventId}', [OperatorController::class, 'sendWinnerMessage'])->name('operator.winner');
 });
 
 //ROLE ADMIN-OPERATOR CHART//
