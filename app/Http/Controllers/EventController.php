@@ -118,7 +118,7 @@ class EventController extends Controller
                 'number' => $recipientNumber,
                 'message' => $message,
             ]);
-            
+
 
             if ($response->successful()) {
                 return redirect()->route('event.index')->with('success', 'Event berhasil ditambahkan.');
@@ -130,48 +130,59 @@ class EventController extends Controller
         }
     }
 
-    public function edit(Event $events)
+    public function edit($id)
     {
+        $event = Event::findOrFail($id); // Fetch the specific event by ID
         $title = Setting::firstOrFail();
-        return view('event.edit', compact('events', 'title'));
+        return view('event.edit', compact('event', 'title'));
     }
 
-    public function update(Request $request, Event $events)
+
+
+    public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
             'name' => 'required',
             'price' => 'required',
             'total_booth' => 'required',
-            'event_date' => 'required',
+            'event_date' => 'required|date_format:Y-m-d',
             'location' => 'required',
             'description' => 'required',
-            'image' => 'required|image|mimes:png,jpg|max:2040',
-            'qualification' => 'required|in:weight,quantity,special,combined,weight_special,weight_quantity,quantity_special',
-            'start' => 'nullable|date_format:H:i',
-            'end' => 'nullable|date_format:H:i',
+            'image' => 'image|mimes:png,jpg|max:2048|nullable', // Make image field optional
+            'qualification' => 'required|in:weight,quantity,special,combined,weight special,weight quantity,quantity special',
+            'start' => 'nullable',
+            'end' => 'nullable',
         ]);
 
-        // Upload gambar untuk field 'image'
-        $image = $request->image;
-        $slugimage = Str::slug($image->getClientOriginalName());
-        $new_image = time() . '_' . $slugimage;
-        $image->move('uploads/event-app/', $new_image);
+        // Check if the image is present in the request
+        if ($request->hasFile('image')) {
+            // Upload gambar untuk field 'image'
+            $image = $request->file('image');
+            $slugimage = Str::slug($image->getClientOriginalName());
+            $new_image = time() . '_' . $slugimage;
+            $image->move('uploads/event-app/', $new_image);
 
-        $events = new Event;
-        $events->image = 'uploads/event-app/' . $new_image;
-        $events->name = $request->name;
-        $events->price = $request->price;
-        $events->total_booth = $request->total_booth;
-        $events->event_date = $request->event_date;
-        $events->location = $request->location;
-        $events->description = $request->description;
-        $events->qualification = $request->qualification;
-        $events->start = $request->start;
-        $events->end = $request->end;
-        $events->save();
+            // Update data event with the new image
+            $event->update(['image' => 'uploads/event-app/' . $new_image]);
+        }
+
+        // Update other data event
+        $event->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'total_booth' => $request->total_booth,
+            'event_date' => $request->event_date,
+            'location' => $request->location,
+            'description' => $request->description,
+            'qualification' => $request->qualification,
+            'start' => $request->start,
+            'end' => $request->end,
+        ]);
 
         return redirect()->route('event.index')->with('berhasil', "$request->name Berhasil diubah");
     }
+
+
 
     public function destroy($id)
     {
