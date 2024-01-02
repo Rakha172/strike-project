@@ -64,6 +64,7 @@
                         @method('delete')
                         @if (!$evnt->members->count() > 0)
                         <button type="submit" class="btn btn-dark m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus event ini?')">Delete</button>
+                        <a href="{{ route('event.edit', $evnt->id) }}" class="btn btn-info m-1">Edit</a>
                         @endif
 			            <a href="{{ route('result.index', $evnt->id) }}" class="btn btn-primary m-1">Result</a>
 
