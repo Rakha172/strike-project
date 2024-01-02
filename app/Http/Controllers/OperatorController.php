@@ -289,12 +289,9 @@ class OperatorController extends Controller
                 Log::info('Found event registration with ID: ' . $eventRegistrationId);
 
                 if ($eventRegistration->payment_status === 'payed') {
+                    // Ubah status pembayaran menjadi "attended"
                     $eventRegistration->update(['payment_status' => 'attended']);
                     Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
-
-                    // Fungsi untuk menentukan total booth
-                    $boothNumber = $this->assignRandomBooth($eventRegistration->event_id);
-                    $eventRegistration->update(['booth' => $boothNumber]);
 
                     // Kirim notifikasi WhatsApp ke pengguna terkait
                     $user = $eventRegistration->user; // Sesuaikan dengan relasi yang ada pada model Event_Registration
@@ -305,9 +302,7 @@ class OperatorController extends Controller
                     $sender = $setting->sender;
                     $endpoint = $setting->endpoint;
 
-                    $message = "Halo, {$user->name}!🎉\n\n";
-                    $message .= "Terima kasih telah menghadiri acara '{$event->name}'\n\n";
-                    $message .= "Kami sangat mengapresiasi partisipasimu! semoga acaranya menyenangkan dan bermanfaat untukmu🌟";
+                    $message = "Halo, {$user->name}!🎉 Terima kasih telah menghadiri acara '{$event->name}'. Kami sangat mengapresiasi partisipasimu! Semoga acaranya menyenangkan dan bermanfaat untukmu🌟";
                     $recipientNumber = $user->phone_number;
 
                     $response = Http::post($endpoint, [
@@ -318,8 +313,10 @@ class OperatorController extends Controller
                     ]);
 
                     if ($response->successful()) {
-                        return redirect()->route('spin.spin')
-                            ->with('eventRegistration', $eventRegistration)
+                        return redirect()->route('operator.rundown', [
+                            'eventId' => $eventRegistration->event_id,
+                            'eventRegistrationId' => $eventRegistration->id
+                        ])->with('eventRegistration', $eventRegistration)
                             ->with('success', 'Status pembayaran diubah menjadi attended. Notifikasi WhatsApp berhasil dikirim.');
                     } else {
                         throw new \Exception('Failed to send WhatsApp notification');
@@ -336,28 +333,5 @@ class OperatorController extends Controller
             Log::error('Error in scan method: ' . $e->getMessage());
             return back()->with('error', 'Terjadi kesalahan dalam pemindaian.');
         }
-    }
-
-    public function assignRandomBooth($eventId)
-    {
-        $event = Event::find($eventId);
-        $totalBooth = $event->total_booth;
-
-        // Ambil nomor-nomor booth yang belum terisi
-        $availableBooths = range(1, $totalBooth);
-        $occupiedBooths = Event_Registration::where('event_id', $eventId)
-            ->whereNotNull('booth')
-            ->pluck('booth')
-            ->toArray();
-
-        $availableBooths = array_diff($availableBooths, $occupiedBooths);
-
-        $randomBooth = null;
-        if (!empty($availableBooths)) {
-            $randomBoothIndex = array_rand($availableBooths);
-            $randomBooth = $availableBooths[$randomBoothIndex];
-        }
-
-        return $randomBooth;
     }
 }
