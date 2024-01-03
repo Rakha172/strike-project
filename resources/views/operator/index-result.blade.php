@@ -23,7 +23,7 @@
             </center>
             <ul class="nav">
                 <form action="{{ url('/eventsop') }}">
-                    <button class="button button1" style="color: white">Kembali</button>
+                    <button class="button button1" style="color: white">Logout</button>
                 </form>
             </ul>
         </nav><br><br>
