@@ -54,26 +54,15 @@ class Event_RegistrationController extends Controller
             return redirect()->route('payment')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
-        $latestCode = Event_Registration::query()->where('code', '!=', null)->latest()->first();
-
+        $latestCode = Event_Registration::query()->where('code','!=', null)->latest()->first();
         $dateFormat = now()->format('YmdHis');
-
-        $latestThreeDigitsCode = substr($latestCode?->code, -3);
-
+        $latestThreeDigitsCode= substr($latestCode?->code, -3);
         $codeSequence = sprintf('%03d', intval($latestThreeDigitsCode) + 1);
-
-        $code = $dateFormat . $codeSequence;
+        $code =$dateFormat . $codeSequence;
 
         $validated['code'] = $code;
 
         $addEventRegist = Event_Registration::create($validated);
-
-        if ($event) {
-            $ThreeDigitsCode = substr($addEventRegist->code, -3);
-            $newThreeDigitsPrice = substr_replace($event->price, $ThreeDigitsCode, -6);
-            $newPrice = $newThreeDigitsPrice;
-            $event->update(['price' => $newPrice]);
-        }
 
         return redirect()->route('payment', $addEventRegist->id)->with('success', 'Berhasil Dibuat.');
     }
@@ -89,7 +78,6 @@ class Event_RegistrationController extends Controller
         ]);
 
         $event_registration->update($validated);
-
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil diubah");
     }
     public function destroy($id)
