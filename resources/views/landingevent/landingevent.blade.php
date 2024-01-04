@@ -48,7 +48,7 @@
         <div class="alert custom-alert-success">
             <div class="blurry-background"></div>
             <div class="alert-content">
-                <p>{{ Session::get('success') }} {{ Auth::user()->name }}</p>
+                <p>{{ Session::get('success') }}</p>
             </div>
         </div>
     @endif

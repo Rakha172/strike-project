@@ -18,6 +18,7 @@ class Event_Registration extends Model
         'booth',
         'payment_status',
         'payment_types_id',
+        'code',
     ];
 
     public function user()

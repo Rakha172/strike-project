@@ -167,6 +167,7 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
     Route::get('event-registration/{event_registration}', [Event_RegistrationController::class, 'edit'])->name('event_registration.edit');
     Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'update'])->name('event_registration.update');
     Route::delete('event-registration/{event_registration}', [Event_RegistrationController::class, 'destroy'])->name('event_registration.destroy');
+    Route::put('event-registration/{event_registration}', [Event_RegistrationController::class, 'updatePrice'])->name('updatePrice');
 
     //landingevent
     Route::get('/event', function () {

@@ -6,6 +6,7 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -70,10 +71,10 @@ class LoginController extends Controller
                     return redirect()->back();
                 }
 
-                return redirect('/event')->with(['success' => $request->name . "Selamat Datang"]);
+                return redirect('/event')->with(['success' =>'Selamat Datang ' .  Auth::user()->name]);
             }
         } else {
-            return back()->withErrors(['otp' => 'The password you entered is incorrect.'])->withInput();
+            return back()->withErrors(['otp' => 'the email or password you entered is incorrect.'])->withInput();
         }
     }
 

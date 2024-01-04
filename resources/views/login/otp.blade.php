@@ -4,38 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    {{-- font awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+
     <title>OTP Verification</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-center">OTP CODE</h2>
-                        <p class="text-center">Please enter your OTP code for registration</p>
-                        <form action="{{ route('login.otp.store') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="otp_code" class="sr-only">OTP Code</label>
-                                <input type="text" class="form-control" name="otp_code" placeholder="Enter OTP Code">
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-secondary btn-block">Verify OTP</a>
-                            </div>
-                            @error('otp_code')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </form>
-                        <div class="text-center mt-3" id="otp-expiry">Your OTP code will expire in <span id="countdown">5:00</span> minutes</div>
-                    </div>
-                </div>
+
+    <div class="overlay"></div>
+    <form action="{{ route('login.otp.store')  }}" method="POST" class="box">
+        @csrf
+        <div class="header">
+            <center><h4>OTP CODE</h4></center><br>
+            <h6>Please enter your OTP code for registration</h6>
+
+            <div class="text-center mt-2" id="otp-expiry">Your OTP code will expire in <span id="countdown" style="background: red">5:00</span> minutes</div>
+        </div>
+        <br>
+
+        <div class="login area">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+            <input type="text" name="otp_code"  class="otp" placeholder="Enter OTP Code" required>
+            <div class="form-group">
+                <button type="submit" id="submitotp" class="form-control btn rounded submit px-3">Verify OTP</button>
             </div>
         </div>
-    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
