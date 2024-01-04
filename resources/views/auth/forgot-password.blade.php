@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
@@ -13,7 +14,20 @@
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    {{-- Cdn Jquery --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 </head>
+
+{{-- JS Toastr Link --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <body>
     <div class="overlay"></div>
     <form action="{{ route('password.email') }}" method="POST" class="box">
@@ -22,18 +36,22 @@
             <h4>Forgot Your Password?</h4>
             <p>Please enter your email or WhatsApp number to request a password reset.</p>
         </div>
+
         <div class="login area">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script>
-                @if (session('status'))
-                    toastr.error("{{ session('status') }}", "", {});
+                @if (session('success'))
+                    toastr.info("{{ session('success') }}", {
+                        positionClass: "toast-center",
+                    });
                 @endif
             </script>
             <form action="{{ route('password.email') }}" method="post" id="form">
                 @csrf
-            <label for="email_or_whatsapp" style="color: #1f79ff;">Email or WhatsApp Number</label>
-            <input type="text" name="email_or_whatsapp" id="email_or_whatsapp" value="{{ old('email_or_whatsapp') }}" class="form-control" style="border-color: #1f79ff;">
-            <input type="submit" value="Request Password Reset" class="btn btn-primary" style="background: linear-gradient(to right, #1f79ff, #8ad2df); margin-top: 10px;">
+                <label for="email_or_whatsapp" style="color: #1f79ff;">Email or WhatsApp Number</label>
+                <input type="text" name="email_or_whatsapp" id="email_or_whatsapp"
+                    value="{{ old('email_or_whatsapp') }}" class="form-control" style="border-color: #1f79ff;" required>
+                <input type="submit" value="Request Password Reset" class="btn btn-primary"
+                    style="background: linear-gradient(to right, #1f79ff, #8ad2df); margin-top: 10px;">
         </div>
         <div class="text-center mt-1">
             <p class="text-wrapper-7 mb-5"><a href="{{ route('login') }}">Back To Login</a></p>
@@ -61,4 +79,5 @@
         }
     </script>
 </body>
+
 </html>

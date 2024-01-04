@@ -80,11 +80,10 @@ body {
     cursor: pointer;
 }
 
-
 .submit {
     width: 150px;
     padding: 10px;
-    background-color: #0d6efd;
+    background: linear-gradient(to right,#1f79ff, #8ad2df) ;
     border-radius: 15px;
     font-weight: bold;
     color: white;
@@ -95,28 +94,17 @@ body {
     cursor: pointer;
 }
 
-.submit:hover {
-    background-color: rgb(3, 196, 196);
-}
-
-.submit1 {
-    width: 120px;
-    padding: 8px;
-    background-color: #0d6efd;
+#submitotp {
+    width: 150px;
+    padding: 9px;
+    background: linear-gradient(to right,#1f79ff, #8ad2df) ;
     border-radius: 15px;
     font-weight: bold;
     color: white;
     border: none;
     outline: none;
     margin: 10px;
-    transition: .2s;
-    font-size: 12px;
     cursor: pointer;
-}
-
-.submit1:hover {
-    background-color: white;
-    color: #cfd9e9;
 }
 
 a {
@@ -125,4 +113,17 @@ a {
     text-decoration: none;
     color: #0d6efd;
     margin-top: 10px;
+}
+
+.otp{
+    width: 100%;
+    text-align: center;
+    padding: 13px 0;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+    color: white;
+    background: linear-gradient(to right, #8ad2df, #1f79ff);
+    margin-bottom: 15px;
+    transition: .5s;
 }

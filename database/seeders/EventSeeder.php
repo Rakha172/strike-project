@@ -14,7 +14,7 @@ class EventSeeder extends Seeder
         Event::create([
             'name' => 'GALATAMA',
             'image' => 'logo/logo.png',
-            'price' => '1500',
+            'price' => '10000',
             'total_booth' => '10',
             'event_date' => '2024-01-02',
             'location' => 'Indonesia,Jawa Barat,Bandung',
@@ -26,7 +26,7 @@ class EventSeeder extends Seeder
         Event::create([
             'name' => 'G1',
             'image' => 'logo/logo.png',
-            'price' => '1500',
+            'price' => '5000',
             'total_booth' => '10',
             'event_date' => '2024-01-02',
             'location' => 'Indonesia,Jawa Barat,Bandung',

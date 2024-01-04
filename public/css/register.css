@@ -89,7 +89,7 @@ body {
 .submit {
     width: 150px;
     padding: 10px;
-    background-color: #0d6efd;
+    background: linear-gradient(to right,#8ad2df, #1f79ff ) ;
     border-radius: 15px;
     font-weight: bold;
     color: white;
@@ -99,9 +99,8 @@ body {
     transition: .2s;
     cursor: pointer;
 }
-
-.submit:hover {
-    background-color: #0d6efd;
+.submit:hover{
+    color: black;
 }
 
 a {

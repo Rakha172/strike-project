@@ -2,27 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Models\Event_Registration;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
-class Event_RegistrationController extends Controller {
-    public function index() {
+class Event_RegistrationController extends Controller
+{
+    public function index()
+    {
         $title = Setting::firstOrFail();
         $event_registration = Event_Registration::all();
         return view('event_registration.index', compact('event_registration', 'title'));
     }
-    public function create() {
+    public function create()
+    {
         $title = Setting::firstOrFail();
         $events = Event::all();
         $users = User::all();
         $userName = null;
         $event = null;
 
-        if(auth()->check()) {
+        if (auth()->check()) {
             $user = auth()->user();
             $userName = $user->name;
             $event = $user->event;
@@ -31,7 +37,8 @@ class Event_RegistrationController extends Controller {
         return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
@@ -43,19 +50,36 @@ class Event_RegistrationController extends Controller {
         $currentRegistrations = Event_Registration::where('event_id', $event->id)->count();
         $totalBooth = $event->total_booth;
 
-        if($currentRegistrations >= $totalBooth) {
+        if ($currentRegistrations >= $totalBooth) {
             return redirect()->route('payment')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
-        // Event_Registration::create($validated);
+        $latestCode = Event_Registration::query()->where('code', '!=', null)->latest()->first();
+
+        $dateFormat = now()->format('YmdHis');
+
+        $latestThreeDigitsCode = substr($latestCode?->code, -3);
+
+        $codeSequence = sprintf('%03d', intval($latestThreeDigitsCode) + 1);
+
+        $code = $dateFormat . $codeSequence;
+
+        $validated['code'] = $code;
+
         $addEventRegist = Event_Registration::create($validated);
 
-        // Pesan WhatsApp User
+        if ($event) {
+            $ThreeDigitsCode = substr($addEventRegist->code, -3);
+            $newThreeDigitsPrice = substr_replace($event->price, $ThreeDigitsCode, -6);
+            $newPrice = $newThreeDigitsPrice;
+            $event->update(['price' => $newPrice]);
+        }
 
         return redirect()->route('payment', $addEventRegist->id)->with('success', 'Berhasil Dibuat.');
     }
 
-    public function update(Request $request, Event_Registration $event_registration) {
+    public function update(Request $request, Event_Registration $event_registration)
+    {
         $validated = $request->validate([
             'user_id' => 'required',
             'event_id' => 'required',
@@ -65,9 +89,11 @@ class Event_RegistrationController extends Controller {
         ]);
 
         $event_registration->update($validated);
+
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil diubah");
     }
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $event_registration = Event_Registration::find($id);
         $event_registration->delete();
         return redirect()->route('event_registration.index')->with('berhasil', "Berhasil dihapus!");

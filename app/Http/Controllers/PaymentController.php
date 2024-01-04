@@ -137,70 +137,72 @@ class PaymentController extends Controller
         $account = $event_regist->paymentTypes->account_number;
         $owner = $event_regist->paymentTypes->owner;
 
+        if ($event_regist->payment_status == 'waiting') {
+            try {
+                $setting = Setting::first();
+                $message = "Halo, {$userName}!🌟\n\n";
+                $message .= "Selamat! Anda telah terdaftar untuk acara '{$event_name}' yang akan diselenggarakan pada 🗓️ {$date}\n\n";
+                $message .= "Silakan lakukan pembayaran ke {$name} kami :\n\n";
+                $message .= "Total biaya pendaftaran : Rp " . number_format($price, 0, '.', '.') . "\n";
+                $message .= "Nomor {$name} : {$account} \n";
+                $message .= "Atas Nama : {$owner}\n\n";
+                $message .= "Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran\n";
+                $message .= "Terima kasih atas partisipasinya! 🎉";
+                $recipientNumber = $user->phone_number;
+                $apiKey = $setting->api_key;
+                $sender = $setting->sender;
+                $endpoint = $setting->endpoint;
 
-        try {
-            $setting = Setting::first();
-            $message = "Halo, {$userName}!🌟\n\n";
-            $message .= "Selamat! Anda telah terdaftar untuk acara '{$event_name}'
-                         yang akan diselenggarakan pada 🗓️ {$date}\n\n";
-            $message .= "Total biaya pendaftaran : Rp " . number_format($price, 0, '.', '.') . "\n\n";
-            $message .= "Silakan lakukan pembayaran ke {$name} kami :\n\n";
-            $message .= "Nomor {$name} : {$account} \n";
-            $message .= "Atas Nama : {$owner}\n\n";
-            $message .= "Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran\n";
-            $message .= "Terima kasih atas partisipasinya! 🎉";
-            $recipientNumber = $user->phone_number;
-            $apiKey = $setting->api_key;
-            $sender = $setting->sender;
-            $endpoint = $setting->endpoint;
+                $response = Http::post($endpoint, [
+                    'api_key' => $apiKey,
+                    'sender' => $sender,
+                    'number' => $recipientNumber,
+                    'message' => $message,
+                ]);
 
-            $response = Http::post($endpoint, [
-                'api_key' => $apiKey,
-                'sender' => $sender,
-                'number' => $recipientNumber,
-                'message' => $message,
-            ]);
-
-            if (!$response->successful()) {
-                throw new \Exception('Failed to send WhatsApp notification to user');
-            }
-        } catch (\Exception $e) {
-            if (!$event_regist) {
-                return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
+                if (!$response->successful()) {
+                    throw new \Exception('Failed to send WhatsApp notification to user');
+                }
+            } catch (\Exception $e) {
+                if (!$event_regist) {
+                    return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
+                }
             }
         }
 
-        // Pesan untuk admin
-        try {
-            $adminNumber = '08872354643'; // Nomor WhatsApp admin
 
-            $setting = Setting::first();
-            $messageAdmin = "Halo Admin! 🌟\n\n";
-            $messageAdmin .= "Mohon konfirmasi pembayaran untuk pengguna berikut yang akan mengikuti acara :\n\n";
-            $messageAdmin .= "Nama Pengguna : {$userName}\n";
-            $messageAdmin .= "Acara yang Diikuti : '{$event_regist->event->name}'\n\n";
-            $messageAdmin .= "Terima kasih! 🎉";
+        if ($event_regist->payment_status == 'payed') {
+            try {
+                $setting = Setting::first();
+                $message = "Halo, {$userName}!🌟\n";
+                $message .= "Pembayaran Anda Berhasil, Terimakasih :)";
+                $recipientNumber = $user->phone_number;
+                $apiKey = $setting->api_key;
+                $sender = $setting->sender;
+                $endpoint = $setting->endpoint;
 
-            $apiKey = $setting->api_key;
-            $sender = $setting->sender;
-            $endpoint = $setting->endpoint;
+                $response = Http::post($endpoint, [
+                    'api_key' => $apiKey,
+                    'sender' => $sender,
+                    'number' => $recipientNumber,
+                    'message' => $message,
+                ]);
 
-            $response = Http::post($endpoint, [
-                'api_key' => $apiKey,
-                'sender' => $sender,
-                'number' => $adminNumber, // Nomor WhatsApp admin
-                'message' => $messageAdmin,
-            ]);
+                return redirect()->route('events')->with('succes', 'Payment Succest');
 
-            if (!$response->successful()) {
-                throw new \Exception('Failed to send WhatsApp notification to admin');
+                if (!$response->successful()) {
+                    throw new \Exception('Failed to send WhatsApp notification to user');
+                }
+            } catch (\Exception $e) {
+                if (!$event_regist) {
+                    return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
+                }
             }
-        } catch (\Exception $e) {
-            return redirect()->route('payment')->with('error', 'Gagal mengirim notifikasi WhatsApp ke admin: ' . $e->getMessage());
         }
 
         return view('payment.payment-confirm-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes', 'countdown'));
     }
+
 
 
     // public function expiredOrder(Request $request, $event_regist_id)
@@ -225,17 +227,26 @@ class PaymentController extends Controller
             foreach ($mootaData as $data) {
                 $price = intval($data['amount']);
 
-                Event_Registration::where([
+                $eventRegistration = Event_Registration::where([
                     'event_id' => function ($query) use ($price) {
-                        $query->select('id')->from('events')->where('price', $price);
+                        $query->select('id')->from('events')->where('price', $price)->first();
                     },
                     'payment_status' => 'waiting',
-                ])->update(['payment_status' => 'payed']);
+                ])->first();
+
+                if ($eventRegistration) {
+                    // Pastikan bahwa kolom 'payment_status' ada dalam fillable di model Event_Registration
+                    $eventRegistration->update(['payment_status' => 'payed']);
+
+                    // Simpan informasi ke log
+                    Log::info('Event_Registration processed successfully:', ['event_registration_id' => $eventRegistration->id]);
+                }
             }
 
             return response()->json(['message' => 'Data processed successfully'], 200);
         } catch (\Exception $e) {
             // Tangkap dan log kesalahan jika terjadi
+            Log::error('Error during data processing: ' . $e->getMessage());
             return response()->json(['error' => 'Error during data processing: ' . $e->getMessage()], 500);
         }
     }

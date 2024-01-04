@@ -128,5 +128,3 @@
         toggle.addEventListener('keyup', checkInput, false);
     </script>
 </body>
-
-</html>

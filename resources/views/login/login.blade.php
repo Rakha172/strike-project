@@ -49,6 +49,12 @@
                 @endif
             </script>
 
+            <script>
+                @if (session('success'))
+                    toastr.info("{{ session('success') }}");
+                @endif
+            </script>
+
             <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
 
             <div class="password-container">
@@ -64,13 +70,12 @@
             <div class="form-group">
 
                 <script>
-                    @if ($errors->has('erorr'))
-                        toastr.error("{{ $errors->first('erorr') }}");
+                    @if ($errors->has('otp'))
+                        toastr.error("{{ $errors->first('otp') }}", "Error",);
                     @endif
                 </script>
 
-                <input type="submit" value="Sign In" class="form-control btn rounded submit px-3"
-                    style="background: linear-gradient(to right,#1f79ff, #8ad2df) ;">
+                <input type="submit" value="Sign In" class="form-control btn rounded submit px-3">
             </div>
             <p class="text-wrapper-7">Tidak punya akun?<a href="{{ route('register') }}">Regist disini</a></p>
         </div>

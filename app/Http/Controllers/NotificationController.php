@@ -132,7 +132,7 @@ class NotificationController extends Controller
                 </script>";
             }
         }
-        return view('auth.forgot-password');
+        return view('auth.forgot-password')->with('success', 'Link Untuk Reset Password Sudah Dikirim Ke Email/Whatsapp Anda');
     }
 
     public function processResetPassword(Request $request)

@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('booth')->nullable();
             $table->enum('payment_status', ['waiting', 'payed','attended', 'cancel'])->default('waiting');
             $table->foreignId('payment_types_id')->nullable()->constrained('payment_types')->cascadeOnDelete();
+            $table->text('code');
             $table->timestamps();
         });
     }
