@@ -17,24 +17,32 @@
             <div class="logo-name"><span>Project</span>Strike</div>
         </a>
         <ul class="side-menu">
-            <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
-                <a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a>
-            </li>
-            <li class="{{ request()->is('event*') ? 'active' : '' }}">
-                <a href="{{ route('event.index') }}"><i class='bx bx-store-alt'></i>Event</a>
-            </li>
-            <li class="{{ request()->is('setting*') ? 'active' : '' }}">
-                <a href="{{ route('setting.index') }}"><i class='bx bx-cog'></i>Setting</a>
-            </li>
-            <li class="{{ request()->is('user*') ? 'active' : '' }}">
-                <a href="{{ route('user.index') }}"><i class='bx bx-user'></i>Member</a>
-            </li>
-            <li class="{{ request()->is('event_registration*') ? 'active' : '' }}">
-                <a href="{{ route('event_registration.index') }}"><i class='bx bx-user'></i>EventRegist</a>
-            </li>
-            <li class="{{ request()->is('payment*') ? 'active' : '' }}">
-                <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
-            </li>
+            @if (Auth::check())
+                @if (Auth::user()->role === 'admin')
+                    <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
+                        <a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a>
+                    </li>
+                    <li class="{{ request()->is('event*') ? 'active' : '' }}">
+                        <a href="{{ route('event.index') }}"><i class='bx bx-store-alt'></i>Event</a>
+                    </li>
+                    <li class="{{ request()->is('setting*') ? 'active' : '' }}">
+                        <a href="{{ route('setting.index') }}"><i class='bx bx-cog'></i>Setting</a>
+                    </li>
+                    <li class="{{ request()->is('user*') ? 'active' : '' }}">
+                        <a href="{{ route('user.index') }}"><i class='bx bx-user'></i>Member</a>
+                    </li>
+                    <li class="{{ request()->is('event_registration*') ? 'active' : '' }}">
+                        <a href="{{ route('event_registration.index') }}"><i class='bx bx-user'></i>EventRegist</a>
+                    </li>
+                    <li class="{{ request()->is('payment*') ? 'active' : '' }}">
+                        <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
+                    </li>
+                @elseif(Auth::user()->role === 'operator')
+                    <li class="{{ request()->is('operator*') ? 'active' : '' }}">
+                        <a href="{{ route('eventsop.index') }}"><i class='bx bx-wrench'></i>Operator</a>
+                    </li>
+                @endif
+            @endif
         </ul>
 
         <ul class="side-menu">
