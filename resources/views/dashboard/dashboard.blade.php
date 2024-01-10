@@ -28,7 +28,7 @@
             <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
             <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Event</a></li>
             <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
-            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>Member</a></li>
+            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>User</a></li>
             <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>EventRegist</a></li>
             <li class="{{ request()->is('payment*') ? 'active' : '' }}">
                 <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
@@ -36,7 +36,7 @@
         </ul>
         <ul class="side-menu">
             <li>
-                <a class="logout" onclick="confirmLogout()" style="cursor: pointer">
+                <a class="logout" onclick="confirmLogout()" style="cursor: pointer; z-index:1;">
                     <i class='bx bx-log-out-circle'></i>
                     Logout
                 </a>

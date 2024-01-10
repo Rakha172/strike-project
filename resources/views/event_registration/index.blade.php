@@ -39,7 +39,13 @@
                                         <th scope="row">{{ $key + 1 }}</th>
                                         <td>{{ $item->user->name }}</td>
                                         <td>{{ $item->event->name }}</td>
-                                        <td>{{ $item->booth }}</td>
+                                        <td>
+                                            @if ($item->booth == null)
+                                                belum memilih booth
+                                            @else
+                                                {{ $item->booth }}
+                                            @endif
+                                        </td>
                                         <td>{{ $item->payment_status }}</td>
                                     </tr>
                                 @endforeach

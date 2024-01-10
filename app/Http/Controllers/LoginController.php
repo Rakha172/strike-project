@@ -29,12 +29,8 @@ class LoginController extends Controller
         $endpoint = $setting->endpoint;
 
         $credentials = $request->validate([
-            'email' => 'required|email|',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required',
-        ], [
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email berupa email.',
-            'password.required' => 'Password wajib diisi',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -71,7 +67,7 @@ class LoginController extends Controller
                     return redirect()->back();
                 }
 
-                return redirect('/event')->with(['success' =>'Selamat Datang ' .  Auth::user()->name]);
+                return redirect('/event')->with(['success' =>'Welcome ' .  Auth::user()->name]);
             }
         } else {
             return back()->withErrors(['otp' => 'the email or password you entered is incorrect.'])->withInput();
@@ -81,6 +77,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login')->with('status', 'Anda berhasil logout.');
+        return redirect('/login')->with('logout', 'You Have Successfully Logout');
     }
 }

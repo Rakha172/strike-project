@@ -9,13 +9,37 @@
     <link rel="stylesheet" href="{{ asset('css/landingevent.css') }}" />
     {{-- notification confirm logout --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+
     <title>Halaman Event</title>
+
 </head>
 
 <body>
     <div class="navbar">
         Event Ticket Booking
         <br>
+
+        @error('name')
+            <div class="alert custom-alert-success">
+                <div class="blurry-background"></div>
+                <div class="alert-content">
+                    <h6>
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    </h6>
+                </div>
+            </div>
+        @enderror
+
+        @error('phone_number')
+            <div class="alert custom-alert-erorr">
+                <div class="blurry-background"></div>
+                <div class="alert-content">
+                    <h6>
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    </h6>
+                </div>
+            </div>
+        @enderror
 
         {{-- Modal --}}
         <button onclick="openModal()" class="prof">Profile</button>
@@ -72,7 +96,7 @@
                         @if ($eventRegistration)
                             @if (
                                 $item->qr_code &&
-                                    $eventRegistration->payment_status === 'payed' &&
+                                    $eventRegistration->payment_status === 'paid' &&
                                     $eventRegistration->payment_status !== 'attended')
                                 <img src="data:image/png;base64,{{ $item->qr_code }}" alt="QR Code">
                             @else
@@ -81,14 +105,22 @@
                                 $filename = 'wayangriders' . $eventRegistration->id . '.png';
                                 $path = public_path("qrcode_images/$filename");
                                 require_once 'qrcode/qrlib.php';
-                                if (!$item->qr_code || $eventRegistration->payment_status === 'payed') {
+                                if (!$item->qr_code || $eventRegistration->payment_status === 'paid') {
                                     QRcode::png($kode, $path, 2, 2);
                                     $eventRegistration->update(['qr_code' => base64_encode(file_get_contents($path))]);
                                 }
                                 ?>
 
-                                @if ($eventRegistration->payment_status === 'payed')
+                                @if ($eventRegistration->payment_status === 'waiting')
+                                    <img src="{{ $item['image'] }}" alt="Event Image">
+                                @endif
+
+                                @if ($eventRegistration->payment_status === 'paid')
                                     <img src="{{ asset('qrcode_images/' . $filename) }}" alt="QR Code">
+                                @endif
+
+                                @if ($eventRegistration->payment_status === 'cancel')
+                                    <img src="{{ $item['image'] }}" alt="Event Image">
                                 @endif
                             @endif
                         @endif
@@ -122,7 +154,7 @@
                         </div>
                     </div>
 
-                    @if ($isRegistered)
+                    @if ($isRegistered && ($eventRegistration && in_array($eventRegistration->payment_status, ['paid'])))
                         <button class="action" disabled>Already Registered</button>
                     @else
                         <button class="action" onclick="daftarEvent('{{ $item['id'] }}')">Register</button>

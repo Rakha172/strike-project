@@ -45,7 +45,13 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
             <script>
                 @if (session('status'))
-                    toastr.error("{{ session('status') }}", "", {});
+                    toastr.info("{{ session('status') }}", "", {});
+                @endif
+            </script>
+
+            <script>
+                @if (session('logout'))
+                    toastr.error("{{ session('logout') }}", "", {});
                 @endif
             </script>
 
@@ -54,6 +60,21 @@
                     toastr.info("{{ session('success') }}");
                 @endif
             </script>
+
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+                <script>
+                    toastr.error("{{ $message }}");
+                </script>
+            @enderror
+
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+                <script>
+                    toastr.error("{{ $message }}");
+                </script>
+            @enderror
+
 
             <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
 
@@ -71,7 +92,7 @@
 
                 <script>
                     @if ($errors->has('otp'))
-                        toastr.error("{{ $errors->first('otp') }}", "Error",);
+                        toastr.error("{{ $errors->first('otp') }}", "Error", );
                     @endif
                 </script>
 

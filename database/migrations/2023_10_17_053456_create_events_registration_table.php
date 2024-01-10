@@ -16,13 +16,14 @@ return new class extends Migration {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('event_id')->constrained('events')->cascadeOnDelete();
             $table->string('booth')->nullable();
-            $table->enum('payment_status', ['waiting', 'payed','attended', 'cancel'])->default('waiting');
+            $table->enum('payment_status', ['waiting', 'paid','attended', 'cancel'])->default('waiting');
             $table->foreignId('payment_types_id')->nullable()->constrained('payment_types')->cascadeOnDelete();
             $table->text('code');
+            $table->decimal('payment_total');
+            $table->date('regist_date');
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

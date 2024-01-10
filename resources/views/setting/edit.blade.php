@@ -17,7 +17,7 @@
             <div class="card">
                 <h1 class="text-center fs-2 mt-4">EDIT SETTING</h1>
                 <div class="card-body">
-
+                    <a href="{{ route('setting.index') }}" class="btn btn-dark float-end">Back</a><br>
                     <form action="{{ route('setting.update', $setting->id) }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf

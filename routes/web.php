@@ -217,6 +217,9 @@ Route::group(['middleware' => 'can:role,"operator"'], function () {
     Route::get('/operator/rundown/{eventId}/{eventRegistrationId}', [RundownController::class, 'index'])->name('operator.rundown');
     Route::post('/operator/rundown/{eventId}/{eventRegistrationId}/store-number', [RundownController::class, 'storeNumber'])->name('operator.storeNumber');
     Route::get('/operator/winner/{eventId}', [OperatorController::class, 'sendWinnerMessage'])->name('operator.winner');
+
+    Route::post('payment/member', [PaymentController::class, 'processData']);
+
 });
 
 //ROLE ADMIN-OPERATOR CHART//
