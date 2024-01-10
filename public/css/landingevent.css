@@ -33,9 +33,9 @@ body {
 
 .logout {
     position: absolute;
-    top: 20px;
+    top: 44px;
     width: 85px;
-    height: 30px;
+    height: 26px;
     border-radius: 10px;
     right: 10px;
     color: white;
@@ -61,7 +61,6 @@ body {
     top: 85px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2;
 }
 
 
@@ -224,6 +223,17 @@ body {
     /* Ubah waktu sesuai keinginan Anda */
 }
 
+.custom-alert-erorr {
+    /* Atur gaya sesuai keinginan Anda */
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: fadeOut 5s forwards;
+    /* Ubah waktu sesuai keinginan Anda */
+}
+
 .blurry-background {
     background: #18537a;
     filter: blur(6px);
@@ -274,7 +284,7 @@ body {
 /* Gaya konten modal */
 .modal-content {
     background: white;
-    color: black;
+    color: #18537a;
     text-align: center;
     margin: 12% auto;
     padding: 15px;
@@ -285,6 +295,13 @@ body {
     flex-direction: column; /* Mengatur konten modal menjadi tata letak kolom */
     justify-content: space-between; /* Menempatkan konten di antara atas dan bawah modal */
 }
+
+@media screen and (max-width: 600px) {
+    .modal-content {
+        width: 90%;
+    }
+}
+
 
 /* Gaya input dalam tag <p> */
 .modal-content p input {
@@ -299,22 +316,12 @@ body {
     padding: 0px 0px;
     width: 85px;
     height: 30px;
-    background-color: black;
+    background-color: #18537a;
     color: white;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     align-self: flex-end; /* Menempatkan tombol "Save" di ujung bawah modal */
-}
-
-.modal-content>p>button{
-    margin-top: 6px;
-    font-size: 20px;
-    width: 200px;
-    border: none;
-    cursor: pointer;
-    background-color: #71a5f3;
-    border-radius: 10px;
 }
 
 /* Gaya tombol penutup modal */

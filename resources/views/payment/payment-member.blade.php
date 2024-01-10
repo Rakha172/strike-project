@@ -20,18 +20,19 @@
             <h2>Payment Page</h2>
 
                 <div class="card space icon-relative">
-                    <label class="label">Payment Total</label>
-                    {{-- @foreach ($event_regist as $event) --}}
-                    <input type="text" class="input" value="{{ number_format($event_regist?->event->price, 0, '.', '.') }}" readonly>
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
+                    <center><label class="label">Payment Total</label></center><br>
+                    <div class="input-container">
+                        <i class="fas fa-dollar-sign"></i>
+                        <center><input type="text" class="input" value="{{ number_format($event_regist?->payment_total, 0, '.', '.') }}" readonly></center>
+                    </div>
+                </div><br>
                 <div class="card space icon-relative">
-                    <label class="label">Payment Method</label>
+                    <center><label class="label">Payment Method</label></center><br>
                     {{-- <i class="far fa-credit-card"></i> --}}
                     <div class="dropdown">
-                        <button class="dropdown-btn">Pilih Pembayaran</button>
-
+                        <center><button class="dropdown-btn">Select Payment</button></center>
                         <!-- Daftar dropdown -->
+
                         <div class="dropdown-content">
                             <form action="{{ route('updatePayment', $event_regist->id) }}" method="post">
                                 @csrf
@@ -49,7 +50,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                                 <!-- Tombol submit di sini -->
-                                <input type="submit" value="Lanjut" class="btn">
+                                <input type="submit" value="Continue" class="btn" style="">
                             </form>
                         </div>
                         </center>

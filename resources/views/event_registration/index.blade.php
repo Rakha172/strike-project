@@ -16,7 +16,7 @@
         <div class="container">
 
             <div class="card" style="background-color:#F5F7F8;">
-                <h1 class="text-center fs-2 mt-4">DATA EVENTREGIST</h1>
+                <h1 class="text-center fs-2 mt-4">DATA EVENT REGIST</h1>
                 <div class="card-body">
                     @if ($pesan = session('Berhasil'))
                         <div class="alert alert-primary" role="alert">
@@ -31,6 +31,7 @@
                                 <th scope="col">Event Name</th>
                                 <th scope="col">Booth</th>
                                 <th scope="col">Payment Status</th>
+                                <th scope="col">Payment Types</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,8 +40,15 @@
                                     <th scope="row">{{ $key + 1 }}</th>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->event->name }}</td>
-                                    <td>{{ $item->booth }}</td>
+                                    <td>
+                                        @if ($item->booth == null)
+                                        belum memilih booth
+                                        @else
+                                        {{$item->booth}}
+                                        @endif
+                                    </td>
                                     <td>{{ $item->payment_status }}</td>
+                                    <td>{{ $item ->paymentTypes->name}}</td>
                                 </tr>
                             @endforeach
 

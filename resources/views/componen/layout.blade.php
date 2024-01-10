@@ -39,7 +39,7 @@
 
         <ul class="side-menu">
             <li>
-                <a onclick="confirmLogout()" style="cursor: pointer" class="logout">
+                <a class="logout" onclick="confirmLogout()" style="cursor: pointer;">
                     <i class='bx bx-log-out-circle'></i>
                     Logout
                 </a>

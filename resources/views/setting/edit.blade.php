@@ -14,6 +14,7 @@
         <center>
             <h3>Edit Setting</h3>
         </center>
+        <a href="{{ route('setting.index') }}" class="btn btn-dark float-end">Back</a><br>
         <form action="{{ route('setting.update', $setting->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('put')
