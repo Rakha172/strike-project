@@ -39,7 +39,7 @@ class PaymentController extends Controller
     {
         try {
             $event_registrationId->update([
-                'payment_status' => 'payed'
+                'payment_status' => 'paid'
             ]);
 
             // Kirim notifikasi WhatsApp kepada pengguna terkait
@@ -77,7 +77,6 @@ class PaymentController extends Controller
     {
         $title = Setting::firstOrFail();
         // $event_regist = Event_Registration::all();
-        $event_regist = Event_Registration::findOrFail($event_register_id);
         $users = User::all();
 
         if (auth()->check()) {
@@ -98,6 +97,47 @@ class PaymentController extends Controller
 
         return redirect()->route('paymentConfirm', $event_register_id->id)->with('berhasil', "Berhasil diubah");
     }
+    // public function expiredOrder(Request $request, $event_regist_id)
+    // {
+    //     $event_regist_id = decrypt($event_regist_id);
+    //     $eventData = Event_Registration::findOrFail($event_regist_id->event_id);
+    //     $eventData->update([
+    //         'status' => 'cancel',
+    //     ]);
+
+    //     return redirect()->route('payment-confirm', $event_regist_id);
+    // }
+    // Contoh di Controller
+    public function processData(Request $request)
+    {
+        try {
+            // Terima semua data dari Moota
+            $mootaData = $request->all();
+
+            // Langsung proses semua data
+            foreach ($mootaData as $data) {
+                $price = intval($data['amount']);
+
+                $eventRegistration = Event_Registration::query()->where('payment_total', intval($data['amount']))
+                    ->where('payment_status', 'waiting')
+                    ->where('regist_date', Carbon::parse($data['date'])->format('Y-m-d'))
+                    ->get();
+                Log::info($eventRegistration);
+                foreach ($eventRegistration as $item) {
+                    if ($item) {
+                        $eventRegistData = Event_Registration::findOrFail($item->id);
+                        $eventRegistData->update(['payment_status' => 'paid']);
+                    }
+                }
+            }
+
+            return response()->json(['message' => 'Data processed successfully'], 200);
+        } catch (\Exception $e) {
+
+            Log::error('Error during data processing: ' . $e->getMessage());
+            return response()->json(['error' => 'Error during data processing: ' . $e->getMessage()], 500);
+        }
+    }
 
     public function paymentConfirm(Request $request, $event_register_id)
     {
@@ -111,7 +151,6 @@ class PaymentController extends Controller
             $event_regist = Event_Registration::find($event_register_id);
         }
 
-        // Waktu target (30 menit dari waktu updated_at)
         $targetTime = $event_regist->updated_at->addMinutes(10);
 
         // Waktu sekarang
@@ -123,15 +162,8 @@ class PaymentController extends Controller
             'seconds' => $diff->format('%s'),
         ];
 
-        // Jika countdown sudah habis, perbarui status menjadi "cancel"
-        if ($diff->invert == 1) {
-            // Countdown sudah habis
-            $event_regist->payment_status = 'cancel';
-            $event_regist->save();
-        }
-
         $event_name = $event_regist->event->name;
-        $price = $event_regist->event->price;
+        $price = $event_regist->payment_total;
         $date = $event_regist->event->event_date;
         $name = $event_regist->paymentTypes->name;
         $account = $event_regist->paymentTypes->account_number;
@@ -140,8 +172,7 @@ class PaymentController extends Controller
         if ($event_regist->payment_status == 'waiting') {
             try {
                 $setting = Setting::first();
-                $message = "Halo, {$userName}!🌟\n\n";
-                $message .= "Selamat! Anda telah terdaftar untuk acara '{$event_name}' yang akan diselenggarakan pada 🗓️ {$date}\n\n";
+                $message = "Selamat! {$userName} kamu telah terdaftar untuk acara '{$event_name}' yang akan diselenggarakan pada 🗓️ {$date}\n\n";
                 $message .= "Silakan lakukan pembayaran ke {$name} kami :\n\n";
                 $message .= "Total biaya pendaftaran : Rp " . number_format($price, 0, '.', '.') . "\n";
                 $message .= "Nomor {$name} : {$account} \n";
@@ -171,11 +202,11 @@ class PaymentController extends Controller
         }
 
 
-        if ($event_regist->payment_status == 'payed') {
+        if ($event_regist->payment_status == 'paid') {
             try {
                 $setting = Setting::first();
                 $message = "Halo, {$userName}!🌟\n";
-                $message .= "Pembayaran Anda Berhasil, Terimakasih :)";
+                $message .= "Pembayaran Anda Berhasil, Terimakasih😁😇";
                 $recipientNumber = $user->phone_number;
                 $apiKey = $setting->api_key;
                 $sender = $setting->sender;
@@ -203,53 +234,6 @@ class PaymentController extends Controller
         return view('payment.payment-confirm-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes', 'countdown'));
     }
 
-
-
-    // public function expiredOrder(Request $request, $event_regist_id)
-    // {
-    //     $event_regist_id = decrypt($event_regist_id);
-    //     $eventData = Event_Registration::findOrFail($event_regist_id->event_id);
-    //     $eventData->update([
-    //         'status' => 'cancel',
-    //     ]);
-
-    //     return redirect()->route('payment-confirm', $event_regist_id);
-    // }
-    // Contoh di Controller
-
-    public function processData(Request $request)
-    {
-        try {
-            // Terima semua data dari Moota
-            $mootaData = $request->all();
-
-            // Langsung proses semua data
-            foreach ($mootaData as $data) {
-                $price = intval($data['amount']);
-
-                $eventRegistration = Event_Registration::where([
-                    'event_id' => function ($query) use ($price) {
-                        $query->select('id')->from('events')->where('price', $price)->first();
-                    },
-                    'payment_status' => 'waiting',
-                ])->first();
-
-                if ($eventRegistration) {
-                    // Pastikan bahwa kolom 'payment_status' ada dalam fillable di model Event_Registration
-                    $eventRegistration->update(['payment_status' => 'payed']);
-
-                    // Simpan informasi ke log
-                    Log::info('Event_Registration processed successfully:', ['event_registration_id' => $eventRegistration->id]);
-                }
-            }
-
-            return response()->json(['message' => 'Data processed successfully'], 200);
-        } catch (\Exception $e) {
-            // Tangkap dan log kesalahan jika terjadi
-            Log::error('Error during data processing: ' . $e->getMessage());
-            return response()->json(['error' => 'Error during data processing: ' . $e->getMessage()], 500);
-        }
-    }
-
 }
+
 

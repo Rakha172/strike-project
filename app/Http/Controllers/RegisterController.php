@@ -26,21 +26,10 @@ class RegisterController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:15',
+            'phone_number' => 'required|unique:users|numeric|digits:12',
             'password' => 'required|confirmed|min:8',
             'password_confirmation' => 'required',
-            'email' => 'required|string|email|max:255',
-
-        ], [
-            'name.required' => 'Username wajib diisi',
-            'phone_number.required' => 'Nomor Telepon wajib diisi',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Email berupa email.',
-            'password.required' => 'Password wajib diisi',
-            'password.min' => 'Password minimal 8 karakter.',
-            'password_confirmation.required' => 'Konfirmasi password wajib diisi.',
-            'password_confirmation' => 'Konfirmasi password tidak cocok',
-
+            'email' => 'required|string|max:255|unique:users|email',
         ]);
 
         $otpCode = $this->generateOTP();

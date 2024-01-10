@@ -20,7 +20,7 @@ class Event_RegistrationController extends Controller
         $event_registration = Event_Registration::all();
         return view('event_registration.index', compact('event_registration', 'title'));
     }
-    public function create()
+    public function create($event_register_id)
     {
         $title = Setting::firstOrFail();
         $events = Event::all();
@@ -34,8 +34,9 @@ class Event_RegistrationController extends Controller
             $event = $user->event;
         }
 
-        return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title'));
+        return view('landingevent.landingevent', compact('events', 'users', 'userName', 'event', 'title', 'event_regist'));
     }
+
 
     public function store(Request $request)
     {
@@ -61,6 +62,12 @@ class Event_RegistrationController extends Controller
         $code =$dateFormat . $codeSequence;
 
         $validated['code'] = $code;
+
+        $eventPrice = substr_replace($event->price, $codeSequence, -6);
+        $payment_total = $eventPrice;
+        $validated['payment_total'] = $payment_total;
+
+        $validated['regist_date'] = now();
 
         $addEventRegist = Event_Registration::create($validated);
 

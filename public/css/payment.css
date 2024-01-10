@@ -1,144 +1,148 @@
 @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan|Ubuntu');
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Ubuntu', sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Ubuntu', sans-serif;
 }
 
-body{
-  background: white;
-  margin: 0 10px;
+body {
+    margin: 0 10px;
 }
 
-.payment{
-  background: #b2cde2;
-  max-width: 360px;
-  margin: 80px auto;
-  height: auto;
-  padding: 35px;
-  padding-top: 70px;
-  border-radius: 5px;
-  position: relative;
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.payment h2{
-  text-align: center;
-  letter-spacing: 2px;
-  margin-bottom: 40px;
-  color: #0d3c61;
-}
-
-.form .label{
-  display: block;
-  color: #555555;
-  margin-bottom: 6px;
-}
-
-.input{
-  padding: 13px 0px 13px 25px;
-  width: 100%;
-  text-align: center;
-  border: 2px solid #dddddd;
-  border-radius: 5px;
-  letter-spacing: 1px;
-  word-spacing: 3px;
-  outline: none;
-  font-size: 16px;
-  color: #555555;
-}
-
-.card-grp{
-  display: flex;
-  justify-content: space-between;
-}
-
-.card-item{
-  width: 48%;
-}
-
-.space{
-  margin-bottom: 20px;
-}
-
-.icon-relative{
-  position: relative;
-}
-
-.icon-relative .fas,
-.icon-relative .far{
-  position: absolute;
-  bottom: 12px;
-  left: 15px;
-  font-size: 20px;
-  color: #555555;
-}
-
-.btn{
-  width: 290px;
-  margin-top: 40px;
-  background: #2196F3;
-  padding: 10px;
-  margin-left: -0px;
-  text-align: center;
-  color: #f8f8f8;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-
-.payment-logo{
-  position: absolute;
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 100px;
-  background: #f8f8f8;
-  border-radius: 50%;
-  box-shadow: 0 0 5px rgba(0,0,0,0.2);
-  text-align: center;
-  line-height: 85px;
-}
-
-.payment-logo:before{
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 90px;
-  height: 90px;
-  background: darkblue;
-  border-radius: 50%;
-}
-
-.payment-logo p{
-  position: relative;
-  color: #f8f8f8;
-  font-family: 'Baloo Bhaijaan', cursive;
-  font-size: 58px;
-}
-
-@media screen and (max-width: 420px){
-  .card-grp{
-    flex-direction: column;
-  }
-  .card-item{
+.payment {
+    background: #b2cde2;
+    max-width: 650px;
+    /* Sesuaikan dengan lebar yang diinginkan */
+    margin: 90px auto;
+    padding: 100px;
+    /* Sesuaikan dengan padding yang diinginkan */
+    padding-top: 70px;
+    border-radius: 5px;
+    position: relative;
     width: 100%;
-    margin-bottom: 20px;
-  }
-  .btn{
-    margin-top: 20px;
-  }
+    /* 100% jika tidak ada max-width */
 }
-/* Style dasar untuk dropdown */
+
+.payment h2 {
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    color: #0d3c61;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.input {
+    padding: 13px 0px 13px 25px;
+    width: 80%;
+    text-align: center;
+    border: 2px solid #dddddd;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    word-spacing: 3px;
+    outline: none;
+    font-size: 16px;
+    color: #555555;
+}
+
+.input-confirm {
+    padding: 13px 25px 13px 25px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid #dddddd;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    color: #555555;
+    box-sizing: border-box;
+}
+
+.input-container #i {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    color: #555555;
+}
+
+.input-container {
+    position: relative;
+}
+
+.input-container i {
+    position: absolute;
+    left: 57px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.card-grp {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* Baris baru untuk setiap item di bawah ukuran tertentu */
+}
+
+.card-item {
+    width: 48%;
+    margin-bottom: 20px;
+}
+
+.btn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.payment-logo {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    background: #f8f8f8;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    line-height: 85px;
+}
+
+.payment-logo:before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 90px;
+    height: 90px;
+    background: darkblue;
+    border-radius: 50%;
+}
+
+.payment-logo p {
+    position: relative;
+    color: #f8f8f8;
+    font-family: 'Baloo Bhaijaan', cursive;
+    font-size: 58px;
+}
+
 .dropdown {
     position: relative;
     display: inline-block;
+    width: 100%;
+    /* Sesuaikan dengan lebar yang diinginkan */
 }
 
-/* Style untuk tombol dropdown */
 .dropdown-btn {
     width: 290px;
     padding: 10px;
@@ -159,6 +163,18 @@ body{
     min-width: 160px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn {
+    width: 290px;
+    padding: 10px;
+    background-color: #3498db;
+    border-radius: 10px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
 }
 
 /* Style untuk setiap opsi dalam dropdown */
@@ -174,7 +190,7 @@ body{
     cursor: pointer;
 }
 
-.dropdown-content option{
+.dropdown-content option {
     background-color: #b2cde2;
 }
 
@@ -190,10 +206,18 @@ body{
     display: block;
 }
 
+/* Media query untuk layar berukuran kecil (misalnya, ponsel) */
+@media screen and (max-width: 600px) {
+    .card-item {
+        width: 100%;
+    }
+}
+
 #countdown {
     font-family: 'Arial', sans-serif;
     font-size: 18px;
-    color: #333; /* Warna teks */
+    color: #333;
+    /* Warna teks */
     text-align: center;
     margin-top: 20px;
 }

@@ -19,6 +19,8 @@ class Event_Registration extends Model
         'payment_status',
         'payment_types_id',
         'code',
+        'payment_total',
+        'regist_date',
     ];
 
     public function user()

@@ -23,21 +23,22 @@
 
             <h2>Payment Confirm Page</h2>
             <p id="countdown"
-                style="font-family: 'Arial', sans-serif; font-size: 18px; color: #333; text-align: center; margin-top: 20px;">
+                style="font-family: 'Arial', sans-serif; font-size: 18px; color: #D80032; text-align: center; margin-top: 20px;">
                 Selesaikan Pembayaran Dalam <br> {{ $countdown['minutes'] }} menit {{ $countdown['seconds'] }} detik
             </p>
 
             <div class="card space icon-relative">
-                <label class="label">Payment Total</label>
-                <input type="text" class="input"
-                    value="{{ number_format($event_regist?->event->price, 0, '.', '.') }}" readonly>
-                <i class="fas fa-dollar-sign"></i>
-            </div>
+                <center><label class="label">Payment Total</label></center>
+                <div class="input-container">
+                    <input type="text" class="input-confirm" value="{{ number_format($event_regist->payment_total, 0, '.', '.') }}" style="cursor: pointer" readonly>
+                    <i class="fas fa-dollar-sign" id="i"></i>
+                </div>
+            </div><br>
             <div class="card space icon-relative">
                 @foreach ($paymentTypes as $item)
                     @if ($item->id == $event_regist->payment_types_id)
                         <div class="accordion accordion-flush" id="accordionFlushExample">
-                            <label class="label">the payment method you use :</label>
+                            <center><label class="label">the payment method you use :</label></center>
                             <div class="accordion-item">
                                 <h5 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -92,6 +93,8 @@
 
                 if (totalSeconds < 0) {
                     clearInterval(interval);
+                    // Redirect ke route "events" jika waktu habis
+                    window.location.href = "{{ route('events') }}";
                 }
             }, 1000);
         }
@@ -103,6 +106,7 @@
             countdownTimer(minutes, seconds);
         });
     </script>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>

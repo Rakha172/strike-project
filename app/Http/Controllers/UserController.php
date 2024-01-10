@@ -56,7 +56,7 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:255',
             'phone_number' => 'required',
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
             'role' => 'nullable',
         ]);
@@ -80,11 +80,16 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'phone_number' => 'required',
+            'phone_number' => 'required|unique:users|numeric|digits:12',
         ]);
 
         $user->update($validated);
 
-        return redirect()->route('events')->with('success', "Berhasil diubah");
+        if ($user) {
+            return redirect()->route('events')->with('success', "Changed Successfully");
+        }else{
+            return back();
+        }
+
     }
 }

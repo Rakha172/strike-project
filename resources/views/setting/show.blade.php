@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,37 +12,54 @@
 <body>
     @extends('componen.layout')
     @section('content')
-        <div class="card mb-1" style="max-width: 100%; max-height: 600px; background-color:#F5F7F8;">
-            <div class="row g-0">
-                <div class="col-md-5">
-                    <a href="{{ url('logo/' . $setting->logo) }}">
-                        <img src="{{ url('logo/' . $setting->logo) }}" style="width: 55%;margin-left: 15px;margin-top:10px"
-                            alt="Logo">
-                    </a>
-                </div>
+        <div class="container mt-3">
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-12 col-md-5">
+                        <a href="{{ url('logo/' . $setting->logo) }}">
+                            <img src="{{ url('logo/' . $setting->logo) }}" class="img-fluid" alt="Logo">
+                        </a>
+                    </div>
 
-                <div class="col-md-6">
-                    <div class="card-body">
-                        <h5 class="card-title">Name : {{ $setting->name }}</h5>
-                        <h5 class="card-title">History</h5>
-                        <textarea name="history" cols="50" rows="3" style="border: none" readonly>{{ $setting->history }}</textarea>
-                        <h5 class="card-title">Slogan</h5>
-                        <textarea name="slogan" cols="50" rows="2" style="border: none" readonly>{{ $setting->slogan }}</textarea>
-                        <h5 class="card-title">Desciption</h5>
-                        <textarea name="desc" cols="50" rows="4" style="border: none" readonly>{{ $setting->desc }}</textarea><br><br>
-                        <h5 class="card-title">Phone : {{ $setting->phone }}</h5>
-                        <h5 class="card-title">Email : {{ $setting->email }}</h5>
-                        <h5 class="card-title">WhatsApp Sender : {{ $setting->sender }}</h5>
-                        <h5 class="card-title">WhatsApp End Point : {{ $setting->endpoint }}</h5>
-                        <h5 class="card-title">WhatsApp Media End Point : {{ $setting->media_endpoint }}</h5>
-                        <h5 class="card-title">WhatsApp API : {{ $setting->api_key }}</h5>
-                        <a href="{{ route('setting.index') }}" class="btn btn-dark"
-                            style="position: absolute; bottom: 2%; right: 2%;">Back</a>
+                    <div class="col-12 col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title">Name</h5>
+                            <input readonly type="text" value="{{ $setting->name }}" class="form-control bg-light" />
+
+                            <h5 class="card-title">History</h5>
+                            <input readonly type="text" value="{{ $setting->history }}" class="form-control bg-light" />
+
+                            <h5 class="card-title mt-2">Slogan</h5>
+                            <input readonly type="text" value="{{ $setting->slogan }}" class="form-control bg-light" />
+
+                            <h5 class="card-title mt-2">Description</h5>
+                            <input readonly type="text" value="{{ $setting->desc }}" class="form-control bg-light" />
+                            <h5 class="card-title mt-2">Phone</h5>
+                            <input readonly type="text" value="{{ $setting->phone }}" class="form-control bg-light"/>
+
+                            <h5 class="card-title mt-2">Email</h5>
+                            <input readonly type="text" value="{{ $setting->email }}" class="form-control bg-light" />
+
+                            <h5 class="card-title mt-2">WhatsApp Sender</h5>
+                            <input readonly type="text" value="{{ $setting->sender }}" class="form-control bg-light" />
+
+                            <h5 class="card-title mt-2">WhatsApp End Point</h5>
+                            <input readonly type="text" value="{{ $setting->endpoint }}" class="form-control bg-light" />
+
+                            <h5 class="card-title mt-2">WhatsApp API</h5>
+                            <input readonly type="text" value="{{ $setting->api_key }}" class="form-control bg-light" />
+
+                            <a href="{{ route('setting.index') }}" class="btn btn-dark mt-3">Back</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     @endsection
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
