@@ -17,8 +17,8 @@ return new class extends Migration {
             $table->decimal('price');
             $table->string('total_booth');
             $table->string('event_date');
-            $table->string('location');
-            $table->string('description');
+            $table->text('location');
+            $table->text('description');
             $table->string('image');
             $table->enum('qualification', [
                 'weight',

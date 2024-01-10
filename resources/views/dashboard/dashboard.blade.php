@@ -25,14 +25,21 @@
             <div class="logo-name"><span>Project</span>Strike</div>
         </a>
         <ul class="side-menu">
-            <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="{{ route('event.index')}}"><i class='bx bx-store-alt'></i>Event</a></li>
-            <li><a href="{{ route('setting.index')}}"><i class='bx bx-cog'></i>Setting</a></li>
-            <li><a href="{{ route('user.index')}}"><i class='bx bx-user'></i>User</a></li>
-            <li><a href="{{ route('event_registration.index')}}"><i class='bx bx-user'></i>EventRegist</a></li>
-            <li class="{{ request()->is('payment*') ? 'active' : '' }}">
-                <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
-            </li>
+
+            @if (Auth::check())
+                @if (Auth::user()->role === 'admin')
+                    <li class="active"><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+                    <li><a href="{{ route('event.index') }}"><i class='bx bx-store-alt'></i>Event</a></li>
+                    <li><a href="{{ route('setting.index') }}"><i class='bx bx-cog'></i>Setting</a></li>
+                    <li><a href="{{ route('user.index') }}"><i class='bx bx-user'></i>Member</a></li>
+                    <li><a href="{{ route('event_registration.index') }}"><i class='bx bx-user'></i>EventRegist</a></li>
+                    <li class="{{ request()->is('payment*') ? 'active' : '' }}">
+                        <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
+                    </li>
+                @elseif(Auth::user()->role === 'operator')
+                    <li><a href="{{ route('eventsop.index') }}"><i class='bx bx-wrench'></i>Operator</a></li>
+                @endif
+            @endif
         </ul>
         <ul class="side-menu">
             <li>
@@ -57,9 +64,9 @@
             <label for="theme-toggle" class="theme-toggle"></label>
             <a href="#" class="profile">
                 @php
-                $user = Auth::user();
-                $namaPengguna = $user->name;
-                $inisial = $namaPengguna[0];
+                    $user = Auth::user();
+                    $namaPengguna = $user->name;
+                    $inisial = $namaPengguna[0];
                 @endphp
                 <div class="profile-avatar">{{ $inisial }}</div>
             </a>
@@ -100,8 +107,10 @@
                     </span>
                 </li>
             </ul>
-        </main>
 
+            <!-- End of Insights -->
+            
+    </div>
     </div>
 
     <script>
@@ -127,8 +136,9 @@
         const searchBtn = document.querySelector('.content nav form .form-input button');
         const searchBtnIcon = document.querySelector('.content nav form .form-input button .bx');
         const searchForm = document.querySelector('.content nav form');
-
+        
         searchBtn.addEventListener('click', function (e) {
+
             if (window.innerWidth < 576) {
                 e.preventDefault;
                 searchForm.classList.toggle('show');
@@ -155,12 +165,16 @@
         const toggler = document.getElementById('theme-toggle');
 
         toggler.addEventListener('change', function () {
+
             if (this.checked) {
                 document.body.classList.add('dark');
             } else {
                 document.body.classList.remove('dark');
             }
         });
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         function confirmLogout() {
             Swal.fire({

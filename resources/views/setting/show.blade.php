@@ -34,7 +34,6 @@
 
                             <h5 class="card-title mt-2">Description</h5>
                             <input readonly type="text" value="{{ $setting->desc }}" class="form-control bg-light" />
-
                             <h5 class="card-title mt-2">Phone</h5>
                             <input readonly type="text" value="{{ $setting->phone }}" class="form-control bg-light"/>
 

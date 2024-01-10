@@ -25,10 +25,10 @@ class SettingSeeder extends Seeder
             Bawal, Gurame, Mujair, dan Patin di mana anda dapat menyalurkan hobie sepuas hati.',
             'phone' => '1234567890',
             'email' => 'strike@gmail.com',
-            'sender' => '6282128078893',
-            'endpoint' => 'http://wag.cigs.web.id/send-message',
-            'media_endpoint' => 'http://wag.cigs.web.id/send-media',
-            'api_key' => 'ZMNgdCuH1Vi0OCQ6Recg8ZB9UPy68B',
+            'sender' => '',
+            'endpoint' => '',
+            'media_endpoint' => '',
+            'api_key' => '',
         ]);
     }
 }
