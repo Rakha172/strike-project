@@ -6,148 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Random Number Generator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-clr: #d9dae3;
-            --white: #fff;
-            --grey: #eee;
-            --light-grey: #fafafa;
-            --dark-grey: #aaa;
-            --primary-clr: #00e5b1;
-            --secondary-clr: #fdc886;
-            --text-clr: #333;
-        }
-
-        html {
-            font-size: 10px;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--text-clr);
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: var(--bg-clr);
-        }
-
-        .container {
-            max-width: 90rem;
-            margin: 0 auto;
-            padding: 4rem;
-            background: var(--white);
-            border-radius: 2rem;
-            box-shadow: 0 1rem 4rem 0 rgba(0, 0, 0, 0.1);
-        }
-
-        .container>* {
-            margin-bottom: 2rem;
-        }
-
-        .header h3 {
-            font-size: 2rem;
-            text-align: center;
-        }
-
-        .result {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            height: 20rem;
-        }
-
-        .result h1 {
-            font-size: 5rem;
-            color: var(--dark-grey);
-        }
-
-        .input-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .input-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .input-wrapper label {
-            font-size: 1.5rem;
-            color: var(--dark-grey);
-            line-height: 3rem;
-        }
-
-        .input-wrapper input {
-            height: 4rem;
-            font-size: 1.5rem;
-            line-height: 3rem;
-            border: 1px solid var(--grey);
-            border-radius: 1rem;
-            background: var(--light-grey);
-            outline-style: none;
-            padding: 0 1rem;
-        }
-
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .button-group button {
-            width: 100%;
-            height: 4rem;
-            font-size: 1.5rem;
-            border-radius: 1rem;
-            border: none;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            transition: 0.25s ease;
-        }
-
-        .button-group button span {
-            font-size: 1.7rem;
-        }
-
-        .button-group button:active {
-            transform: scale(0.9);
-        }
-
-        #start-stop {
-            border: 2px solid var(--primary-clr);
-            background: none;
-        }
-
-        #instantly {
-            background: var(--primary-clr);
-        }
-
-        .result h1.active {
-            font-size: 15rem;
-            color: var(--text-clr);
-        }
-    </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="stylesheet" href="{{ asset('css/rundown.css') }}" />
 </head>
 
 <body>
@@ -161,11 +23,11 @@
 
         <div class="button-group">
             <button id="instantly">
-                <span class="material-symbols-outlined"> autorenew </span>
+                <span class="material-symbols-outlined">  </span>
                 Generate
             </button>
             <button id="start-stop">
-                <span class="material-symbols-outlined"> timer </span>
+                <span class="material-symbols-outlined">  </span>
                 Start Generating
             </button>
         </div>
@@ -174,6 +36,7 @@
             Tersedia: {{ implode(', ', $boothAvailable) }}
         </h3>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         let intervalId;
         let scannedNumber = null;
@@ -185,11 +48,7 @@
         result.innerHTML = '0';
 
         instBtn.addEventListener('click', () => {
-            if (scannedNumber !== null) {
-                result.innerHTML = scannedNumber;
-            } else {
-                alert('Anda belum melakukan penghasilan angka!');
-            }
+            location.reload();
         });
 
         startStopBtn.addEventListener('click', () => {
@@ -205,10 +64,8 @@
                 startStopBtn.textContent = 'Start Generating';
 
                 if (scannedNumber !== null) {
-                    // Kirim angka ke server untuk disimpan
                     saveNumberToDatabase(scannedNumber);
                 } else {
-                    alert('Tidak ada angka yang dihasilkan.');
                 }
             }
         });
@@ -226,18 +83,30 @@
                 },
                 body: JSON.stringify({ number: number }),
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Angka ' + scannedNumber + ' berhasil dimasukkan ke dalam database.');
-                } else {
-                    alert('Gagal menyimpan angka ke dalam database.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan dalam menyimpan angka ke dalam database.');
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Sukses',
+                            text: 'Angka ' + scannedNumber + ' nomor Booth Anda.'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Anda sudah memiliki nomor Booth.'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan dalam menyimpan angka.'
+                    });
+                });
         }
     </script>
 </body>
