@@ -35,7 +35,7 @@
                             <h5 class="card-title mt-2">Description</h5>
                             <input readonly type="text" value="{{ $setting->desc }}" class="form-control bg-light" />
                             <h5 class="card-title mt-2">Phone</h5>
-                            <input readonly type="text" value="{{ $setting->phone }}" class="form-control bg-light"/>
+                            <input readonly type="text" value="{{ $setting->phone }}" class="form-control bg-light" />
 
                             <h5 class="card-title mt-2">Email</h5>
                             <input readonly type="text" value="{{ $setting->email }}" class="form-control bg-light" />
@@ -44,7 +44,12 @@
                             <input readonly type="text" value="{{ $setting->sender }}" class="form-control bg-light" />
 
                             <h5 class="card-title mt-2">WhatsApp End Point</h5>
-                            <input readonly type="text" value="{{ $setting->endpoint }}" class="form-control bg-light" />
+                            <input readonly type="text" value="{{ $setting->endpoint }}"
+                                class="form-control bg-light" />
+
+                            <h5 class="card-title mt-2">WhatsApp Media End Point</h5>
+                            <input readonly type="text" value="{{ $setting->media_endpoint }}"
+                                class="form-control bg-light" />
 
                             <h5 class="card-title mt-2">WhatsApp API</h5>
                             <input readonly type="text" value="{{ $setting->api_key }}" class="form-control bg-light" />
