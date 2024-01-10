@@ -36,6 +36,7 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">WhatsApp Sender</th>
                                     <th scope="col">WhatsApp End Point</th>
+                                    <th scope="col">WhatsApp Media End Point</th>
                                     <th scope="col">WhatsApp API</th>
                                     <th scope="col">Option</th>
                                 </tr>
@@ -58,6 +59,7 @@
                                         <td>{{ $sett->email }}</td>
                                         <td>{{ $sett->sender }}</td>
                                         <td>{{ $sett->endpoint }}</td>
+                                        <td>{{ $sett->media_endpoint }}</td>
                                         <td>{{ $sett->api_key }}</td>
                                         <td>
                                             <a href="{{ url('setting/' . $sett->id . '/show') }}"
