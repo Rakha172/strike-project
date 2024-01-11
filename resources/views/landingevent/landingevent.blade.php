@@ -30,17 +30,6 @@
             </div>
         @enderror
 
-        @error('phone_number')
-            <div class="alert custom-alert-erorr">
-                <div class="blurry-background"></div>
-                <div class="alert-content">
-                    <h6>
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    </h6>
-                </div>
-            </div>
-        @enderror
-
         {{-- Modal --}}
         <button onclick="openModal()" class="prof">Profile</button>
         <div id="myModal" class="modal">
@@ -54,7 +43,7 @@
                     <p>Username <input type="text" value="{{ $user->name }}" name="name" title="klik untuk edit"
                             required></p>
                     <p>Nomor Telepon <input type="number" value="{{ $user->phone_number }}" name="phone_number"
-                            title="klik untuk edit" required></p>
+                            title="klik untuk edit" readonly></p>
                     <p>Email <input type="text" readonly value="{{ $user->email }}" title="klik untuk edit"></p>
 
                     <input value="Save" type="submit" id="submit" onclick="saveChanges()">

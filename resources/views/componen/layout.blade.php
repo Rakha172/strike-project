@@ -157,17 +157,32 @@
                 searchForm.classList.remove('show');
             }
         });
+    </script>
 
+    <script>
         const toggler = document.getElementById('theme-toggle');
 
+        // Fungsi untuk menentukan apakah tema gelap aktif
+        function isDarkModeActive() {
+            return document.body.classList.contains('dark');
+        }
+
         toggler.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
+            // Toggle kelas 'dark' pada body
+            document.body.classList.toggle('dark', this.checked);
+
+            // Simpan status tema gelap pada local storage
+            localStorage.setItem('darkMode', this.checked);
         });
+
+        // Cek apakah tema gelap aktif saat halaman dimuat
+        const storedDarkMode = localStorage.getItem('darkMode');
+        if (storedDarkMode === 'true') {
+            document.body.classList.add('dark');
+            toggler.checked = true;
+        }
     </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
