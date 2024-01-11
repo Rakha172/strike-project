@@ -14,21 +14,6 @@
 
     @section('content')
         <div class="container">
-            {{-- <nav class="wrapperop">
-            <div class="brandop">
-                <div class="firstname">Strike</div>
-                <div class="lastname">Project</div>
-            </div>
-            <center>
-                <h2 class="hlop">Halaman Result Operator</h2>
-            </center> --}}
-            {{-- <ul class="nav">
-                <form action="{{ url('/eventsop') }}">
-                    <button class="button button1" style="color: white">Logout</button>
-                </form>
-            </ul> --}}
-            {{-- </nav><br><br> --}}
-
             <div class="card" style="background-color:#F5F7F8;">
                 <h1 class="text-center fs-2 mt-4">DATA OPERATOR RESULT</h1>
                 <div class="card-body">
