@@ -42,7 +42,7 @@ class LoginController extends Controller
             if (Auth::user()->role == 'admin') {
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'operator') {
-                return redirect('/dashboard')->with(['succes' => $request->name . "Berhasil Login"]);
+                return redirect('/eventsop')->with(['succes' => $request->name . "Berhasil Login"]);
             } else if (Auth::user()->role == 'member') {
                 $user = Auth::guard('web')->user();
 
@@ -67,8 +67,8 @@ class LoginController extends Controller
                     return redirect()->back();
                 }
 
-                return redirect('/event')->with(['success' =>'Welcome ' .  Auth::user()->name]);
-              
+                return redirect('/event')->with(['success' => 'Welcome ' . Auth::user()->name]);
+
             }
         } else {
             return back()->withErrors(['otp' => 'the email or password you entered is incorrect.'])->withInput();
