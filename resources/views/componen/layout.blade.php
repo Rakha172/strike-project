@@ -69,10 +69,7 @@
             </form>
             <input type="checkbox" id="theme-toggle" hidden>
             <label for="theme-toggle" class="theme-toggle"></label>
-            {{-- <a href="#" class="notif">
-                <i class='bx bx-bell'></i>
-                <span class="count">12</span>
-            </a> --}}
+
             <a href="#" class="profile">
                 @php
                     $user = Auth::user();
@@ -97,10 +94,6 @@
                         <li><a href="#" id="menu-link" class="active">Home</a></li>
                     </ul>
                 </div>
-                {{-- <a href="#" class="report">
-                    <i class='bx bx-cloud-download'></i>
-                    <span>Download CSV</span>
-                </a> --}}
             </div>
             @yield('content')
     </div>
@@ -187,8 +180,10 @@
                     $("#menu-link").text("EventRegist");
                 } else if (path.includes("payment")) {
                     $("#menu-link").text("Payment");
+                } else if (path.includes("operator")) {
+                    $("#menu-link").text("Operator");
                 } else {
-                    $("#menu-link").text("Home");
+                    $("#menu-link").text("EventRegist");
                 }
             }
         });
