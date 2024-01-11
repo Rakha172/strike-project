@@ -323,7 +323,7 @@ class OperatorController extends Controller
                     }
                 } else {
                     Log::warning('Payment status is not "payed" for event registration ID: ' . $eventRegistrationId);
-                    return back()->with('warning', 'Status pembayaran tidak sesuai');
+                    return back()->with('warning', 'Oops! Sepertinya ada yang salah');
                 }
             } else {
                 Log::warning('Event Registration not found for ID: ' . $eventRegistrationId);
