@@ -19,14 +19,14 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
+       foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if (Auth::user()->role == 'admin') {
-                    return redirect()->route('dashboard.dashboard');
+                    return redirect()->route('dashboard');
                 } else if (Auth::user()->role == 'member') {
                     return redirect()->route('events');
                 } else if (Auth::user()->role == 'operator') {
-                    return redirect()->route('dashboard.dashboard');
+                    return redirect()->route('eventsop.index');
                 }
             }
         }
