@@ -21,21 +21,9 @@
                 @endif
             </script>
 
-            {{-- <nav class="wrapperop">
-                <div class="brandop">
-                    <div class="firstname">Strike</div>
-                    <div class="lastname">Project</div>
-
-                </div>
-                <center>
-                    <h2 class="hlop">Halaman Operator</h2>
-                </center> --}}
             <div class="card" style="background-color:#F5F7F8;">
                 <h1 class="text-center fs-2 mt-4">DATA OPERATOR</h1>
                 <div class="card-body">
-                    {{-- <ul class="nav">
-                        <button class="button button1" onclick="confirmLogout()">Logout</button>
-                    </ul> --}}
                     </nav><br><br>
                     <div class="table-responsive">
                         <table class="table">
@@ -81,9 +69,6 @@
 
                                                 <a href="{{ route('resultop.index', $evnt->id) }}"
                                                     class="btn btn-success m-1">Result</a>
-
-                                                {{-- <a href="{{ route('operator.rundown', $evnt->id) }}"
-                                        class="btn btn-dark m-1">Spin</a> --}}
 
                                                 @if ($evnt->qualification == 'weight')
                                                     <a href="{{ route('events.chart-result', $evnt->id) }}"
