@@ -24,9 +24,9 @@ class RedirectIfAuthenticated
                 if (Auth::user()->role == 'admin') {
                     return redirect()->route('dashboard.dashboard');
                 } else if (Auth::user()->role == 'member') {
-                    return redirect()->route('event.index');
+                    return redirect()->route('events');
                 } else if (Auth::user()->role == 'operator') {
-                    return redirect()->route('operator.index');
+                    return redirect()->route('dashboard.dashboard');
                 }
             }
         }
