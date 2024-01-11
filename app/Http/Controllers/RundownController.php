@@ -25,7 +25,7 @@ class RundownController extends Controller
                 'boothAvailable' => $this->getAvailableBooths($event),
             ]);
         } catch (\Exception $e) {
-            return response()->view('errors.404', [], 404);
+            return redirect()->route('eventsop.index');
         }
     }
 

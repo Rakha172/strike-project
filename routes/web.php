@@ -95,7 +95,7 @@ Route::get('/', function () {
 //dashboard
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
-});
+})->name('dashboard');
 
 //layout dashboard
 Route::get('/layout', function () {
