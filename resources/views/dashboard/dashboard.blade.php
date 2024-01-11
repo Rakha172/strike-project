@@ -109,7 +109,7 @@
             </ul>
 
             <!-- End of Insights -->
-            
+
     </div>
     </div>
 
@@ -136,8 +136,8 @@
         const searchBtn = document.querySelector('.content nav form .form-input button');
         const searchBtnIcon = document.querySelector('.content nav form .form-input button .bx');
         const searchForm = document.querySelector('.content nav form');
-        
-        searchBtn.addEventListener('click', function (e) {
+
+        searchBtn.addEventListener('click', function(e) {
 
             if (window.innerWidth < 576) {
                 e.preventDefault;
@@ -164,7 +164,7 @@
 
         const toggler = document.getElementById('theme-toggle');
 
-        toggler.addEventListener('change', function () {
+        toggler.addEventListener('change', function() {
 
             if (this.checked) {
                 document.body.classList.add('dark');
@@ -172,10 +172,9 @@
                 document.body.classList.remove('dark');
             }
         });
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script>
         function confirmLogout() {
             Swal.fire({
                 title: 'Konfirmasi Logout',
