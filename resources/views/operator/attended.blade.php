@@ -32,7 +32,11 @@
 </head>
 
 <body>
-    <div class="container col-lg-4 py-5">
+
+    @extends('componen.layout')
+
+    @section('content')
+    <div class="container col-lg-10 py-11       ">
         {{-- Pesan Peringatan --}}
         @if(session('success'))
             <div class="alert alert-success">
@@ -59,6 +63,7 @@
                 <input type="hidden" name="event_registration_id" id="event_registration_id">
             </form>
         </div>
+        @endsection
 
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <script type="text/javascript">

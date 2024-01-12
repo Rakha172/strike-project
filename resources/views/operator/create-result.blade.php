@@ -7,6 +7,11 @@
     <title>{{ $title->name }} | Add Result</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        #capturedImage {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -61,8 +66,8 @@
                                             </select>
                                         </div>
                                         <input type="hidden" name="image_data" id="imageData" value="">
-                                        <button onclick="capturePhotoAndSave()" class="btn btn-primary mt-3"> Ambil Foto dan
-                                            Simpan</button>
+                                        <button onclick="capturePhotoAndSave(); showCapturedImage();"
+                                            class="btn btn-primary mt-3"> Ambil Foto dan Simpan</button>
                                     </form>
                                 </div>
                             </div>
@@ -106,8 +111,6 @@
 
                 const imageData = canvas.toDataURL('image/png');
                 photo.setAttribute('src', imageData);
-                photo.style.display = 'block';
-
                 imageDataInput.value = imageData;
 
                 const formData = new FormData();
@@ -127,9 +130,14 @@
                 video.style.display = 'none';
             }
 
+            function showCapturedImage() {
+                const photo = document.getElementById('capturedImage');
+                photo.style.display = 'block';
+            }
+
             setupCamera();
         </script>
     </body>
 
-    </html>
+</html>
 @endsection

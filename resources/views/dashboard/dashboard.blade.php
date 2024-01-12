@@ -54,12 +54,6 @@
     <div class="content">
         <nav>
             <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
             <input type="checkbox" id="theme-toggle" hidden>
             <label for="theme-toggle" class="theme-toggle"></label>
             <a href="#" class="profile">
@@ -181,9 +175,10 @@
                 text: 'Apakah Anda yakin ingin keluar?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#18537a',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#FF0000',
+                cancelButtonColor: '#0000FF',
                 confirmButtonText: 'Logout!',
+                reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "{{ route('logout') }}";
