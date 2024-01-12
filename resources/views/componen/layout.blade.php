@@ -63,8 +63,8 @@
             <i class='bx bx-menu'></i>
             <form action="#">
             </form>
-            <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
+            {{-- <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label> --}}
 
             <a href="#" class="profile">
                 @php
@@ -147,15 +147,15 @@
             }
         });
 
-        const toggler = document.getElementById('theme-toggle');
+        // const toggler = document.getElementById('theme-toggle');
 
-        toggler.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
-        });
+        // toggler.addEventListener('change', function() {
+        //     if (this.checked) {
+        //         document.body.classList.add('dark');
+        //     } else {
+        //         document.body.classList.remove('dark');
+        //     }
+        // });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
