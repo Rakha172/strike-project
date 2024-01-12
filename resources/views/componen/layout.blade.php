@@ -180,10 +180,10 @@
                     $("#menu-link").text("EventRegist");
                 } else if (path.includes("payment")) {
                     $("#menu-link").text("Payment");
-                } else if (path.includes("operator")) {
-                    $("#menu-link").text("Operator");
+                } else if (path.includes("result")) {
+                    $("#menu-link").text("Results");
                 } else {
-                    $("#menu-link").text("EventRegist");
+                    $("#menu-link").text("Home");
                 }
             }
         });
