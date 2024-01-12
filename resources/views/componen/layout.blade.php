@@ -61,7 +61,8 @@
         <!-- Navbar -->
         <nav>
             <i class='bx bx-menu'></i>
-
+            <form action="#">
+            </form>
             <input type="checkbox" id="theme-toggle" hidden>
             <label for="theme-toggle" class="theme-toggle"></label>
 
