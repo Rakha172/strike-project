@@ -288,7 +288,7 @@ class OperatorController extends Controller
             if ($eventRegistration) {
                 Log::info('Found event registration with ID: ' . $eventRegistrationId);
 
-                if ($eventRegistration->payment_status === 'payed') {
+                if ($eventRegistration->payment_status === 'paid') {
                     // Ubah status pembayaran menjadi "attended"
                     $eventRegistration->update(['payment_status' => 'attended']);
                     Log::info('Payment status updated to "attended" for event registration ID: ' . $eventRegistrationId);
