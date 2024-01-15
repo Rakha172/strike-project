@@ -22,7 +22,7 @@
             </script>
 
             <div class="card" style="background-color:#F5F7F8;">
-                <h1 class="text-center fs-2 mt-4">DATA OPERATOR</h1>
+                <h1 class="text-center fs-2 mt-4">DATA EVENT</h1>
                 <div class="card-body">
                     </nav><br><br>
                     <div class="table-responsive">

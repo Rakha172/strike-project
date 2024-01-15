@@ -218,7 +218,11 @@
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonText: 'Ya, daftar sekarang!',
-                cancelButtonText: 'Tidak, terima kasih'
+                cancelButtonText: 'Tidak, terima kasih',
+                reverseButtons: true,
+                customClass: {
+                    confirmButton: 'btn-ungu'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     const urlRegistrasi = "{{ route('event_registration.store') }}";

@@ -94,13 +94,15 @@ Route::get('/', function () {
 
 //dashboard
 Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
+    $setting = Setting::all();
+    return view('dashboard.dashboard', compact('setting'));
 })->name('dashboard');
 
 //layout dashboard
 Route::get('/layout', function () {
-    return view('componen.layout');
+return view('componen.layout');
 });
+
 
 //layout dashboard
 Route::get('/main', function () {
