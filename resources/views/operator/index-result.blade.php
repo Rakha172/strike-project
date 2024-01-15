@@ -15,16 +15,17 @@
     @section('content')
         <div class="container">
             <div class="card" style="background-color:#F5F7F8;">
-                <h1 class="text-center fs-2 mt-4">DATA OPERATOR RESULT</h1>
+                <h1 class="text-center fs-2 mt-4">DATA EVENT RESULT</h1>
                 <div class="card-body">
                     <h2 class="text-center fs-3 mt-4">{{ $event->name }}</h2>
+                    <a href="{{ route('eventsop.index') }}" class="btn btn-dark float-end">Back</a>
                     <div class="row justify-content-between">
                         <div class="col-auto">
                             <a href="{{ route('resultop.create', ['event' => $event->id]) }}"
                                 class="btn btn-success m-1">Add</a>
                             <a href="{{ route('operator.winner', ['eventId' => $event->id]) }}"
                                 class="btn btn-warning m-1">Winner</a>
-                        </div>
+                     </div>
                     </div>
                     <table class="table">
                         <thead>
@@ -62,7 +63,6 @@
                     </table>
                 </div>
             </div>
-            <a href="{{ route('eventsop.index') }}" class="btn btn-dark mt-1">Back</a>
         </div>
     @endsection
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
