@@ -21,8 +21,10 @@
 
     <div class="sidebar">
         <a href="#" class="logo">
-            <img style="width:60px; height:60px;" src="{{ asset('img/Logo.png') }}">
-            <div class="logo-name"><span>Project</span>Strike</div>
+            @foreach ($setting as $item)
+            <img style="width:60px; height:60px;" src="{{ $item->image }}">
+            <div class="logo-name">{{ $item->name }}</div>
+            @endforeach
         </a>
         <ul class="side-menu">
 
@@ -37,7 +39,7 @@
                         <a href="{{ route('paymenttypesIndex') }}"><i class='bx bx-dollar'></i>Payment-Types</a>
                     </li>
                 @elseif(Auth::user()->role === 'operator')
-                    <li><a href="{{ route('eventsop.index') }}"><i class='bx bx-wrench'></i>Operator</a></li>
+                    <li><a href="{{ route('eventsop.index') }}"><i class='bx bx-wrench'></i>Event</a></li>
                 @endif
             @endif
         </ul>
@@ -91,19 +93,28 @@
                 <li>
                     <i class='bx bx-calendar-check'></i>
                     <span class="info">
-                        <h3>0</h3>
+                        <h3>
+                            @php
+                                $eventsCount = \App\Models\Event::count();
+                                echo $eventsCount;
+                            @endphp
+                        </h3>
                         <p>Events</p>
                     </span>
                 </li>
                 <li>
                     <i class='bx bx-show-alt'></i>
                     <span class="info">
-                        <h3>0</h3>
+                        <h3>
+                            @php
+                                $membersCount = \App\Models\User::where('role', 'member')->count();
+                                echo $membersCount;
+                            @endphp
+                        </h3>
                         <p>Member Club</p>
                     </span>
                 </li>
             </ul>
-
             <!-- End of Insights -->
 
     </div>

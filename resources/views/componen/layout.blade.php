@@ -22,7 +22,7 @@
                     <li class="{{ request()->is('dashboard*') ? 'active' : '' }}">
                         <a href="{{ url('/dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a>
                     </li>
-                    <li class="{{ request()->is('event*') ? 'active' : '' }}">
+                    <li class="{{ request()->is('events*') ? 'active' : '' }}">
                         <a href="{{ route('event.index') }}"><i class='bx bx-store-alt'></i>Event</a>
                     </li>
                     <li class="{{ request()->is('setting*') ? 'active' : '' }}">
@@ -31,7 +31,7 @@
                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                         <a href="{{ route('user.index') }}"><i class='bx bx-user'></i>Member</a>
                     </li>
-                    <li class="{{ request()->is('event_registration*') ? 'active' : '' }}">
+                    <li class="{{ request()->is('event-registration*') ? 'active' : '' }}">
                         <a href="{{ route('event_registration.index') }}"><i class='bx bx-user'></i>EventRegist</a>
                     </li>
                     <li class="{{ request()->is('payment*') ? 'active' : '' }}">
@@ -39,7 +39,7 @@
                     </li>
                 @elseif(Auth::user()->role === 'operator')
                     <li class="{{ request()->is('operator*') ? 'active' : '' }}">
-                        <a href="{{ route('eventsop.index') }}"><i class='bx bx-wrench'></i>Operator</a>
+                        <a href="{{ route('eventsop.index') }}"><i class='bx bx-wrench'></i>Event</a>
                     </li>
                 @endif
             @endif
@@ -67,8 +67,9 @@
                     <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
                 </div> --}}
             </form>
+
             <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
+            {{-- <label for="theme-toggle" class="theme-toggle"></label> --}}
 
             <a href="#" class="profile">
                 @php
@@ -151,15 +152,15 @@
             }
         });
 
-        const toggler = document.getElementById('theme-toggle');
+        // const toggler = document.getElementById('theme-toggle');
 
-        toggler.addEventListener('change', function() {
-            if (this.checked) {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
-        });
+        // toggler.addEventListener('change', function() {
+        //     if (this.checked) {
+        //         document.body.classList.add('dark');
+        //     } else {
+        //         document.body.classList.remove('dark');
+        //     }
+        // });
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -212,4 +213,4 @@
 
 </body>
 
-</html>
+</htm

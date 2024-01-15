@@ -12,6 +12,7 @@
     <div class="container">
         <div class="card" style="background-color:#F5F7F8;">
             <div class="card-body">
+                <a href="{{ route('event.index') }}" class="btn btn-dark float-end">Back</a>
                 <h2>{{ $event->name }}</h2>
                 <p>{{ $event->description }}</p>
                 <h3>Daftar Pengguna yang Terdaftar</h3>
@@ -48,5 +49,4 @@
     </div>
     </body>
     </html>
-    <a href="{{ route('event.index') }}" class="btn btn-dark mt-2">Back</a>
     @endsection

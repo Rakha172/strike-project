@@ -54,10 +54,14 @@
                                         <td>{{ $evnt->event_date }}</td>
                                         <td>{{ $evnt->start }}</td>
                                         <td>{{ $evnt->end }}</td>
-                                        <td>{{ $evnt->location }}</td>
+                                        <td>{{ substr($evnt->location, 0, 100) }}</td>
                                         <td>{{ $evnt->qualification }}</td>
                                         <td>
-                                            {{ strlen($evnt->description) > 100 ? substr($evnt->description, 0, 100) . '...' : $evnt->description }}
+                                            @if (str_word_count($evnt->description) > 100)
+                                                {{ substr($evnt->description, 0, 100) . '...' }}
+                                            @else
+                                                {{ $evnt->description }}
+                                            @endif
                                         </td>
                                         <td>
                                         <td>

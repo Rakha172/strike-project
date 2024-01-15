@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'admin',
             'role' => 'admin',
-            'phone_number' => '08872354643',
+            'phone_number' => '080000000000',
             'email' => 'admin@gmail.com',
             'password' => 'password',
         ]);
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'operator',
             'role' => 'operator',
-            'phone_number' => '08872415689',
+            'phone_number' => '080000000000',
             'email' => 'operator@gmail.com',
             'password' => 'password',
         ]);

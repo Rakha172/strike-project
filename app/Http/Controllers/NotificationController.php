@@ -21,9 +21,9 @@ class NotificationController extends Controller
         $sender = $setting->sender;
         $number = $recipientNumber;
 
-        $message = "Hello, Strike Maniac!\n\n";
+        $message = "Hello, {$setting->name}!\n\n";
         $message .= "OTP Code: $otpCode\n\n";
-        $message .= "Happy fishing and being a part of the amazing Strike Maniac community! 🎣";
+        $message .= "Happy fishing and being a part of the amazing {$setting->name} community! 🎣";
 
         $client = new Client();
 
@@ -87,11 +87,11 @@ class NotificationController extends Controller
                 $sender = $setting->sender;
                 $number = $userPhoneNumber;
 
-                $message = "Hello, $user->name strike maniac!\n\n";
-                $message .= "You have requested a password reset for your strike maniac account.\n\n";
+                $message = "Hello, $user->name {$setting->name}!\n\n";
+                $message .= "You have requested a password reset for your {$setting->name} account.\n\n";
                 $message .= "Click the following link to reset your password: $resetLink\n\n";
                 $message .= "If you did not request a password reset, please ignore this message.\n\n";
-                $message .= "Thank you for being a part of strike maniac!\n";
+                $message .= "Thank you for being a part of {$setting->name}!\n";
 
                 $client = new Client();
 
