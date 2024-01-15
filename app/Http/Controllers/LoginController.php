@@ -48,9 +48,9 @@ class LoginController extends Controller
 
                 $recipientNumber = $user->phone_number;
                 $message = "Hai {$user->name} 🎣 \n\n";
-                $message .= "Selamat datang di Strike Maniac!\n";
+                $message .= "Selamat datang di {$setting->name}!\n";
                 $message .= "Terima kasih sudah bergabung dalam kegemaran kita memancing,";
-                $message .= " mari kita dapatkan pengalaman dan kenangan baru bersama di Strike Maniac.\n\n";
+                $message .= " mari kita dapatkan pengalaman dan kenangan baru bersama di {$setting->name}.\n\n";
                 $message .= "Selamat memancing!";
 
                 try {
