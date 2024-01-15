@@ -201,7 +201,6 @@ class PaymentController extends Controller
             }
         }
 
-
         if ($event_regist->payment_status == 'paid') {
             try {
                 $setting = Setting::first();

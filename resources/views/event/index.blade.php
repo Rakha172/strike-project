@@ -26,7 +26,7 @@
                         </div>
                     @endif
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="darkMode">
                             <thead>
                                 <tr>
                                     <th scope="col">Name</th>
@@ -110,6 +110,7 @@
                 </div>
             </div>
         @endsection
+
 </body>
 
 </html>

@@ -153,6 +153,7 @@
                         @endif
                     </div>
                 </div>
+
             @endif
         @endforeach
     </div>
@@ -167,7 +168,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF0000',
-                cancelButtonColor: '#0000FF',
+                cancelButtonColor: '#18537a',
                 confirmButtonText: 'Logout!',
                 reverseButtons: true
             }).then((result) => {

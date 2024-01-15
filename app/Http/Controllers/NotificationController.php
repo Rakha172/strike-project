@@ -52,24 +52,6 @@ class NotificationController extends Controller
 
         if (filter_var($input, FILTER_VALIDATE_EMAIL)) {
             $status = Password::sendResetLink(['email' => $input]);
-
-            if ($status === Password::RESET_LINK_SENT) {
-                echo "<script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Password reset link has been sent. Please check your email.'
-                    });
-                </script>";
-            } else {
-                echo "<script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Email not registered.'
-                    });
-                </script>";
-            }
         } else {
             $user = User::query()
                 ->where('phone_number', $input)
@@ -132,7 +114,7 @@ class NotificationController extends Controller
                 </script>";
             }
         }
-        return view('auth.forgot-password')->with('success', 'Link Untuk Reset Password Sudah Dikirim Ke Email/Whatsapp Anda');
+        return view('auth.forgot-password')->with('success', 'The link to reset your password has been sent to your email/Whatsapp');
     }
 
     public function processResetPassword(Request $request)

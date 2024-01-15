@@ -21,7 +21,7 @@
                     <form action="{{ route('event.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('post')
-                        <div class="mb-3">
+                        <div class="mb-3">~
                             <label class="form-label">Name</label>
                             <input value="{{ old('name') }}" name="name" type="text"
                                 class="form-control @error('name') is-invalid @enderror">

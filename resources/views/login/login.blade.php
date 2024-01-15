@@ -51,7 +51,7 @@
 
             <script>
                 @if (session('logout'))
-                    toastr.error("{{ session('logout') }}", "", {});
+                    toastr.info("{{ session('logout') }}", "", {});
                 @endif
             </script>
 
@@ -61,22 +61,21 @@
                 @endif
             </script>
 
-            @error('email')
+            @error('email_or_phone_number')
                 <div class="invalid-feedback">{{ $message }}</div>
                 <script>
                     toastr.error("{{ $message }}");
                 </script>
             @enderror
 
-            @error('password')
+            @error('otp')
                 <div class="invalid-feedback">{{ $message }}</div>
                 <script>
                     toastr.error("{{ $message }}");
                 </script>
             @enderror
 
-
-            <input type="text" name="email" class="email" placeholder="Masukkan Email" required>
+            <input type="text" name="email_or_phone_number" class="email" placeholder="Masukkan Email/Nomor Telepon" required>
 
             <div class="password-container">
                 <input type="password" name="password" class="password" id="password" placeholder="Masukkan Password"
@@ -89,12 +88,6 @@
             <a href="{{ route('password.request') }}">Forgot password?</a>
 
             <div class="form-group">
-
-                <script>
-                    @if ($errors->has('otp'))
-                        toastr.error("{{ $errors->first('otp') }}", "Error", );
-                    @endif
-                </script>
 
                 <input type="submit" value="Sign In" class="form-control btn rounded submit px-3">
             </div>

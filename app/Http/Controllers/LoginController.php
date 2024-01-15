@@ -46,11 +46,6 @@ class LoginController extends Controller
             $credentials = $this->phoneNumberIsExist($credentials['email_or_phone_number']);
         }
 
-        if (!$credentials)
-        {
-            return back()->withErrors(['otp' => 'the email or password you entered is incorrect.'])->withInput();
-        }
-
         $credentials = [
             'email' => $credentials->email,
             'password' => $request->post('password')
@@ -93,7 +88,7 @@ class LoginController extends Controller
 
             }
         } else {
-            return back()->withErrors(['otp' => 'the email or password you entered is incorrect.'])->withInput();
+            return back()->withErrors(['otp' => 'the email or phone number or password you entered is incorrect.'])->withInput();
         }
     }
 

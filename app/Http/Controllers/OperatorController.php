@@ -98,41 +98,50 @@ class OperatorController extends Controller
         // Temukan pengguna berdasarkan ID yang diberikan dalam request
         $user = User::find($request->input('participant'));
 
-        if (!$user) {
-            return redirect()->route('result.create', ['event' => $event->id])->with('error', 'User tidak ditemukan.');
+        $event_regist = Event_Registration::where('user_id', $user->id)
+        ->where('event_id', $event->id)
+        ->first();        // Sesuaikan dengan relasi yang ada pada model Event
+
+        // Periksa status pembayaran dan kehadiran
+        if ($event_regist && $event_regist->payment_status === 'paid' && !$event_regist->attended) {
+
+            if (!$user) {
+                return redirect()->route('result.create', ['event' => $event->id])->with('error', 'User tidak ditemukan.');
+            }
+
+            // Simpan hasil dari pengguna yang terlibat dalam acara
+            $result = new Result([
+                'user_id' => $user->id,
+                'event_id' => $event->id,
+                'weight' => floatval($request->input('weight')),
+                'status' => $request->input('status'),
+                'image_path' => $this->saveImage($request->input('image_data')),
+            ]);
+
+            $result->save();
+
+            $userTotalCatch = Result::where([
+                'user_id' => $user->id,
+                'event_id' => $event->id,
+            ])->count();
+
+            $userMessage = "Halo, {$user->name}! 🎉\n\n";
+            $userMessage .= "Berikut adalah detail laporan ikan ke-{$userTotalCatch} Anda :\n\n";
+            $userMessage .= "Berat Ikan : {$result->weight} gram\n";
+            $userMessage .= "Status Ikan : {$result->status} 🐟🌟";
+
+            $userCreatedAt = $result->created_at->format('Y-m-d H:i:s');
+            $userUpdatedAt = $result->updated_at->format('Y-m-d H:i:s');
+
+            $userMessage .= "\n\nWaktu pembuatan: {$userCreatedAt}\n";
+            $userMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}";
+
+            $userRecipientNumber = $user->phone_number;
+            $mediaUrl = asset($result->image_path); // Menggunakan asset untuk menghasilkan URL yang benar
+
+            $this->sendWhatsAppMessage($userMessage, $userRecipientNumber, $mediaUrl);
+
         }
-
-        // Simpan hasil dari pengguna yang terlibat dalam acara
-        $result = new Result([
-            'user_id' => $user->id,
-            'event_id' => $event->id,
-            'weight' => floatval($request->input('weight')),
-            'status' => $request->input('status'),
-            'image_path' => $this->saveImage($request->input('image_data')),
-        ]);
-
-        $result->save();
-
-        $userTotalCatch = Result::where([
-            'user_id' => $user->id,
-            'event_id' => $event->id,
-        ])->count();
-
-        $userMessage = "Halo, {$user->name}! 🎉\n\n";
-        $userMessage .= "Berikut adalah detail laporan ikan ke-{$userTotalCatch} Anda :\n\n";
-        $userMessage .= "Berat Ikan : {$result->weight} gram\n";
-        $userMessage .= "Status Ikan : {$result->status} 🐟🌟";
-
-        $userCreatedAt = $result->created_at->format('Y-m-d H:i:s');
-        $userUpdatedAt = $result->updated_at->format('Y-m-d H:i:s');
-
-        $userMessage .= "\n\nWaktu pembuatan: {$userCreatedAt}\n";
-        $userMessage .= "Waktu perubahan terakhir: {$userUpdatedAt}";
-
-        $userRecipientNumber = $user->phone_number;
-        $mediaUrl = asset($result->image_path); // Menggunakan asset untuk menghasilkan URL yang benar
-
-        $this->sendWhatsAppMessage($userMessage, $userRecipientNumber, $mediaUrl);
 
         return redirect()->route('resultop.index', ['event' => $event->id])->with('success', 'Data berhasil disimpan. Notifikasi WhatsApp terkirim.');
 
