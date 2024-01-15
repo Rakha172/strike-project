@@ -58,8 +58,8 @@
             <i class='bx bx-menu'></i>
             <form action="#">
             </form>
-            <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
+            {{-- <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label> --}}
             <a href="#" class="profile">
                 @php
                     $user = Auth::user();
@@ -169,16 +169,16 @@
             }
         });
 
-        const toggler = document.getElementById('theme-toggle');
+        // const toggler = document.getElementById('theme-toggle');
 
-        toggler.addEventListener('change', function() {
+        // toggler.addEventListener('change', function() {
 
-            if (this.checked) {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
-        });
+        //     if (this.checked) {
+        //         document.body.classList.add('dark');
+        //     } else {
+        //         document.body.classList.remove('dark');
+        //     }
+        // });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
