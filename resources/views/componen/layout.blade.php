@@ -62,10 +62,10 @@
         <nav>
             <i class='bx bx-menu'></i>
             <form action="#">
-                <div class="form-input">
+                {{-- <div class="form-input">
                     <input type="search" placeholder="Search...">
                     <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
-                </div>
+                </div> --}}
             </form>
             <input type="checkbox" id="theme-toggle" hidden>
             <label for="theme-toggle" class="theme-toggle"></label>
@@ -150,32 +150,17 @@
                 searchForm.classList.remove('show');
             }
         });
-    </script>
 
-    <script>
         const toggler = document.getElementById('theme-toggle');
 
-        // Fungsi untuk menentukan apakah tema gelap aktif
-        function isDarkModeActive() {
-            return document.body.classList.contains('dark');
-        }
-
         toggler.addEventListener('change', function() {
-            // Toggle kelas 'dark' pada body
-            document.body.classList.toggle('dark', this.checked);
-
-            // Simpan status tema gelap pada local storage
-            localStorage.setItem('darkMode', this.checked);
+            if (this.checked) {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
         });
-
-        // Cek apakah tema gelap aktif saat halaman dimuat
-        const storedDarkMode = localStorage.getItem('darkMode');
-        if (storedDarkMode === 'true') {
-            document.body.classList.add('dark');
-            toggler.checked = true;
-        }
     </script>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -195,10 +180,10 @@
                     $("#menu-link").text("EventRegist");
                 } else if (path.includes("payment")) {
                     $("#menu-link").text("Payment");
-                } else if (path.includes("operator")) {
-                    $("#menu-link").text("Operator");
+                } else if (path.includes("result")) {
+                    $("#menu-link").text("Results");
                 } else {
-                    $("#menu-link").text("EventRegist");
+                    $("#menu-link").text("Home");
                 }
             }
         });
@@ -213,9 +198,10 @@
                 text: 'Apakah Anda yakin ingin keluar?',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#18537a',
-                cancelButtonColor: '#d33',
+                confirmButtonColor: '#FF0000',
+                cancelButtonColor: '#0000FF',
                 confirmButtonText: 'Logout!',
+                reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = "{{ route('logout') }}";
