@@ -22,8 +22,8 @@
     <div class="sidebar">
         <a href="#" class="logo">
             @foreach ($setting as $item)
-            <img style="width:60px; height:60px;" src="{{ $item->image }}">
-            <div class="logo-name">{{ $item->name }}</div>
+                <img style="width:60px; height:60px;" src="{{ $item->image }}">
+                <div class="logo-name">{{ $item->name }}</div>
             @endforeach
         </a>
         <ul class="side-menu">
@@ -58,8 +58,7 @@
             <i class='bx bx-menu'></i>
             <form action="#">
             </form>
-            {{-- <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label> --}}
+
             <a href="#" class="profile">
                 @php
                     $user = Auth::user();
@@ -168,17 +167,6 @@
                 searchForm.classList.remove('show');
             }
         });
-
-        // const toggler = document.getElementById('theme-toggle');
-
-        // toggler.addEventListener('change', function() {
-
-        //     if (this.checked) {
-        //         document.body.classList.add('dark');
-        //     } else {
-        //         document.body.classList.remove('dark');
-        //     }
-        // });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
