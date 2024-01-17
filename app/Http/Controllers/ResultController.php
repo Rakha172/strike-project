@@ -38,7 +38,6 @@ class ResultController extends Controller
         return view('result.create', compact('users', 'results', 'event_registration', 'event', 'title'));
     }
 
-
     public function store(Request $request, Event $event)
     {
 

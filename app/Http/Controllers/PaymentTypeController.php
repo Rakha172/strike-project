@@ -14,7 +14,7 @@ class PaymentTypeController extends Controller
         $title = Setting::firstOrFail();
         $paymenttypes = PaymentTypes::all();
 
-        return view('payment.index', compact('paymenttypes','title'));
+        return view('payment.index', compact('paymenttypes', 'title'));
     }
 
     public function create()
@@ -42,9 +42,7 @@ class PaymentTypeController extends Controller
         $title = Setting::firstOrFail();
         return view('payment.edit', compact('paymenttypes', 'title'));
     }
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function paytypeupdate(Request $request, PaymentTypes $paymenttypes)
     {
         $validated = $request->validate([
@@ -59,9 +57,7 @@ class PaymentTypeController extends Controller
 
         return redirect()->route('paymenttypesIndex')->with('berhasil', "$request->name Berhasil diubah");
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(PaymentTypes $paymenttypes)
     {
         $paymenttypes->delete();
