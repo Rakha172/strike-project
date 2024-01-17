@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $title = Setting::firstOrFail();
@@ -18,9 +15,6 @@ class SettingController extends Controller
         return view('setting.index', compact('setting', 'title'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function show($id)
     {
         $title = Setting::firstOrFail();
@@ -29,9 +23,6 @@ class SettingController extends Controller
         return view('setting.show', compact('setting', 'title'));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function edit(string $id)
     {
         $title = Setting::firstOrFail();
@@ -40,9 +31,6 @@ class SettingController extends Controller
         return view('setting.edit', compact('setting', 'title'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Setting $id)
     {
         $validated = $request->validate([

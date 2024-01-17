@@ -8,9 +8,6 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $title = Setting::firstOrFail();
@@ -18,18 +15,12 @@ class UserController extends Controller
         return view('user.index', compact('user', 'title'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $title = Setting::firstOrFail();
         return view('user.create', compact('title'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -66,9 +57,6 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('berhasil', "$request->name Berhasil diubah");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         $user->delete();
@@ -87,7 +75,7 @@ class UserController extends Controller
 
         if ($user) {
             return redirect()->route('events')->with('success', "Changed Successfully");
-        }else{
+        } else {
             return back();
         }
 

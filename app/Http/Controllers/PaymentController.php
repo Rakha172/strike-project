@@ -97,17 +97,7 @@ class PaymentController extends Controller
 
         return redirect()->route('paymentConfirm', $event_register_id->id)->with('berhasil', "Berhasil diubah");
     }
-    // public function expiredOrder(Request $request, $event_regist_id)
-    // {
-    //     $event_regist_id = decrypt($event_regist_id);
-    //     $eventData = Event_Registration::findOrFail($event_regist_id->event_id);
-    //     $eventData->update([
-    //         'status' => 'cancel',
-    //     ]);
 
-    //     return redirect()->route('payment-confirm', $event_regist_id);
-    // }
-    // Contoh di Controller
     public function processData(Request $request)
     {
         try {
