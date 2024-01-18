@@ -100,9 +100,8 @@ Route::get('/dashboard', function () {
 
 //layout dashboard
 Route::get('/layout', function () {
-return view('componen.layout');
+    return view('componen.layout');
 });
-
 
 //layout dashboard
 Route::get('/main', function () {
@@ -175,10 +174,11 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 
     //event untuk landingevent
     Route::get('/event', function () {
+        $title = Setting::first();
         $events = Event::all();
         $events_registration = Event_Registration::all();
         $user = Auth::user();
-        return view('landingevent.landingevent', compact('events', 'events_registration', 'user'));
+        return view('landingevent.landingevent', compact('events', 'events_registration', 'user','title'));
     })->name('events');
 
     //updateprofileuser
@@ -193,6 +193,7 @@ Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePay
 Route::get('/payment-confirm/{event_register_id}', [PaymentController::class, 'paymentConfirm'])->name('paymentConfirm');
 Route::get('/countdown/{id}', function ($id) {
 });
+Route::post('/updatePaymentStatus', [PaymentController::class, 'updatePaymentStatus'])->name('updatePaymentStatus');
 
 Route::put('expired-order/{orderManifestId}', [PaymentController::class, 'expiredOrder'])->name('order.expiredOrder');
 

@@ -30,7 +30,9 @@
             <div class="card space icon-relative">
                 <center><label class="label">Payment Total</label></center>
                 <div class="input-container">
-                    <input type="text" class="input-confirm" value="{{ number_format($event_regist->payment_total, 0, '.', '.') }}" style="cursor: pointer" readonly>
+                    <input type="text" class="input-confirm"
+                        value="{{ number_format($event_regist->payment_total, 0, '.', '.') }}" style="cursor: pointer"
+                        readonly>
                     <i class="fas fa-dollar-sign" id="i"></i>
                 </div>
             </div><br>
@@ -77,6 +79,27 @@
                 // Redirect ke route "events"
                 window.location.href = "{{ route('events') }}";
             }
+
+            function updatePaymentStatus() {
+                // Menggunakan AJAX untuk mengirim permintaan ke server Laravel
+                // Sesuaikan route dan data yang dibutuhkan
+                $.ajax({
+                    url: "{{ route('updatePaymentStatus') }}", // Gantilah dengan nama route yang sesuai
+                    method: 'POST',
+                    data: {
+                        event_regist_id: {{ $event_regist->id }},
+                    },
+                    success: function(response) {
+                        // Redirect ke halaman events setelah mengupdate status pembayaran
+                        window.location.href = "{{ route('events') }}";
+                    },
+                    error: function(error) {
+                        console.error('Gagal memperbarui status pembayaran:', error);
+                        // Redirect ke halaman events bahkan jika terjadi kesalahan
+                        window.location.href = "{{ route('events') }}";
+                    }
+                });
+            }
         }
 
         // Fungsi mengurangi waktu setiap detik
@@ -93,8 +116,8 @@
 
                 if (totalSeconds < 0) {
                     clearInterval(interval);
-                    // Redirect ke route "events" jika waktu habis
-                    window.location.href = "{{ route('events') }}";
+                    // Memanggil fungsi untuk mengupdate status pembayaran
+                    updatePaymentStatus();
                 }
             }, 1000);
         }

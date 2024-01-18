@@ -21,10 +21,8 @@
 
     <div class="sidebar">
         <a href="#" class="logo">
-            @foreach ($setting as $item)
-            <img style="width:60px; height:60px;" src="{{ $item->image }}">
-            <div class="logo-name">{{ $item->name }}</div>
-            @endforeach
+            <img style="width:60px; height:60px;" src="{{ asset('img/Logo.png') }}">
+            <div class="logo-name"><span>Project</span>Strike</div>
         </a>
         <ul class="side-menu">
 
@@ -189,7 +187,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF0000',
-                cancelButtonColor: '#0000FF',
+                cancelButtonColor: '#18537a',
                 confirmButtonText: 'Logout!',
                 reverseButtons: true
             }).then((result) => {

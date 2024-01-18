@@ -114,7 +114,7 @@ class NotificationController extends Controller
                 </script>";
             }
         }
-        return view('auth.forgot-password')->with('success', 'The link to reset your password has been sent to your email/Whatsapp');
+        return view('auth.forgot-password')->with(['success' => "The link to reset your password has been sent to your email/Whatsapp"]);
     }
 
     public function processResetPassword(Request $request)

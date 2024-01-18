@@ -17,6 +17,7 @@
 <body>
     <div class="navbar">
         Event Ticket Booking
+
         <br>
 
         @error('name')

@@ -7,13 +7,14 @@
     <title>{{ $title->name }} | Add Result</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <style>
-            #capturedImage {
-                display: none;
-                max-width: 100%; /* Menambahkan max-width agar gambar tidak keluar dari kotak */
-                height: auto;
-            }
-        </style>
+    <style>
+        #capturedImage {
+            display: none;
+            max-width: 100%;
+            /* Menambahkan max-width agar gambar tidak keluar dari kotak */
+            height: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,8 +38,6 @@
                         </div>
 
                         <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-body">
                                     <form action="{{ route('resultop.store', ['event' => $event->id]) }}" method="POST">
                                         @csrf
                                         @method('POST')
@@ -46,8 +45,10 @@
                                             <label for="participant">Participant</label>
                                             <select name="participant" class="form-control">
                                                 @foreach ($event_registration as $eventReg)
-                                                    <option value="{{ $eventReg->user_id }}">{{ $eventReg->user->name }}
-                                                    </option>
+                                                @if ($eventReg->payment_status === 'paid' || $eventReg->payment_status === 'attended')
+                                                        <option value="{{ $eventReg->user_id }}">{{ $eventReg->user->name }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -71,8 +72,6 @@
                                         <button onclick="capturePhotoAndSave(); showCapturedImage();"
                                             class="btn btn-primary mt-3"> Ambil Foto dan Simpan</button>
                                     </form>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -141,5 +140,5 @@
         </script>
     </body>
 
-</html>
+    </html>
 @endsection

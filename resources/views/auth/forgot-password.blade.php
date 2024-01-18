@@ -40,11 +40,15 @@
         </div>
 
         <div class="login area">
-            <script>
-                @if (session('success'))
-                    toastr.info("{{ session('success') }}", "", {});
-                @endif
-            </script>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                        {{ session('success') }}
+                </div>
+            @endif
+
             <form action="{{ route('password.email') }}" method="post" id="form">
                 @csrf
                 <label for="email_or_whatsapp" style="color: #1f79ff;">Email or WhatsApp Number</label>

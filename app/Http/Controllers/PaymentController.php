@@ -16,25 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PaymentController extends Controller
 {
-    public function index(Request $request)
-    {
-        $title = Setting::firstOrFail();
-        $page = 5;
-        $keyword = $request->keyword;
-        $eventStatusPayed = Event_Registration::query()
-            ->when($keyword, function (Builder $query, $keyword) {
-                $query->whereHas('user', function ($userQuery) use ($keyword) {
-                    $userQuery->where('name', 'like', "%$keyword%")
-                        ->orWhere('event_date', 'like', "%$keyword%");
-                });
-            })
-            ->where('payment_status', 'waiting')
-            ->latest()
-            ->paginate($page);
-
-        return view('payment.payment-confirm-admin', compact('eventStatusPayed', 'title'));
-    }
-
     public function update(Request $request, Event_Registration $event_registrationId)
     {
         try {
@@ -87,6 +68,7 @@ class PaymentController extends Controller
         }
         return view('payment.payment-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes'));
     }
+
     public function updatePayment(Request $request, Event_Registration $event_register_id)
     {
         $validated = $request->validate([
@@ -95,20 +77,10 @@ class PaymentController extends Controller
 
         $event_register_id->update($validated);
 
-        return redirect()->route('paymentConfirm', $event_register_id->id)->with('berhasil', "Berhasil diubah");
+        return redirect()->route('paymentConfirm', $event_register_id->id)->with('berhasil', "Berhasil");
     }
-    // public function expiredOrder(Request $request, $event_regist_id)
-    // {
-    //     $event_regist_id = decrypt($event_regist_id);
-    //     $eventData = Event_Registration::findOrFail($event_regist_id->event_id);
-    //     $eventData->update([
-    //         'status' => 'cancel',
-    //     ]);
 
-    //     return redirect()->route('payment-confirm', $event_regist_id);
-    // }
-    // Contoh di Controller
-    public function processData(Request $request)
+      public function processData(Request $request)
     {
         try {
             // Terima semua data dari Moota
@@ -151,7 +123,7 @@ class PaymentController extends Controller
             $event_regist = Event_Registration::find($event_register_id);
         }
 
-        $targetTime = $event_regist->updated_at->addMinutes(10);
+        $targetTime = $event_regist->updated_at->addMinutes(1);
 
         // Waktu sekarang
         $now = Carbon::now();

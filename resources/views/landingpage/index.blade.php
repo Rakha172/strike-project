@@ -212,7 +212,7 @@
                     </li>
 
                     <li>
-                        <a href="#" class="footer-link">Jl.wkkdkdk</a>
+                        <a href="#" class="footer-link">Baros</a>
                     </li>
 
 
