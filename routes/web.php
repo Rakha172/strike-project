@@ -100,9 +100,8 @@ Route::get('/dashboard', function () {
 
 //layout dashboard
 Route::get('/layout', function () {
-return view('componen.layout');
+    return view('componen.layout');
 });
-
 
 //layout dashboard
 Route::get('/main', function () {
@@ -130,8 +129,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 
     //table setting
     Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
-    Route::get('/setting/create', [SettingController::class, 'create'])->name('setting.create');
-    Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
     Route::get('setting/{id}/show', [SettingController::class, 'show'])->name('setting.show');
     Route::get('setting/{id}/edit', [SettingController::class, 'edit'])->name('setting.edit');
     Route::put('setting/{id}', [SettingController::class, 'update'])->name('setting.update');
@@ -151,7 +148,6 @@ Route::group(['middleware' => 'can:role,"admin"'], function () {
 
     //Halaman RegisEvent
     Route::get('event-registration', [Event_RegistrationController::class, 'index'])->name('event_registration.index');
-
     //crud payment types
     Route::get('paymentypes', [PaymentTypeController::class, 'paymenttypesIndex'])->name('paymenttypesIndex');
     Route::get('paymentypes/create', [PaymentTypeController::class, 'create'])->name('paytype.create');
@@ -178,10 +174,11 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 
     //event untuk landingevent
     Route::get('/event', function () {
+        $title = Setting::first();
         $events = Event::all();
         $events_registration = Event_Registration::all();
         $user = Auth::user();
-        return view('landingevent.landingevent', compact('events', 'events_registration', 'user'));
+        return view('landingevent.landingevent', compact('events', 'events_registration', 'user','title'));
     })->name('events');
 
     //updateprofileuser
@@ -194,8 +191,9 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
 Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePayment'])->name('updatePayment');
 Route::get('/payment-confirm/{event_register_id}', [PaymentController::class, 'paymentConfirm'])->name('paymentConfirm');
-Route::get('/countdown/{id}', function ($id) {
-});
+Route::post('payment-confirm/{event_register_id}', [PaymentController::class, 'processData']);
+
+Route::post('/updatePaymentStatus', [PaymentController::class, 'updatePaymentStatus'])->name('updatePaymentStatus');
 
 Route::put('expired-order/{orderManifestId}', [PaymentController::class, 'expiredOrder'])->name('order.expiredOrder');
 

@@ -68,7 +68,6 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'phone_number' => 'required|unique:users|numeric|digits:12',
         ]);
 
         $user->update($validated);

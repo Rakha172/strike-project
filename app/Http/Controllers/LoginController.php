@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -29,11 +30,27 @@ class LoginController extends Controller
         $endpoint = $setting->endpoint;
 
         $credentials = $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email_or_phone_number' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        // check apakah input data berupa email
+        $isEmail = \filter_var($credentials['email_or_phone_number'], FILTER_VALIDATE_EMAIL);
+
+        // jika email, cek apakah email ada
+        if ($isEmail)
+        {
+            $credentials = $this->emailIsExist($credentials['email_or_phone_number']);
+        } else {
+            // jika bukan email, cek apakah nomor hp ada
+            $credentials = $this->phoneNumberIsExist($credentials['email_or_phone_number']);
+        }
+
+        $credentials = [
+            'email' => $credentials->email,
+            'password' => $request->post('password')
+        ];
+
         $remember = $request->has('remember');
 
         if (Auth::guard('web')->attempt($credentials, $remember)) {
@@ -42,7 +59,7 @@ class LoginController extends Controller
             if (Auth::user()->role == 'admin') {
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'operator') {
-                return redirect('/eventsop')->with(['succes' => $request->name . "Berhasil Login"]);
+                return redirect('/eventsop')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'member') {
                 $user = Auth::guard('web')->user();
 
@@ -71,8 +88,20 @@ class LoginController extends Controller
 
             }
         } else {
-            return back()->withErrors(['otp' => 'the email or password you entered is incorrect.'])->withInput();
+            return back()->withErrors(['otp' => 'the email or phone number or password you entered is incorrect.'])->withInput();
         }
+    }
+
+    protected function phoneNumberIsExist($phoneNumber): User | null
+    {
+        $user = User::where('phone_number', $phoneNumber)->first();
+        return $user;
+    }
+
+    protected function emailIsExist(string $email): User | null
+    {
+        $user = User::where('email', $email)->first();
+        return $user;
     }
 
     public function logout()

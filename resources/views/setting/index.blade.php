@@ -80,6 +80,29 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
     </script>
 
+    <script>
+        const toggler = document.getElementById('theme-toggle');
+
+        // Fungsi untuk menentukan apakah tema gelap aktif
+        function isDarkModeActive() {
+            return document.body.classList.contains('dark');
+        }
+
+        toggler.addEventListener('change', function() {
+            // Toggle kelas 'dark' pada body
+            document.body.classList.toggle('dark', this.checked);
+
+            // Simpan status tema gelap pada local storage
+            localStorage.setItem('darkMode', this.checked);
+        });
+
+        // Cek apakah tema gelap aktif saat halaman dimuat
+        const storedDarkMode = localStorage.getItem('darkMode');
+        if (storedDarkMode === 'true') {
+            document.body.classList.add('dark');
+            toggler.checked = true;
+        }
+    </script>
 </body>
 
 </html>

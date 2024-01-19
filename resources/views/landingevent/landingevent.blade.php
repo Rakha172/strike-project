@@ -17,21 +17,11 @@
 <body>
     <div class="navbar">
         Event Ticket Booking
+
         <br>
 
         @error('name')
             <div class="alert custom-alert-success">
-                <div class="blurry-background"></div>
-                <div class="alert-content">
-                    <h6>
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    </h6>
-                </div>
-            </div>
-        @enderror
-
-        @error('phone_number')
-            <div class="alert custom-alert-erorr">
                 <div class="blurry-background"></div>
                 <div class="alert-content">
                     <h6>
@@ -54,7 +44,7 @@
                     <p>Username <input type="text" value="{{ $user->name }}" name="name" title="klik untuk edit"
                             required></p>
                     <p>Nomor Telepon <input type="number" value="{{ $user->phone_number }}" name="phone_number"
-                            title="klik untuk edit" required></p>
+                            title="klik untuk edit" readonly></p>
                     <p>Email <input type="text" readonly value="{{ $user->email }}" title="klik untuk edit"></p>
 
                     <input value="Save" type="submit" id="submit" onclick="saveChanges()">
@@ -130,6 +120,8 @@
                         @else
                             <img src="{{ $item['image'] }}" alt="Event Image">
                         @endif
+
+
                     </div>
 
                     <div class="body-container">
@@ -157,6 +149,7 @@
                             </div>
                         </div>
 
+
                         @if ($isRegistered && ($eventRegistration && in_array($eventRegistration->payment_status, ['paid'])))
                             <button class="action" disabled>Anda sudah terdaftar untuk Event ini</button>
                         @else
@@ -164,8 +157,11 @@
                         @endif
                     </div>
                 </div>
-            @endif
+
+        @endif
+
         @endforeach
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -178,7 +174,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF0000',
-                cancelButtonColor: '#0000FF',
+                cancelButtonColor: '#18537a',
                 confirmButtonText: 'Logout!',
                 reverseButtons: true
             }).then((result) => {

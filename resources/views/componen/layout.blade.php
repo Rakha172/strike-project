@@ -6,15 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}" />
+
+
+    {{-- CSS Toastr Link --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {{-- Cdn Jquery --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 
+{{-- JS Toastr Link --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <body>
+
+    <script>
+        @if (Session::has('success'))
+            toastr.info("{{ Session::get('success') }}", "{{ Auth::user()->name }}", {});
+        @elseif (Session::has('failed'))
+            toastr.error("{{ Session::get('error') }}", "Oops!", {});
+        @endif
+    </script>
 
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="#" class="logo">
             <img style="width:60px; height:60px;" src="{{ asset('img/Logo.png') }}">
-            <div class="logo-name"><span>Project</span>Strike</div>
+            <div class="logo-name"><span></span>Strike</div>
         </a>
         <ul class="side-menu">
             @if (Auth::check())
@@ -81,7 +104,11 @@
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Dashboard</h1>
+                @if ((Auth::user()->role === 'operator'))
+                <h1>Operator Page</h1>
+                <br>
+                @else
+                <h1>Dashboard</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
                                 Dashboard
@@ -89,6 +116,8 @@
                         /
                         <li><a href="#" id="menu-link" class="active">Home</a></li>
                     </ul>
+                @endif
+
                 </div>
             </div>
             @yield('content')
@@ -185,7 +214,7 @@
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#FF0000',
-                cancelButtonColor: '#0000FF',
+                cancelButtonColor: '#18537a',
                 confirmButtonText: 'Logout!',
                 reverseButtons: true
             }).then((result) => {
@@ -198,4 +227,4 @@
 
 </body>
 
-</html>
+</htm

@@ -282,6 +282,7 @@ body{
     border-radius: 50%;
 }
 
+
 .content nav .theme-toggle{
     display: block;
     min-width: 50px;
@@ -477,3 +478,4 @@ body{
         grid-template-columns: 1fr;
     }
 }
+

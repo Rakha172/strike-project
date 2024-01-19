@@ -15,12 +15,14 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    {{-- CSS Toastr Link --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+        integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     {{-- Cdn Jquery --}}
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-
-    <!-- Toastr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 </head>
 
 {{-- JS Toastr Link --}}
@@ -38,13 +40,15 @@
         </div>
 
         <div class="login area">
-            <script>
-                @if (session('success'))
-                    toastr.info("{{ session('success') }}", {
-                        positionClass: "toast-center",
-                    });
-                @endif
-            </script>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                        {{ session('success') }}
+                </div>
+            @endif
+
             <form action="{{ route('password.email') }}" method="post" id="form">
                 @csrf
                 <label for="email_or_whatsapp" style="color: #1f79ff;">Email or WhatsApp Number</label>
