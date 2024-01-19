@@ -369,9 +369,6 @@ class WinnerController extends Controller
                 throw new \Exception('Failed to send WhatsApp text message');
             }
         } catch (\Exception $e) {
-            // Tangani kesalahan jika diperlukan
-            // Misalnya: log pesan kesalahan atau tindakan lain yang sesuai
-            // echo $e->getMessage(); // Untuk menampilkan pesan kesalahan
         }
     }
 

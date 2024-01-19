@@ -80,7 +80,7 @@ class PaymentController extends Controller
         return redirect()->route('paymentConfirm', $event_register_id->id)->with('berhasil', "Berhasil");
     }
 
-      public function processData(Request $request)
+    public function processData(Request $request)
     {
         try {
             // Terima semua data dari Moota
