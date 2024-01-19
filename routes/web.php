@@ -191,8 +191,8 @@ Route::group(['middleware' => 'can:role,"member"'], function () {
 Route::get('/payment/{event_register_id}', [PaymentController::class, 'member'])->name('payment');
 Route::put('/payment/{event_register_id}', [PaymentController::class, 'updatePayment'])->name('updatePayment');
 Route::get('/payment-confirm/{event_register_id}', [PaymentController::class, 'paymentConfirm'])->name('paymentConfirm');
-Route::get('/countdown/{id}', function ($id) {
-});
+Route::post('payment-confirm/{event_register_id}', [PaymentController::class, 'processData']);
+
 Route::post('/updatePaymentStatus', [PaymentController::class, 'updatePaymentStatus'])->name('updatePaymentStatus');
 
 Route::put('expired-order/{orderManifestId}', [PaymentController::class, 'expiredOrder'])->name('order.expiredOrder');

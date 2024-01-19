@@ -85,6 +85,7 @@ class PaymentController extends Controller
         try {
             // Terima semua data dari Moota
             $mootaData = $request->all();
+            logger($mootaData);
 
             // Langsung proses semua data
             foreach ($mootaData as $data) {
@@ -93,14 +94,57 @@ class PaymentController extends Controller
                 $eventRegistration = Event_Registration::query()->where('payment_total', intval($data['amount']))
                     ->where('payment_status', 'waiting')
                     ->where('regist_date', Carbon::parse($data['date'])->format('Y-m-d'))
-                    ->get();
-                Log::info($eventRegistration);
-                foreach ($eventRegistration as $item) {
-                    if ($item) {
-                        $eventRegistData = Event_Registration::findOrFail($item->id);
-                        $eventRegistData->update(['payment_status' => 'paid']);
+                    ->first();
+
+                    // logger($eventRegistration);
+
+
+                    // $users = User::find($eventRegistration->user_id);
+                    // logger($users);
+
+                    // Periksa apakah user tersedia
+                    // if ($users) {
+                    //     $phoneNumber = $users->phone_number;
+                    // }
+                // foreach ($eventRegistration as $item) {
+
+                    $user = User::find($eventRegistration?->user_id);
+
+                    if ($user) {
+                         // foreach ($users as $user) {
+                        try {
+
+                            $eventRegistData = Event_Registration::findOrFail($eventRegistration->id);
+                            $eventRegistData->update(['payment_status' => 'paid']);
+
+                            $setting = Setting::first();
+                            $message = "Pembayaran Anda Berhasil, Terimakasih😁😇";
+                            $recipientNumber = $user->phone_number;
+                            $apiKey = $setting->api_key;
+                            $sender = $setting->sender;
+                            $endpoint = $setting->endpoint;
+
+                            $response = Http::post($endpoint, [
+                                'api_key' => $apiKey,
+                                'sender' => $sender,
+                                'number' => $recipientNumber,
+                                'message' => $message,
+                            ]);
+
+                            if (!$response->successful()) {
+                                throw new \Exception('Failed to send WhatsApp notification to user');
+                            }
+
+                            return redirect()->route('events')->with('succes', 'Payment Succest');
+
+                        } catch (\Exception $e) {
+                            return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
+                        }
                     }
-                }
+                    // }
+                    // if ($item) {
+                    // }
+                // }
             }
 
             return response()->json(['message' => 'Data processed successfully'], 200);
@@ -125,14 +169,9 @@ class PaymentController extends Controller
 
         $targetTime = $event_regist->updated_at->addMinutes(1);
 
-        // Waktu sekarang
-        $now = Carbon::now();
-        // Hitung selisih waktu dalam menit dan detik
-        $diff = $now->diff($targetTime);
-        $countdown = [
-            'minutes' => $diff->format('%i'),
-            'seconds' => $diff->format('%s'),
-        ];
+        $currentTime = Carbon::now();
+        $updatedAt = Carbon::parse($event_regist->updated_at);
+        $remainingTime = $updatedAt->addMinute(10)->diffInSeconds($currentTime);
 
         $event_name = $event_regist->event->name;
         $price = $event_regist->payment_total;
@@ -150,7 +189,8 @@ class PaymentController extends Controller
                 $message .= "Nomor {$name} : {$account} \n";
                 $message .= "Atas Nama : {$owner}\n\n";
                 $message .= "Mohon segera menyelesaikan pembayaran untuk menyelesaikan pendaftaran\n";
-                $message .= "Terima kasih atas partisipasinya! 🎉";
+                $message .= "Terima kasih atas partisipasinya! 🎉 \n\n";
+                $message .= "Jika Sudah Dibayar Harap Muat Ulang Halamannya";
                 $recipientNumber = $user->phone_number;
                 $apiKey = $setting->api_key;
                 $sender = $setting->sender;
@@ -170,39 +210,12 @@ class PaymentController extends Controller
                 if (!$event_regist) {
                     return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
                 }
+
             }
         }
 
-        if ($event_regist->payment_status == 'paid') {
-            try {
-                $setting = Setting::first();
-                $message = "Halo, {$userName}!🌟\n";
-                $message .= "Pembayaran Anda Berhasil, Terimakasih😁😇";
-                $recipientNumber = $user->phone_number;
-                $apiKey = $setting->api_key;
-                $sender = $setting->sender;
-                $endpoint = $setting->endpoint;
 
-                $response = Http::post($endpoint, [
-                    'api_key' => $apiKey,
-                    'sender' => $sender,
-                    'number' => $recipientNumber,
-                    'message' => $message,
-                ]);
-
-                return redirect()->route('events')->with('succes', 'Payment Succest');
-
-                if (!$response->successful()) {
-                    throw new \Exception('Failed to send WhatsApp notification to user');
-                }
-            } catch (\Exception $e) {
-                if (!$event_regist) {
-                    return redirect()->route('paymentConfirm')->with('error', 'Event registration not found');
-                }
-            }
-        }
-
-        return view('payment.payment-confirm-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes', 'countdown'));
+        return view('payment.payment-confirm-member', compact('event_regist', 'users', 'userName', 'title', 'paymentTypes', 'remainingTime'));
     }
 
 }

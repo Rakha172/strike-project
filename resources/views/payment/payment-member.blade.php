@@ -23,7 +23,7 @@
                     <center><label class="label">Payment Total</label></center><br>
                     <div class="input-container">
                         <i class="fas fa-dollar-sign"></i>
-                        <center><input type="text" class="input" value="{{ number_format($event_regist?->payment_total, 0, '.', '.') }}" readonly></center>
+                        <center><input type="text" style="text-align: center" class="input" value="{{ number_format($event_regist?->payment_total, 0, '.', '.') }}" readonly></center>
                     </div>
                 </div><br>
                 <div class="card space icon-relative">

@@ -59,7 +59,7 @@ class LoginController extends Controller
             if (Auth::user()->role == 'admin') {
                 return redirect('/dashboard')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'operator') {
-                return redirect('/eventsop')->with(['succes' => $request->name . "Berhasil Login"]);
+                return redirect('/eventsop')->with('success', 'Anda Berhasil Login!');
             } else if (Auth::user()->role == 'member') {
                 $user = Auth::guard('web')->user();
 

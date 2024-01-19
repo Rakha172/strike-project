@@ -120,6 +120,8 @@
                         @else
                             <img src="{{ $item['image'] }}" alt="Event Image">
                         @endif
+
+
                     </div>
 
                     <div class="body-container">
@@ -147,6 +149,7 @@
                             </div>
                         </div>
 
+
                         @if ($isRegistered && ($eventRegistration && in_array($eventRegistration->payment_status, ['paid'])))
                             <button class="action" disabled>Anda sudah terdaftar untuk Event ini</button>
                         @else
@@ -155,8 +158,10 @@
                     </div>
                 </div>
 
-            @endif
+        @endif
+
         @endforeach
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

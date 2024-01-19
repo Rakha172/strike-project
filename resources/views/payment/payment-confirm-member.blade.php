@@ -10,7 +10,8 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/payment.css') }}">
 
-</head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
 
 
 <body>
@@ -22,10 +23,11 @@
             </div>
 
             <h2>Payment Confirm Page</h2>
-            <p id="countdown"
-                style="font-family: 'Arial', sans-serif; font-size: 18px; color: #D80032; text-align: center; margin-top: 20px;">
-                Selesaikan Pembayaran Dalam <br> {{ $countdown['minutes'] }} menit {{ $countdown['seconds'] }} detik
-            </p>
+
+            <div>
+                <center><h4>selesaikan pembayaran dalam</h4></center>
+                <div id="countdown" style="color: red"></div><br>
+            </div>
 
             <div class="card space icon-relative">
                 <center><label class="label">Payment Total</label></center>
@@ -66,69 +68,28 @@
     </div>
 
     <script>
-        function updateCountdown(minutes, seconds) {
-            var countdownElement = document.getElementById('countdown');
+        $(document).ready(function() {
+            var remainingTime = {{ $remainingTime }};
 
-            if (countdownElement) {
-                countdownElement.innerHTML = 'Selesaikan Pembayaran Dalam  <br> ' + minutes + ' menit ' + seconds +
-                    ' detik';
-            }
+            function updateCountdown() {
+                var minutes = Math.floor(remainingTime / 60);
+                var seconds = remainingTime % 60;
 
-            // Jika waktu sudah habis maka user akan di arahkan ke halaman awal
-            if (minutes == 0 && seconds == 0) {
-                // Redirect ke route "events"
-                window.location.href = "{{ route('events') }}";
-            }
+                $('#countdown').html(minutes + ' menit, ' + seconds + ' detik');
 
-            function updatePaymentStatus() {
-                // Menggunakan AJAX untuk mengirim permintaan ke server Laravel
-                // Sesuaikan route dan data yang dibutuhkan
-                $.ajax({
-                    url: "{{ route('updatePaymentStatus') }}", // Gantilah dengan nama route yang sesuai
-                    method: 'POST',
-                    data: {
-                        event_regist_id: {{ $event_regist->id }},
-                    },
-                    success: function(response) {
-                        // Redirect ke halaman events setelah mengupdate status pembayaran
-                        window.location.href = "{{ route('events') }}";
-                    },
-                    error: function(error) {
-                        console.error('Gagal memperbarui status pembayaran:', error);
-                        // Redirect ke halaman events bahkan jika terjadi kesalahan
-                        window.location.href = "{{ route('events') }}";
-                    }
-                });
-            }
-        }
-
-        // Fungsi mengurangi waktu setiap detik
-        function countdownTimer(minutes, seconds) {
-            var totalSeconds = minutes * 60 + seconds;
-
-            var interval = setInterval(function() {
-                var currentMinutes = Math.floor(totalSeconds / 60);
-                var currentSeconds = totalSeconds % 60;
-
-                updateCountdown(currentMinutes, currentSeconds);
-
-                totalSeconds--;
-
-                if (totalSeconds < 0) {
-                    clearInterval(interval);
-                    // Memanggil fungsi untuk mengupdate status pembayaran
-                    updatePaymentStatus();
+                if (remainingTime > 0) {
+                    remainingTime--;
+                    setTimeout(updateCountdown, 1000);
+                } else {
+                    // Redirect ke halaman events jika countdown berakhir
+                    window.location.href = "{{ route('events') }}";
                 }
-            }, 1000);
-        }
+            }
 
-        // Panggil countdownTimer saat dokumen siap
-        document.addEventListener('DOMContentLoaded', function() {
-            var minutes = {{ $countdown['minutes'] }};
-            var seconds = {{ $countdown['seconds'] }};
-            countdownTimer(minutes, seconds);
+            updateCountdown();
         });
     </script>
+
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

@@ -45,6 +45,21 @@ class Event_RegistrationController extends Controller
             'event_id' => 'required',
             'booth' => 'nullable',
         ]);
+
+        // Cek apakah user sudah ada di event_regist
+        $existingRegistration = Event_Registration::where('user_id', $validated['user_id'])
+            ->where('event_id', $validated['event_id'])
+            ->first();
+
+        // jika user sudah ada di event_regist maka akan di arahkan
+        if ($existingRegistration) {
+
+            $event_id = $existingRegistration->id;
+
+            return redirect()->route('payment',$event_id)->with('success', 'Lanjutkan Pembayaran');
+        }
+
+        // Jika user belum terdaftar, lanjutkan proses pendaftaran
         $validated['payment_status'] = 'waiting';
 
         $event = Event::find($request->input('event_id'));
@@ -55,11 +70,11 @@ class Event_RegistrationController extends Controller
             return redirect()->route('payment')->with('error', 'Pendaftaran sudah penuh untuk event ini.');
         }
 
-        $latestCode = Event_Registration::query()->where('code','!=', null)->latest()->first();
+        $latestCode = Event_Registration::query()->where('code', '!=', null)->latest()->first();
         $dateFormat = now()->format('YmdHis');
-        $latestThreeDigitsCode= substr($latestCode?->code, -3);
+        $latestThreeDigitsCode = substr($latestCode?->code, -3);
         $codeSequence = sprintf('%03d', intval($latestThreeDigitsCode) + 1);
-        $code =$dateFormat . $codeSequence;
+        $code = $dateFormat . $codeSequence;
 
         $validated['code'] = $code;
 
