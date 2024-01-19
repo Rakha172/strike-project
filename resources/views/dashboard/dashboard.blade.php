@@ -22,7 +22,7 @@
     <div class="sidebar">
         <a href="#" class="logo">
             @foreach ($setting as $item)
-            <img style="width:60px; height:60px;" src="{{ $item->image }}">
+            <img style="width:60px; height:60px;" src="{{ asset('logo/' . $item->logo) }}">
             <div class="logo-name">{{ $item->name }}</div>
             @endforeach
         </a>

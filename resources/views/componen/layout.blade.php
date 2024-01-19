@@ -37,7 +37,7 @@
     <div class="sidebar">
         <a href="#" class="logo">
             <img style="width:60px; height:60px;" src="{{ asset('img/Logo.png') }}">
-            <div class="logo-name"><span>Project</span>Strike</div>
+            <div class="logo-name"><span></span>Strike</div>
         </a>
         <ul class="side-menu">
             @if (Auth::check())
